@@ -3,18 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.actividad_6_elton_saravia;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.*;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 /**
  *
  * @author Usuario
  */
 public class PantallaPrincipal extends javax.swing.JFrame {
 
+    DefaultPieDataset dataset = new DefaultPieDataset();
+    DefaultCategoryDataset datasetBarras = new DefaultCategoryDataset();
+    
     /**
      * Creates new form PantallaPrincipal
      */
@@ -24,7 +38,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     private void dibujarDiagrama() {
-        DefaultPieDataset dataset = new DefaultPieDataset();
+        
         dataset.setValue("Categoría 1", 43.2);
         dataset.setValue("Categoría 2", 27.9);
         dataset.setValue("Categoría 3", 79.5);
@@ -64,31 +78,61 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jButtonDiagrama.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagrama.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagrama.setText("Diagrama");
+        jButtonDiagrama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagramaActionPerformed(evt);
+            }
+        });
 
         jButtonDiagrama3D.setBackground(new java.awt.Color(0, 102, 102));
         jButtonDiagrama3D.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagrama3D.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagrama3D.setText("Diagrama3D");
+        jButtonDiagrama3D.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagrama3DActionPerformed(evt);
+            }
+        });
 
         jButtonDiagramaCircular.setBackground(new java.awt.Color(0, 102, 102));
         jButtonDiagramaCircular.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagramaCircular.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagramaCircular.setText("Diagrama Circular");
+        jButtonDiagramaCircular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagramaCircularActionPerformed(evt);
+            }
+        });
 
         jButtonDiagramaBarras.setBackground(new java.awt.Color(0, 102, 102));
         jButtonDiagramaBarras.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagramaBarras.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagramaBarras.setText("Diagrama Barras");
+        jButtonDiagramaBarras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagramaBarrasActionPerformed(evt);
+            }
+        });
 
         jButtonDiagramaLineas.setBackground(new java.awt.Color(0, 102, 102));
         jButtonDiagramaLineas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagramaLineas.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagramaLineas.setText("DiagramaLineas");
+        jButtonDiagramaLineas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagramaLineasActionPerformed(evt);
+            }
+        });
 
         jButtonDiagramaCascada.setBackground(new java.awt.Color(0, 102, 102));
         jButtonDiagramaCascada.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButtonDiagramaCascada.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDiagramaCascada.setText("Diagrama Cascada");
+        jButtonDiagramaCascada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDiagramaCascadaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelGraficaLayout = new javax.swing.GroupLayout(jPanelGrafica);
         jPanelGrafica.setLayout(jPanelGraficaLayout);
@@ -143,6 +187,159 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonDiagramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagramaActionPerformed
+        JFreeChart graficaNormal = ChartFactory.createPieChart("numero de tareas realizadas", dataset);
+        ChartPanel chartPanel = new ChartPanel(graficaNormal);
+        chartPanel.setSize(jPanelGrafica.getWidth(), jPanelGrafica.getHeight());
+        chartPanel.setLocation(0, 0);
+        
+        jPanelGrafica.removeAll(); // Eliminar componentes previos
+        jPanelGrafica.add(chartPanel);
+        jPanelGrafica.revalidate();
+        jPanelGrafica.updateUI(); // Actualizar el UI para mostrar el nuevo gráfico
+        
+    }//GEN-LAST:event_jButtonDiagramaActionPerformed
+
+    private void jButtonDiagrama3DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagrama3DActionPerformed
+          
+        dataset.setValue("Categoría 1", 43.2);
+        dataset.setValue("Categoría 2", 27.9);
+        dataset.setValue("Categoría 3", 79.5);
+        
+        JFreeChart graficaNormal = ChartFactory.createPieChart3D("numero de tareas realizadas", dataset);
+        ChartPanel chartPanel = new ChartPanel(graficaNormal);
+        chartPanel.setSize(jPanelGrafica.getWidth(), jPanelGrafica.getHeight());
+        chartPanel.setLocation(0, 0);
+        
+        jPanelGrafica.removeAll(); // Eliminar componentes previos
+        jPanelGrafica.add(chartPanel);
+        jPanelGrafica.revalidate();
+        jPanelGrafica.updateUI(); // Actualizar el UI para mostrar el nuevo gráfico
+    }//GEN-LAST:event_jButtonDiagrama3DActionPerformed
+
+    private void jButtonDiagramaCircularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagramaCircularActionPerformed
+       dataset.setValue("Categoría 1", 43.2);
+        dataset.setValue("Categoría 2", 27.9);
+        dataset.setValue("Categoría 3", 79.5);
+        
+        JFreeChart grafica = ChartFactory.createRingChart("Vehiculos por conductor" 
+                                                   , dataset, true, true, false);
+        ChartPanel chartPanel = new ChartPanel(grafica);
+        chartPanel.setSize(jPanelGrafica.getWidth(), jPanelGrafica.getHeight());
+        chartPanel.setLocation(0, 0);
+        
+        jPanelGrafica.removeAll(); // Eliminar componentes previos
+        jPanelGrafica.add(chartPanel);
+        jPanelGrafica.revalidate();
+        jPanelGrafica.updateUI(); // Actualizar el UI para mostrar el nuevo gráfico
+    }//GEN-LAST:event_jButtonDiagramaCircularActionPerformed
+
+    private void jButtonDiagramaBarrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagramaBarrasActionPerformed
+        
+// Crear el dataset para el gráfico de barras
+        DefaultCategoryDataset datasetda = new DefaultCategoryDataset();
+        datasetda.addValue(1.0, "Serie 1", "Categoría 1");
+        datasetda.addValue(4.0, "Serie 1", "Categoría 2");
+        datasetda.addValue(3.0, "Serie 1", "Categoría 3");
+        datasetda.addValue(5.0, "Serie 1", "Categoría 4");
+
+        // Crear el gráfico de barras
+        JFreeChart graficaBarras = ChartFactory.createBarChart(
+                "Título del Gráfico", // Título del gráfico
+                "Categoría", // Eje X
+                "Valor", // Eje Y
+                datasetda, // Datos
+                PlotOrientation.VERTICAL, // Orientación
+                false, // Incluir leyenda
+                true, // Herramientas
+                false // URLs
+        );
+
+        // Personalizar colores
+        CategoryPlot plot = graficaBarras.getCategoryPlot();
+        plot.setBackgroundPaint(Color.lightGray);
+        plot.setDomainGridlinePaint(Color.white);
+        plot.setRangeGridlinePaint(Color.white);
+
+        // Cambiar el color de las barras
+        BarRenderer barRenderer = (BarRenderer) plot.getRenderer();
+        barRenderer.setSeriesPaint(0, Color.blue);
+
+        // Crear un nuevo JFrame para mostrar el gráfico
+        JFrame ventana = new JFrame("Gráfico de Barras");
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.setSize(400, 300); // Dimensiones del JFrame
+        ventana.add(new ChartPanel(graficaBarras)); // Añadir el gráfico al JFrame
+
+        // Hacer visible la ventana
+        ventana.setVisible(true);
+
+        // Centrar la ventana en la pantalla
+        ventana.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButtonDiagramaBarrasActionPerformed
+
+    private void jButtonDiagramaLineasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagramaLineasActionPerformed
+        // Crear el dataset para el gráfico de líneas
+    datasetBarras.setValue(20, "Facebook", "Pedro");
+    datasetBarras.setValue(67, "Amazon", "Pedro");
+    datasetBarras.setValue(54, "Amazon", "Ana");
+    datasetBarras.setValue(89, "Facebook", "Ana");
+    datasetBarras.setValue(13, "Amazon", "Sofia");
+    datasetBarras.setValue(34, "Facebook", "Sofia");
+
+    // Crear el gráfico de líneas
+    JFreeChart grafica = ChartFactory.createLineChart("Visitas por día", "Días", "Visitas", datasetBarras);
+
+    try {
+        // Guardar el gráfico como un archivo JPEG
+        File ficheroJPG = new File("grafico_lineas.jpg");
+        ChartUtilities.saveChartAsJPEG(ficheroJPG, grafica, 500, 500);
+
+        // Si también quieres guardar como PNG, descomenta la siguiente línea
+        // File ficheroPNG = new File("grafico_lineas.png");
+        // ChartUtilities.saveChartAsPNG(ficheroPNG, grafica, 500, 500);
+
+        // Abrir el archivo (opcional, dependiendo de tu entorno de ejecución)
+        Desktop.getDesktop().open(ficheroJPG);
+    } catch (IOException e) {
+        // Manejar la excepción de entrada/salida
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_jButtonDiagramaLineasActionPerformed
+
+    private void jButtonDiagramaCascadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDiagramaCascadaActionPerformed
+        
+// Crear el dataset para el gráfico de cascada
+        datasetBarras.setValue(100, "Inicio", "Balance");
+        datasetBarras.setValue(20, "+", "Venta");
+        datasetBarras.setValue(-30, "-", "Costo");
+        datasetBarras.setValue(90, "Final", "Balance");
+
+        // Crear el gráfico de cascada
+        JFreeChart grafica = ChartFactory.createWaterfallChart(
+                "Estado de Resultados", // título del gráfico
+                "Categoría", // etiqueta del eje X
+                "Valor", // etiqueta del eje Y
+                datasetBarras, // dataset
+                PlotOrientation.VERTICAL, // orientación
+                true, // mostrar leyenda
+                true, // herramientas
+                false // URLs
+        );
+
+        // Crear un nuevo JFrame para mostrar el gráfico
+        JFrame ventana = new JFrame("Diagrama en Cascada");
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.setSize(200, 200); // Establecer tamaño a 200x200
+        ventana.add(new ChartPanel(grafica)); // Añadir el gráfico al JFrame
+
+        // Hacer visible la ventana
+        ventana.setVisible(true);
+
+        // Centrar la ventana en la pantalla
+        ventana.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jButtonDiagramaCascadaActionPerformed
 
     /**
      * @param args the command line arguments

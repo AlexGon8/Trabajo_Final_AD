@@ -81,6 +81,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Diagrama"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagramaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonDiagrama3D">
       <Properties>
@@ -95,6 +98,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Diagrama3D"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagrama3DActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonDiagramaCircular">
       <Properties>
@@ -109,6 +115,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Diagrama Circular"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagramaCircularActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonDiagramaBarras">
       <Properties>
@@ -123,6 +132,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Diagrama Barras"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagramaBarrasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonDiagramaLineas">
       <Properties>
@@ -137,6 +149,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="DiagramaLineas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagramaLineasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonDiagramaCascada">
       <Properties>
@@ -151,6 +166,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Diagrama Cascada"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDiagramaCascadaActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelGrafica">
 
