@@ -3,6 +3,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
+import java.awt.Color;
 
 public class PantallaPrincipal extends JFrame {
 
@@ -29,12 +32,16 @@ public class PantallaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public PantallaPrincipal() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setResizable(false);
+		setForeground(new Color(0, 255, 0));
+		setBackground(new Color(51, 51, 51));
+		setAutoRequestFocus(false);
+		setBounds(100, 100, 1079, 750);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(82, 82, 82));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 	}
-
 }
