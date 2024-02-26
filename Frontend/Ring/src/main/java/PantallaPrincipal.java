@@ -126,7 +126,7 @@ public class PantallaPrincipal extends JFrame {
 		        JLabel lblNewLabel = new JLabel("Iniciar Sesión");
 		        lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
 		        lblNewLabel.setBackground(new Color(192, 192, 192));
-		        lblNewLabel.setBounds(66, 43, 175, 27);
+		        lblNewLabel.setBounds(74, 31, 157, 27);
 		        panel.add(lblNewLabel);
 		        
 		        JLabel lblNewLabelOlvidecontrasena = new JLabel("Olvide mi contraseña");
