@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.TextField;
 import java.awt.Label;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class PantallaPrincipal extends JFrame {
 
@@ -51,11 +52,15 @@ public class PantallaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public PantallaPrincipal() {
+		setUndecorated(true); 
+		
+		
+		
+		
 		setResizable(false);
 		setForeground(new Color(0, 255, 0));
 		setBackground(new Color(51, 51, 51));
-		setAutoRequestFocus(false);
-		setBounds(100, 100, 1409, 901);
+		setBounds(100, 100, 1401, 863);
 		ContenedorGeneral = new JPanel();
 		ContenedorGeneral.setBackground(new Color(82, 82, 82));
 		ContenedorGeneral.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,12 +68,37 @@ public class PantallaPrincipal extends JFrame {
 		setContentPane(ContenedorGeneral);
 		ContenedorGeneral.setLayout(null);
 		
+			        // Botón de cerrar personalizado
+			        JButton closeButton = new JButton(new ImageIcon("path_to_close_icon.png"));
+			        closeButton.setBounds(1331, 10, 43, 20); // Ajusta la posición y el tamaño según sea necesario
+			        closeButton.addActionListener(new ActionListener() {
+			            public void actionPerformed(ActionEvent e) {
+			                System.exit(0); // Esto cerrará la aplicación
+			            }
+			        });
+			        
+			        	        // Botón de minimizar personalizado
+			        	        JButton minimizeButton = new JButton(new ImageIcon("path_to_minimize_icon.png"));
+			        	        minimizeButton.setBounds(ContenedorGeneral.getWidth() - 60, 10, 20, 20); // Ajusta la posición y el tamaño según sea necesario
+			        	        minimizeButton.addActionListener(new ActionListener() {
+			        	            public void actionPerformed(ActionEvent e) {
+			        	                setExtendedState(JFrame.ICONIFIED); // Esto minimizará la ventana
+			        	            }
+			        	        });
+			        	        ContenedorGeneral.add(minimizeButton);
+			        ContenedorGeneral.add(closeButton);
+		
 		Panel panel = new Panel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(52, 129, 312, 401);
 		ContenedorGeneral.add(panel);
 		panel.setLayout(null);
 		
+		
+		 ContenedorGeneral.setLayout(null);
+	        
+	        
+	        
 		        // Campo de texto para la contraseña
 		 JPasswordField textFieldContraseña = new JPasswordField("Contraseña");
 		 textFieldContraseña.setBackground(new Color(192, 192, 192));
