@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entidades.Investigador" table="investigador" catalog="investigacion" optimistic-lock="none">
+        <id name="invId" type="int">
+            <column name="INV_ID"/>
+            <generator class="increment"/> <!-- Si quieres que sea autoincremental -->
+        </id>
+        <property name="invNombre" type="string">
+            <column name="INV_NOMBRE" length="255"/>
+        </property>
+        <property name="invExtension" type="java.lang.Integer">
+            <column name="INV_EXTENSION"/>
+        </property>
+        <property name="invEmail" type="string">
+            <column name="INV_EMAIL" length="255"/>
+        </property>
+        <property name="invSni" type="java.lang.Integer">
+            <column name="INV_SNI"/>
+        </property>
+        <property name="invProdep" type="java.lang.Integer">
+            <column name="INV_PRODEP"/>
+        </property>
+        <property name="invCategoria" type="java.lang.Integer">
+            <column name="INV_CATEGORIA"/>
+        </property>
+        <property name="invCubiculo" type="java.lang.Integer">
+            <column name="INV_CUBICULO"/>
+        </property>
+        <property name="invDescripcion" type="string">
+            <column name="INV_DESCRIPCION" length="65535"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="trabajosGradoDirigidoses" table="trabajos_grado_dirigidos">
+            <key>
+                <column name="INV_ID"/>
+            </key>
+            <one-to-many class="TrabajosGradoDirigidos"/>
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="experienciaLaborals" table="experiencia_laboral">
+            <key>
+                <column name="INV_ID"/>
+            </key>
+            <one-to-many class="ExperienciaLaboral"/>
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="educacions" table="educacion">
+            <key>
+                <column name="INV_ID"/>
+            </key>
+            <one-to-many class="Educacion"/>
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="tesisRedactadases" table="tesis_redactadas">
+            <key>
+                <column name="INV_ID"/>
+            </key>
+            <one-to-many class="TesisRedactadas"/>
+        </set>
+    </class>
+</hibernate-mapping>

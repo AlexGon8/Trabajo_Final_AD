@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 15 ene 2024 17:10:57 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="investigacion" name="Educacion" optimistic-lock="none" table="educacion">
+        <id name="edId" type="int">
+            <column name="ED_ID"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="Investigador" fetch="select" name="investigador">
+            <column name="INV_ID"/>
+        </many-to-one>
+        <property name="uniId" type="java.lang.Integer">
+            <column name="UNI_ID"/>
+        </property>
+        <property name="edGrado" type="string">
+            <column length="255" name="ED_GRADO"/>
+        </property>
+        <property name="edCampo" type="string">
+            <column length="255" name="ED_CAMPO"/>
+        </property>
+        <property name="edDescripcion" type="string">
+            <column length="65535" name="ED_DESCRIPCION"/>
+        </property>
+    </class>
+</hibernate-mapping>
