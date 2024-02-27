@@ -172,7 +172,7 @@ public class PantallaPrincipal extends JFrame {
 		
 		JLabel ImagenLogin1 = new JLabel("");
 		ImagenLogin1.setIcon(new ImageIcon(
-				"E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\elden_ring_shadow_erdtree_details.jpg"));
+				"C:\\Users\\alumno\\Documents\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\elden_ring_shadow_erdtree_details.jpg"));
 		ImagenLogin1.setBounds(0, 0, 1400, 862);
 		ContenedorGeneral.add(ImagenLogin1);
 		
