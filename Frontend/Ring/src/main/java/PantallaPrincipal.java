@@ -16,6 +16,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.CardLayout;
 import java.awt.Panel;
 import java.awt.Button;
@@ -88,16 +90,8 @@ public class PantallaPrincipal extends JFrame {
 			}
 		});
 		
-				// Botón de minimizar personalizado
-				JButton minimizeButton = new JButton(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/minimizar (1).png")));
-				minimizeButton.setBounds(ContenedorGeneral.getWidth() - 60, 10, 20, 20); // Ajusta la posición y el tamaño según
-				// sea necesario
-		minimizeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setExtendedState(JFrame.ICONIFIED); // Esto minimizará la ventana
-			}
-		});
-		ContenedorGeneral.add(minimizeButton);
+			
+		
 		minimizeButton_1.setBounds(1281, 10, 45, 37);
 		ContenedorGeneral.add(minimizeButton_1);
 		ContenedorGeneral.add(closeButton);
@@ -175,8 +169,29 @@ public class PantallaPrincipal extends JFrame {
 		lblNewLabelOlvidecontrasena.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 12));
 		lblNewLabelOlvidecontrasena.setBounds(24, 331, 157, 14);
 		panel.add(lblNewLabelOlvidecontrasena);
-
+		
+		// jlabel que al precionar debe abrir el dilogo de registro de usuarios 
 		JLabel lblNewLabelCrearUsuario = new JLabel("Crear Usuario");
+		lblNewLabelCrearUsuario.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {//--> se creal el evento para que funcione como si fuese un boton
+		        // Aquí invocas al diálogo de registro
+		        EventQueue.invokeLater(new Runnable() {
+		            public void run() {
+		                try {
+		                    // llama al  JDialog q se llama Registro y
+		                    Registro dialogoRegistro = new Registro(PantallaPrincipal.this);
+		                    dialogoRegistro.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		                    dialogoRegistro.setVisible(true);//--> lo muestra
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+		        });
+		    }
+		});
+		
+		
 		lblNewLabelCrearUsuario.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 12));
 		lblNewLabelCrearUsuario.setBounds(24, 356, 111, 14);
 		panel.add(lblNewLabelCrearUsuario);
