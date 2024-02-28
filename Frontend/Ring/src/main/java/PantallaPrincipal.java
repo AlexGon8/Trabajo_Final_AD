@@ -104,7 +104,7 @@ public class PantallaPrincipal extends JFrame {
 
 		ContenedorGeneral.setLayout(null);
 
-		// Campo de texto para la contraseña
+		// Campo de texto para la contraseña--> Estos son los parametros para darle un aspecto moderno a las cajas 
 		JPasswordField textFieldContraseña = new JPasswordField("Contraseña");
 		textFieldContraseña.setBackground(new Color(225, 225, 225));
 		textFieldContraseña.setForeground(Color.GRAY);
