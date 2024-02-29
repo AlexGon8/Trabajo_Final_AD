@@ -6,20 +6,20 @@ import java.util.Calendar;
 
 public class Registro extends JDialog {
 
-    private JPanel contenedorRegistro;
-    private JTextField textFieldUsuario;
-    private JPasswordField passwordField;
-    private JPasswordField passwordFieldConfirmacion;
-    private JLabel lblNewLabelNombre;
-    private JLabel lblNewLabelApellido;
-    private JLabel lblContrasea;
-    private JLabel lblConfirmacionDeContrasea;
-    private JTextField textFieldApellidos;
-    private JTextField textFieldApodo;
-    private JTextField textFieldCorreoElectronico;
-    private JButton closeButton;
+	private JPanel contenedorRegistro;
+	private JTextField textFieldUsuario;
+	private JPasswordField passwordField;
+	private JPasswordField passwordFieldConfirmacion;
+	private JLabel lblNewLabelNombre;
+	private JLabel lblNewLabelApellido;
+	private JLabel lblContrasea;
+	private JLabel lblConfirmacionDeContrasea;
+	private JTextField textFieldApellidos;
+	private JTextField textFieldApodo;
+	private JTextField textFieldCorreoElectronico;
+	private JButton closeButton;
 
-    public Registro(Frame owner) {
+	public Registro(Frame owner) {
         super(owner);
         setTitle("Registro de Usuario");
         setModal(true); // El diálogo bloqueará la entrada a otras ventanas hasta que se cierre
@@ -46,6 +46,7 @@ public class Registro extends JDialog {
         newCheckBoxSolicitarPermisos.setForeground(new Color(201, 157, 24));
         newCheckBoxSolicitarPermisos.setBackground(new Color(255, 255, 255));
         newCheckBoxSolicitarPermisos.setBounds(65, 626, 300, 23);
+        newCheckBoxSolicitarPermisos.setContentAreaFilled(false);
         contenedorRegistro.add(newCheckBoxSolicitarPermisos);
 
         // Agrega aquí los componentes para el registro, por ejemplo:
@@ -140,15 +141,15 @@ public class Registro extends JDialog {
         // Repite la lógica de los botones de minimizar y cerrar como en tu JFrame principal si es necesario
 
 
-		
+        
 			
 		
 		
     }
 
-    // Método para mostrar el diálogo de registro
-    public static void mostrarDialogoRegistro(JFrame owner) {
-        Registro dialogoRegistro = new Registro(owner);
-        dialogoRegistro.setVisible(true);
-    }
+	// Método para mostrar el diálogo de registro
+	public static void mostrarDialogoRegistro(JFrame owner) {
+		Registro dialogoRegistro = new Registro(owner);
+		dialogoRegistro.setVisible(true);
+	}
 }
