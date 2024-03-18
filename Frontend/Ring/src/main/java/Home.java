@@ -1,75 +1,107 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.border.EmptyBorder;
+
+import componentes.RoundedTextField;
+
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.CardLayout;
+import java.awt.Panel;
+import java.awt.Button;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.TextField;
+import java.awt.Label;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Home extends JFrame {
 
-    public Home() {
-        setTitle("Tienda de Juegos");
-        setSize(1024, 768); // Ajusta al tamaño que necesites
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+	private static final long serialVersionUID = 1L;
+	private JPanel ContenedorGeneral;
 
-        // Menu Superior
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(createMenuButton("PC"));
-        menuBar.add(createMenuButton("Playstation"));
-        menuBar.add(createMenuButton("Xbox"));
-        menuBar.add(createMenuButton("Nintendo"));
-        JTextField searchField = new JTextField("Buscar...");
-        menuBar.add(searchField);
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Home frame = new Home();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-        // Agrega el menuBar al JFrame
-        add(menuBar, BorderLayout.NORTH);
+	/**
+	 * Create the frame.
+	 */
+	public Home() {
+		setUndecorated(true); // --> para que no aparezca el marco predeterminado
+		
+		setResizable(false);//-->no permitire que sea reajustable la pantalla que lanza para no preocuparme por adaptar imagenes
+		setForeground(new Color(0, 255, 0));
+		setBackground(new Color(51, 51, 51));
 
-        // Panel principal que contiene todo el contenido debajo del menú
-        JPanel mainPanel = new JPanel(new BorderLayout());
+		setSize(1401, 863); //---> ESTO LE DA EL TAMAÑO DE Y RESOLUCION QUE TENDRA EL JFRAME
+        setLocationRelativeTo(null);//---> ESTO HACE QUE LA IMAGEN SIEMPRE APAREZCA EN EL MEDIO DE LA PANTALLA
+        
+		ContenedorGeneral = new JPanel();
+		ContenedorGeneral.setBackground(Color.DARK_GRAY);
+		ContenedorGeneral.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        // Panel superior para el banner
-        JLabel bannerLabel = new JLabel(new ImageIcon("E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\elden_ring_shadow_erdtree_details.jpg")); // Reemplaza con el path de tu imagen
-        mainPanel.add(bannerLabel, BorderLayout.NORTH);
+		setContentPane(ContenedorGeneral);
+		ContenedorGeneral.setLayout(null);
 
-        // Panel de juegos en tendencias
-        JPanel trendingPanel = new JPanel(new GridLayout(0, 3, 10, 10)); // ajusta la cantidad de filas/columnas según sea necesario
+		// Botón de cerrar personalizado
+		JButton closeButton = new JButton(new ImageIcon(Home.class.getResource("/imagenes/cerrar (1).png")));
+		closeButton.setBounds(1336, 10, 45, 37); // Ajusta la posición y el tamaño según sea necesario
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0); // Esto cerrará la aplicación
+			}
+		});
+		
+		JButton minimizeButton_1 = new JButton(new ImageIcon(Home.class.getResource("/imagenes/minimizar (1).png")));
+		minimizeButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setExtendedState(JFrame.ICONIFIED); // Esto minimizará la ventana
+			}
+		});
+		
+			
+		
+		minimizeButton_1.setBounds(1281, 10, 45, 37);
+		ContenedorGeneral.add(minimizeButton_1);
+		ContenedorGeneral.add(closeButton);
 
-        // Agrega los juegos en tendencia
-        trendingPanel.add(createGamePanel("Helldivers 2", "29.79€", "E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\elden_ring_shadow_erdtree_details.jpg"));
-        trendingPanel.add(createGamePanel("Balatro", "9.99€", "path/to/balatro/image.jpg"));
-        trendingPanel.add(createGamePanel("The Outlast Trials", "22.11€", "imagenes\\elden_ring_shadow_erdtree_details.jpg"));
-        // ... y así sucesivamente para cada juego
+		ContenedorGeneral.setLayout(null);
 
-        // Agrega el panel de juegos en tendencia al panel principal
-        mainPanel.add(trendingPanel, BorderLayout.CENTER);
+		RoundedTextField userField = new RoundedTextField(20, "NOMBRE DE USUARIO");
+		RoundedTextField passwordField = new RoundedTextField(20, "CONTRASEÑA");//--->esto aplica el placeholder 
+		
+		
 
-        // Agrega el mainPanel al JFrame
-        add(mainPanel, BorderLayout.CENTER);
-    }
-
-    private JButton createMenuButton(String text) {
-        JButton button = new JButton(text);
-        // Añadir estilo y funcionalidades al botón
-        return button;
-    }
-
-    private JPanel createGamePanel(String gameName, String price, String imagePath) {
-        JPanel gamePanel = new JPanel(new BorderLayout());
-        JLabel gameLabel = new JLabel(new ImageIcon(imagePath)); // Reemplaza con el path de tu imagen
-        gamePanel.add(gameLabel, BorderLayout.CENTER);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        JLabel priceLabel = new JLabel(price, SwingConstants.LEFT);
-        JButton buyButton = new JButton("Comprar");
-        bottomPanel.add(priceLabel, BorderLayout.WEST);
-        bottomPanel.add(buyButton, BorderLayout.EAST);
-
-        gamePanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        return gamePanel;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Home ui = new Home();
-            ui.setVisible(true);
-        });
-    }
+	}
 }
