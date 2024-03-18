@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import Clases.Consola;
 import Dao.IDao;
 import tables.Educacion;
 import util.HibernateUtil;

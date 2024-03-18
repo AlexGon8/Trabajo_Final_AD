@@ -1,16 +1,14 @@
 
 
-import co.edu.universidadean.modelos.Juego;
+import Clases.Juego;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
@@ -20,23 +18,15 @@ public class JuegoJPanel extends JPanel implements ActionListener {
 
     private Juego juego;
 
-    private JLabel lblCategoriaJuego;
-
+    private JLabel lblNombreJuego;
     private JLabel lblPrecioJuego;
+    private JLabel lblAnnoDeSalida;
+    private JLabel lblCompannia;
 
-    private JLabel lblDisponibles;
-
-    private JLabel lblVendidas;
-
-    private JTextField txtCategoriaJuego;
-
-    private JTextField txtPrecioJuego;
-
-    private JTextField txtDisponibles;
-
-    private JTextField txtVendidas;
-
-    private JLabel lblImagen;
+    private JLabel lblValorNombreJuego;
+    private JLabel lblValorPrecioJuego;
+    private JLabel lblValorAnnoDeSalida;
+    private JLabel lblValorCompannia;
 
     private JButton botonComprar;
 
@@ -51,97 +41,54 @@ public class JuegoJPanel extends JPanel implements ActionListener {
         panelDatosJuego.setBorder(new EmptyBorder(5, 5, 5, 5));
         setBorder(new TitledBorder("Juego"));
 
-        panelDatosJuego.setLayout(new GridLayout(5, 1, 0, 5));
+        panelDatosJuego.setLayout(new GridLayout(4, 2, 0, 5));
 
-        lblCategoriaJuego = new JLabel("Categoría: ");
-        txtCategoriaJuego = new JTextField(15);
-        txtCategoriaJuego.setEditable(false);
-        panelDatosJuego.add(lblCategoriaJuego);
-        panelDatosJuego.add(txtCategoriaJuego);
+        lblNombreJuego = new JLabel("Nombre: ");
+        lblValorNombreJuego = new JLabel();
+        panelDatosJuego.add(lblNombreJuego);
+        panelDatosJuego.add(lblValorNombreJuego);
 
         lblPrecioJuego = new JLabel("Precio: ");
-        txtPrecioJuego = new JTextField(15);
-        txtPrecioJuego.setEditable(false);
+        lblValorPrecioJuego = new JLabel();
         panelDatosJuego.add(lblPrecioJuego);
-        panelDatosJuego.add(txtPrecioJuego);
+        panelDatosJuego.add(lblValorPrecioJuego);
 
-        lblDisponibles = new JLabel("Disponibles: ");
-        txtDisponibles = new JTextField(15);
-        txtDisponibles.setEditable(false);
-        panelDatosJuego.add(lblDisponibles);
-        panelDatosJuego.add(txtDisponibles);
+        lblAnnoDeSalida = new JLabel("Año de Salida: ");
+        lblValorAnnoDeSalida = new JLabel();
+        panelDatosJuego.add(lblAnnoDeSalida);
+        panelDatosJuego.add(lblValorAnnoDeSalida);
 
-        lblVendidas = new JLabel("Vendidas: ");
-        txtVendidas = new JTextField(15);
-        txtVendidas.setEditable(false);
-        panelDatosJuego.add(lblVendidas);
-        panelDatosJuego.add(txtVendidas);
-
-        JPanel panelSur = new JPanel();
-        panelSur.setLayout(new GridLayout(1, 2));
+        lblCompannia = new JLabel("Compañía: ");
+        lblValorCompannia = new JLabel();
+        panelDatosJuego.add(lblCompannia);
+        panelDatosJuego.add(lblValorCompannia);
 
         botonComprar = new JButton("Comprar");
         botonComprar.setActionCommand("COMPRAR");
         botonComprar.addActionListener(this);
-        panelSur.add(botonComprar);
-
-        add(panelSur, BorderLayout.SOUTH);
-
-        lblImagen = new JLabel();
-        add(lblImagen, BorderLayout.WEST);
-
+        add(botonComprar, BorderLayout.SOUTH);
     }
 
-    public void actualizarPanel(Juego juego) {
+    public JuegoJPanel() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void actualizarPanel(Juego juego) {
         this.juego = juego;
         setBorder(new TitledBorder(juego.getNombre()));
 
-        switch (juego.getCategoria()) {
-            case DEPORTES: {
-                txtCategoriaJuego.setText("Deportes");
-                break;
-            }
-            case RPG: {
-                txtCategoriaJuego.setText("RPG");
-                break;
-            }
-            case FPS: {
-                txtCategoriaJuego.setText("FPS");
-                break;
-            }
-            case SIMULADOR: {
-                txtCategoriaJuego.setText("Simulador");
-                break;
-            }
-            case ARCADE: {
-                txtCategoriaJuego.setText("Arcade");
-                break;
-            }
-            case OCIO: {
-                txtCategoriaJuego.setText("Ocio");
-                break;
-            }
-        }
-        txtPrecioJuego.setText(String.valueOf(juego.getPrecio()));
-        txtDisponibles.setText(String.format("%d", juego.getCantidadDisponible() - juego.getCantidadVendida()));
-        txtVendidas.setText(String.valueOf(juego.getCantidadVendida()));
-
-        String ruta = "/datos/" + juego.getImagen();
-
-        lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource(ruta)));
-        lblImagen.setBorder(new TitledBorder(""));
+        lblValorNombreJuego.setText(juego.getNombre());
+        lblValorPrecioJuego.setText(juego.getPrecio().toString());
+        lblValorAnnoDeSalida.setText(juego.getAnnoDeSalida().toString());
+        lblValorCompannia.setText(juego.getCompannia().getNombre());
     }
 
     public void actionPerformed(ActionEvent evento) {
         String comando = evento.getActionCommand();
 
         if (comando.equals("COMPRAR")) {
-            if (principal.venderJuego(juego)) {
-                actualizarPanel(juego);
-            } else {
-                JOptionPane.showMessageDialog(this, "Producto no disponible", "Mensaje", JOptionPane.OK_OPTION);
-            }
+            // Lógica para comprar el juego
+            // Esta lógica dependerá de cómo estés manejando las ventas en tu sistema
         }
     }
-
 }
