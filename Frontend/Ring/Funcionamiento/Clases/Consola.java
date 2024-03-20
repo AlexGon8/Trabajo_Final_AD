@@ -1,5 +1,5 @@
 package Clases;
-// Generated 18 mar 2024 17:03:38 by Hibernate Tools 6.3.1.Final
+// Generated 20 mar 2024 11:35:13 by Hibernate Tools 6.3.1.Final
 
 import java.sql.Date;
 import java.util.HashSet;

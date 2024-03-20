@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 
 import Clases.Consola;
 import Dao.IDao;
-import tables.Educacion;
 import util.HibernateUtil;
 
 public class ConsolaDAO implements IDao<Consola, Integer>{
@@ -18,7 +17,7 @@ public class ConsolaDAO implements IDao<Consola, Integer>{
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			Transaction tx = session.beginTransaction();
 			
-			session.persist(ed);
+			session.persist(co);
 			tx.commit();	
 			return true;
 		} catch (Exception e) {
@@ -31,11 +30,11 @@ public class ConsolaDAO implements IDao<Consola, Integer>{
 	public Consola leer(Integer co_id) {
 		Consola co = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
-			String hql = "from consola where id= :co_id" ;
+			String hql = "from Consola where id= :co_id" ;
 	        Query query = session.createQuery(hql,Consola.class);
-	        query.setParameter("invId", co_id);
+	        query.setParameter("co_id", co_id);
 	        query.setMaxResults(1);
-			ed = (Consola)  query.getSingleResult();					
+			co = (Consola)  query.getSingleResult();					
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -47,14 +46,13 @@ public class ConsolaDAO implements IDao<Consola, Integer>{
 	    try (Session session = HibernateUtil.getSessionFactory().openSession()){
 	        session.beginTransaction();
 	        
-	        Consola educacionPersistente = session.get(Consola.class, id);
-	        if (educacionPersistente != null) {
+	        Consola consolaPersistente = session.get(Consola.class, id);
+	        if (consolaPersistente != null) {
 	            // Actualizar los campos de la educación persistente con los valores del modelo
-	            educacionPersistente.setEdNombre(modelo.getEdNombre());
-	            educacionPersistente.setEdGradoe(modelo.getEdGradoe());
-	            educacionPersistente.setEdTermino(modelo.getEdTermino());
+	            consolaPersistente.setNombre(modelo.getNombre());
+	            consolaPersistente.setAnnoSalida(modelo.getAnnoSalida());
 	            
-	            session.merge(educacionPersistente);
+	            session.merge(consolaPersistente);
 	            
 	            session.getTransaction().commit();
 	            return true;
@@ -73,9 +71,9 @@ public class ConsolaDAO implements IDao<Consola, Integer>{
 	    try (Session session = HibernateUtil.getSessionFactory().openSession()){
 	        session.beginTransaction();
 	        
-	        Educacion educacion = session.get(Educacion.class, id);
-	        if (educacion != null) {
-	            session.remove(educacion);
+	        Consola consola = session.get(Consola.class, id);
+	        if (consola != null) {
+	            session.remove(consola);
 	            session.getTransaction().commit();
 	            return true;
 	        } else {
@@ -89,16 +87,16 @@ public class ConsolaDAO implements IDao<Consola, Integer>{
 	}
 
 	@Override
-	public List<Educacion> listar() {
-	    List<Educacion> listaEducaciones = null;
+	public List<Consola> listar() {
+	    List<Consola> listaConsola = null;
 	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        String hql = "FROM educacion";
-	        Query<Educacion> query = session.createQuery(hql, Educacion.class);
-	        listaEducaciones = query.getResultList();
+	        String hql = "FROM Consola";
+	        Query<Consola> query = session.createQuery(hql, Consola.class);
+	        listaConsola = query.getResultList();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return listaEducaciones;
+	    return listaConsola;
 	}
 
 	

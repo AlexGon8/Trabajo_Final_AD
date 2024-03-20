@@ -1,5 +1,5 @@
 package Clases;
-// Generated 18 mar 2024 17:03:38 by Hibernate Tools 6.3.1.Final
+// Generated 20 mar 2024 11:35:13 by Hibernate Tools 6.3.1.Final
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -11,8 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,29 +25,35 @@ public class Juego implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	@ManyToOne
-    @JoinColumn(name = "compannia")
+	@Column(name="compannia")
 	private Compannia compannia;
 	@Column(name="nombre")
 	private String nombre;
 	@Column(name="precio")
 	private BigDecimal precio;
-	@Column(name="annoDeSalida")
+	@Column(name="anno_de_salida")
 	private Date annoDeSalida;
-	@OneToMany(mappedBy="juego", targetEntity=Cliente.class)
-	private Set clientes = new HashSet(0);
+	@Column(name="stock")
+	private Integer stock;
+	@Column(name="descuento")
+	private Double descuento;
+	@OneToMany(mappedBy="juego", targetEntity=Usuario.class)
+	private Set usuarios = new HashSet(0);
 	@OneToMany(mappedBy="juego", targetEntity=Consola.class)
 	private Set consolas = new HashSet(0);
 
 	public Juego() {
 	}
 
-	public Juego(Compannia compannia, String nombre, BigDecimal precio, Date annoDeSalida, Set clientes, Set consolas) {
+	public Juego(Compannia compannia, String nombre, BigDecimal precio, Date annoDeSalida, Integer stock,
+			Double descuento, Set usuarios, Set consolas) {
 		this.compannia = compannia;
 		this.nombre = nombre;
 		this.precio = precio;
 		this.annoDeSalida = annoDeSalida;
-		this.clientes = clientes;
+		this.stock = stock;
+		this.descuento = descuento;
+		this.usuarios = usuarios;
 		this.consolas = consolas;
 	}
 
@@ -93,12 +97,28 @@ public class Juego implements java.io.Serializable {
 		this.annoDeSalida = annoDeSalida;
 	}
 
-	public Set getClientes() {
-		return this.clientes;
+	public Integer getStock() {
+		return this.stock;
 	}
 
-	public void setClientes(Set clientes) {
-		this.clientes = clientes;
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public Double getDescuento() {
+		return this.descuento;
+	}
+
+	public void setDescuento(Double descuento) {
+		this.descuento = descuento;
+	}
+
+	public Set getUsuarios() {
+		return this.usuarios;
+	}
+
+	public void setUsuarios(Set usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	public Set getConsolas() {
