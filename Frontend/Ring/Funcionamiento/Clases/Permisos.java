@@ -113,5 +113,5 @@ public class Permisos implements java.io.Serializable {
 	public void setPermisoDescuento(Boolean permisoDescuento) {
 		this.permisoDescuento = permisoDescuento;
 	}
-
+	
 }
