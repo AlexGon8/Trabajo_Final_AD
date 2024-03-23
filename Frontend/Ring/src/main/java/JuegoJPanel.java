@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 
 public class JuegoJPanel extends JPanel {
 
@@ -23,10 +24,12 @@ public class JuegoJPanel extends JPanel {
 		        add(imagenLabel, BorderLayout.CENTER);
 
 		        nombreLabel = new JLabel(nombreJuego);
+		        nombreLabel.setFont(new Font("Verdana", Font.BOLD, 18));
 		        nombreLabel.setForeground(Color.WHITE); // Texto blanco
 		        add(nombreLabel, BorderLayout.NORTH);
 
 		        precioLabel = new JLabel(precio);
+		        precioLabel.setFont(new Font("Verdana", Font.BOLD, 17));
 		        precioLabel.setForeground(Color.WHITE); // Texto blanco
 		        add(precioLabel, BorderLayout.SOUTH);
 		    }

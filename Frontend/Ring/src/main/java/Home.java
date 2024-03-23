@@ -63,9 +63,15 @@ public class Home extends JFrame {
         ContenedorGeneral.add(minimizeButton);
         ContenedorGeneral.add(closeButton);
 
+        /*
+         * para el menu
+         */
+        MenuPanel menuPanel = new MenuPanel();
+        menuPanel.setBounds(391, 11, 631, 64); // Ajusta las dimensiones según sea necesario
+        ContenedorGeneral.add(menuPanel);
         // Creación del panel para los juegos
         JPanel panelJuegos = new JPanel();
-        panelJuegos.setLayout(new GridLayout(0, 3, 10, 10)); // 0 filas y 3 columnas
+        panelJuegos.setLayout(new GridLayout(0, 2, 10, 10)); // 0 filas y 3 columnas
         panelJuegos.setBackground(Color.DARK_GRAY);
 
         // Aquí se deben crear y añadir los JuegoJPanel
@@ -76,7 +82,7 @@ public class Home extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(panelJuegos);
-        scrollPane.setBounds(10, 159, 1391, 693); // Ajusta las dimensiones como sea necesario
+        scrollPane.setBounds(42, 159, 1359, 693); // Ajusta las dimensiones como sea necesario
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         ContenedorGeneral.add(scrollPane);
