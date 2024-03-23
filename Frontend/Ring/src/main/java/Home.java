@@ -70,13 +70,13 @@ public class Home extends JFrame {
 
         // Aquí se deben crear y añadir los JuegoJPanel
         for (int i = 0; i < 9; i++) {
-            JuegoJPanel juegoPanel = new JuegoJPanel(); // Asegúrate de que tienes un constructor adecuado
-            // Configura tu JuegoJPanel aquí
+            ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/juegos/age-of-empires-iv-the-sultans-ascend-pc-juego-steam-cover.jpg"));
+            JuegoJPanel juegoPanel = new JuegoJPanel("Nombre del Juego", "Precio €", icono);
             panelJuegos.add(juegoPanel);
         }
 
         JScrollPane scrollPane = new JScrollPane(panelJuegos);
-        scrollPane.setBounds(50, 50, 1300, 700); // Ajusta las dimensiones como sea necesario
+        scrollPane.setBounds(10, 159, 1391, 693); // Ajusta las dimensiones como sea necesario
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         ContenedorGeneral.add(scrollPane);

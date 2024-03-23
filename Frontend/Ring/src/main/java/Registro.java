@@ -133,6 +133,10 @@ public class Registro extends JDialog {
         lblNewLabelEdad.setBounds(65, 189, 300, 25);
         contenedorRegistro.add(lblNewLabelEdad);
         
+        JPanel panel = new JPanel();
+        panel.setBounds(29, 31, 375, 733);
+        contenedorRegistro.add(panel);
+        
         JLabel BackgroundRegistro = new JLabel("New label");
         BackgroundRegistro.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/ImagenRegistro.jpg")));
         BackgroundRegistro.setBounds(0, 0, 1401, 863);
