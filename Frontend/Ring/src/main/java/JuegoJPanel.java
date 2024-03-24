@@ -1,38 +1,36 @@
-import javax.swing.JPanel;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 
 public class JuegoJPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	   private JLabel imagenLabel;
-	    private JLabel nombreLabel;
-	    private JLabel precioLabel;
-	    
+    private static final long serialVersionUID = 1L;
+    private JLabel imagenLabel;
+    private JLabel nombreLabel;
+    private JLabel precioLabel;
 
+    public JuegoJPanel(String nombreJuego, String precio, ImageIcon icono) {
+        setLayout(new BorderLayout());
+        setBackground(Color.DARK_GRAY);
 
-		    public JuegoJPanel(String nombreJuego, String precio, ImageIcon icono) {
-		        setLayout(new BorderLayout());
-		        setBackground(Color.DARK_GRAY); // Fondo oscuro, o cualquier otro color que prefieras
+        imagenLabel = new JLabel(icono);
+        add(imagenLabel, BorderLayout.CENTER);
 
-		        imagenLabel = new JLabel();
-		        imagenLabel.setIcon(icono); // Asumiendo que 'icono' es un ImageIcon con la imagen del juego
-		        add(imagenLabel, BorderLayout.CENTER);
+        // Usando Box para los elementos de la parte inferior
+        Box bottomBox = Box.createHorizontalBox();
 
-		        nombreLabel = new JLabel(nombreJuego);
-		        nombreLabel.setFont(new Font("Verdana", Font.BOLD, 18));
-		        nombreLabel.setForeground(Color.WHITE); // Texto blanco
-		        add(nombreLabel, BorderLayout.NORTH);
+        nombreLabel = new JLabel(nombreJuego);
+        nombreLabel.setFont(new Font("Verdana", Font.BOLD, 18));
+        nombreLabel.setForeground(Color.WHITE);
+        bottomBox.add(Box.createHorizontalStrut(50)); // Margen izquierdo
+        bottomBox.add(nombreLabel);
+        bottomBox.add(Box.createHorizontalGlue()); // Empuja todo lo siguiente al extremo opuesto
 
-		        precioLabel = new JLabel(precio);
-		        precioLabel.setFont(new Font("Verdana", Font.BOLD, 17));
-		        precioLabel.setForeground(Color.WHITE); // Texto blanco
-		        add(precioLabel, BorderLayout.SOUTH);
-		    }
-	}
+        precioLabel = new JLabel(precio);
+        precioLabel.setFont(new Font("Verdana", Font.BOLD, 17));
+        precioLabel.setForeground(Color.WHITE);
+        bottomBox.add(precioLabel);
+        bottomBox.add(Box.createHorizontalStrut(25)); // Margen derecho
 
-
+        add(bottomBox, BorderLayout.SOUTH);
+    }
+}
