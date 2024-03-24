@@ -202,6 +202,11 @@ public class PantallaPrincipal extends JFrame {
 		lblNewLabelIconoLogin.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/iconEntrarsinfondo.jpg")));
 		lblNewLabelIconoLogin.setBounds(90, 214, 120, 106);
 		panel.add(lblNewLabelIconoLogin);
+		
+		JLabel JLabelEntrar = new JLabel("Entrar");
+		JLabelEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		JLabelEntrar.setBounds(54, 261, 46, 14);
+		panel.add(JLabelEntrar);
 
 		lblNewLabelIconoLogin.addMouseListener(new MouseAdapter() {
 		    @Override
