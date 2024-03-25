@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ScriptJugador : MonoBehaviour
+{
+
+    public float speed = 1.0f;
+    public float flotationSpeeed = 1.0f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float Vertical = Input.GetAxis("Vertical");
+
+        transform.Translate(new Vector3(horizontal, 0.0f,Vertical)* Time.deltaTime * speed);
+
+        float rotationY = Input.GetAxis("Mouse X");
+
+        transform.Rotate(new Vector3(0, rotationY * Time.deltaTime * flotationSpeeed, 0));
+
+    }
+}

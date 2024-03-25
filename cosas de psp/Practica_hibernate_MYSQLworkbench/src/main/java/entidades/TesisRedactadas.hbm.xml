@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 15 ene 2024 17:10:57 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="investigacion" name="TesisRedactadas" optimistic-lock="none" table="tesis_redactadas">
+        <id name="tesisId" type="int">
+            <column name="TESIS_ID"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="Investigador" fetch="select" name="investigador">
+            <column name="INV_ID"/>
+        </many-to-one>
+        <property name="tesisNombre" type="string">
+            <column length="255" name="TESIS_NOMBRE"/>
+        </property>
+        <property name="tesisDescripcion" type="string">
+            <column length="65535" name="TESIS_DESCRIPCION"/>
+        </property>
+    </class>
+</hibernate-mapping>

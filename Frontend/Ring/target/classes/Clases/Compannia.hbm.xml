@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class catalog="eltix" name="Clases.Compannia" optimistic-lock="none" table="compannia">
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="nombre" type="string">
+            <column length="100" name="nombre"/>
+        </property>
+        <property name="annoDeFundacion" type="date">
+            <column length="4" name="anno_de_fundacion"/>
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="juegos" table="juego">
+            <key>
+                <column name="compañia_id"/>
+            </key>
+            <one-to-many class="Clases.Juego"/>
+        </set>
+    </class>
+</hibernate-mapping>
