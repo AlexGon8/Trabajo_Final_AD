@@ -48,8 +48,7 @@ public class PermisosDAO implements IDao<Permisos, Integer> {
 			Permisos permisosPersistente = session.get(Permisos.class, id);
 			if (permisosPersistente != null) {
 
-				permisosPersistente.setId(modelo.getId());
-				permisosPersistente.setUsuario(modelo.getUsuario());
+				permisosPersistente.setIdpermisos(modelo.getIdpermisos());
 				permisosPersistente.setPermisoPublicacion(modelo.getPermisoPublicacion());
 				permisosPersistente.setPermisoEliminacion(modelo.getPermisoEliminacion());
 				permisosPersistente.setPermisoStock(modelo.getPermisoStock());

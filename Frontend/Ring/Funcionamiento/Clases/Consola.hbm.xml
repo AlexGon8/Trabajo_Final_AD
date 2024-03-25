@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 20 mar 2024 11:35:13 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Consola" optimistic-lock="none" table="consola">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="int">
             <column name="id"/>
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         <property name="nombre" type="string">
             <column length="100" name="nombre"/>

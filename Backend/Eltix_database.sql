@@ -1,1 +1,1 @@
-SELECT * FROM eltix.cliente;
+SELECT * FROM eltix.permisos;

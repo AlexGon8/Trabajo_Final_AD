@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 20 mar 2024 11:35:13 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Usuario" optimistic-lock="none" table="usuario">
         <id name="id" type="java.lang.Integer">
@@ -30,12 +30,6 @@
         <property name="fechaNac" type="date">
             <column length="10" name="fecha_nac"/>
         </property>
-        <set fetch="select" inverse="true" lazy="true" name="permisoses" table="permisos">
-            <key>
-                <column name="id_Usuario" not-null="true"/>
-            </key>
-            <one-to-many class="Clases.Permisos"/>
-        </set>
         <set fetch="select" inverse="false" lazy="true" name="juegos" table="cliente_juego">
             <key>
                 <column name="cliente_id" not-null="true"/>
