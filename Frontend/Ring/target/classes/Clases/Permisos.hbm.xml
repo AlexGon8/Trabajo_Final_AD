@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 20 mar 2024 11:35:13 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Permisos" optimistic-lock="none" table="permisos">
-        <composite-id class="Clases.PermisosId" name="id">
-            <key-property name="idUsuario" type="int">
-                <column name="id_Usuario"/>
-            </key-property>
-            <key-property name="idpermisos" type="int">
-                <column name="idpermisos"/>
-            </key-property>
-        </composite-id>
-        <many-to-one class="Clases.Usuario" fetch="select" insert="false" name="usuario" update="false">
-            <column name="id_Usuario" not-null="true"/>
-        </many-to-one>
+        <id name="idpermisos" type="java.lang.Integer">
+            <column name="idpermisos"/>
+            <generator class="identity"/>
+        </id>
         <property name="permisoPublicacion" type="java.lang.Byte">
             <column name="permiso_publicacion"/>
         </property>
@@ -31,5 +24,13 @@
         <property name="permisoDescuento" type="java.lang.Byte">
             <column name="permiso_descuento"/>
         </property>
+        <set fetch="select" inverse="true" lazy="true" name="rols" table="permisos_rol">
+            <key>
+                <column name="id_permisos" not-null="true"/>
+            </key>
+            <many-to-many entity-name="Clases.Rol">
+                <column name="id_rol" not-null="true"/>
+            </many-to-many>
+        </set>
     </class>
 </hibernate-mapping>
