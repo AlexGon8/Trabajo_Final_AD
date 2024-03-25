@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ContactDialog extends JDialog {
 
@@ -10,6 +12,8 @@ public class ContactDialog extends JDialog {
         getContentPane().setBackground(new Color(128, 128, 128));
         getContentPane().setLayout(null);
 
+        
+        
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 0, 0, 0)); // Transparente para mostrar el GIF
         panel.setBounds(10, 11, 1154, 743);
@@ -17,6 +21,16 @@ public class ContactDialog extends JDialog {
         panel.setLayout(null);
 
         int yPosition = 50;
+        
+        // Agrega el botón de cerrar aquí para asegurarse de que el panel se inicialice primero
+        JButton closeButton = new JButton(new ImageIcon(getClass().getResource("/imagenes/cerrar (1).png")));
+        closeButton.setBounds(1109, 0, 45, 37); // Debe ajustarse para estar dentro del panel
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ContactDialog.this.dispose(); // Solo cerrará el JDialog
+            }
+        });
+        panel.add(closeButton);
 
         // Nombre
         panel.add(createLabel("Nombre:", 30, yPosition, 300, 30));

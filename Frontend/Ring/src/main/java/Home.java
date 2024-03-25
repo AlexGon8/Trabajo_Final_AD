@@ -32,7 +32,7 @@ public class Home extends JFrame {
     private JLabel soporteIcon;
     private JLayeredPane layeredPane;
     private UserMenuDialog userMenuDialog;
-
+    private ShoppingCartDialog shoppingCartDialog; 
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -49,7 +49,7 @@ public class Home extends JFrame {
     
 
     public Home() {
-    	
+        
     	// para que la ventana se oscuresca
         // Configuración inicial para el panel de oscurecimiento
         glassPane = new JPanel();
@@ -158,6 +158,22 @@ public class Home extends JFrame {
         soporteIcon = new JLabel(new ImageIcon(getClass().getResource("/imagenes/soporte.png")));
         soporteIcon.setBounds(76, 10, 56, 50); // Ajustar posición y tamaño
         ContenedorGeneral.add(soporteIcon); // Añadir directamente al ContenedorGeneral
+        
+        
+        // Instanciación del JDialog del carrito de compra
+        shoppingCartDialog = new ShoppingCartDialog(this);
+        // Añadir icono de carrito de compras y su MouseListener
+        cartIcon = new JLabel(new ImageIcon(getClass().getResource("/imagenes/carrito.png")));
+        cartIcon.setBounds(142, 10, 56, 50); // Ajustar posición y tamaño
+        cartIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openShoppingCartDialog();
+            }
+        });
+        ContenedorGeneral.add(cartIcon); // Añadir directamente al ContenedorGeneral
+
+        
 
     }
     
@@ -181,6 +197,11 @@ public class Home extends JFrame {
             userMenuDialog.setVisible(false);
             glassPane.setVisible(false); // Desactiva el oscurecimiento
         }
+    }
+    
+    // Método para abrir el JDialog del carrito de compra
+    private void openShoppingCartDialog() {
+        shoppingCartDialog.setVisible(true);
     }
     
     
