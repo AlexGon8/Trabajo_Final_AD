@@ -22,9 +22,11 @@ import org.hibernate.Transaction;
 
 public class GoogleAuth {
 
-    private static final String CLIENT_ID = "tu-client-id";
-    private static final String CLIENT_SECRET = "tu-client-secret";
-    private static final String REDIRECT_URI = "tu-uri-de-redireccionamiento";
+    private static final String CLIENT_ID = "602544710441-7vejh138hmvl3hcagh7f972m1rdabl0o.apps.googleusercontent.com";
+    
+    private static final String CLIENT_SECRET = "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";
+
+    private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
     public void authenticate(String authorizationCode) {
         try {
@@ -49,6 +51,7 @@ public class GoogleAuth {
 
                 // Obtener el correo del payload del token
                 String email = payload.getEmail();
+
 
                 // Buscar usuario por correo electrónico
                 Usuario usuario = UsuarioDAO.buscarPorCorreo(email);

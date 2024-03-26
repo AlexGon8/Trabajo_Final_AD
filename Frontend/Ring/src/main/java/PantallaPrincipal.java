@@ -220,10 +220,10 @@ public class PantallaPrincipal extends JFrame {
         lblAccederConGoogle.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Aquí manejas la autenticación con Google
+                // Aquí manejas la autenticación con Google ************************************************--
                 try {
                     GoogleAuth googleAuth = new GoogleAuth();
-                    googleAuth.authenticate(); // este el metodo para iniciar la authetificacion
+                    googleAuth.authenticate("holaEstoEsunapruebaFelix"); // este el metodo para iniciar la authetificacion
                     // Manejar la respuesta y guardar los tokens según sea necesario
                 } catch (Exception ex) {
                     ex.printStackTrace();
