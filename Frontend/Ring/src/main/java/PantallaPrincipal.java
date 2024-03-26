@@ -223,7 +223,7 @@ public class PantallaPrincipal extends JFrame {
                 // Aquí manejas la autenticación con Google
                 try {
                     GoogleAuth googleAuth = new GoogleAuth();
-                    googleAuth.authenticate(); // Suponiendo que este método inicia la autenticación
+                    googleAuth.authenticate(); // este el metodo para iniciar la authetificacion
                     // Manejar la respuesta y guardar los tokens según sea necesario
                 } catch (Exception ex) {
                     ex.printStackTrace();
