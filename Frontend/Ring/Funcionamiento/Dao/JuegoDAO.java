@@ -1,5 +1,7 @@
 package Dao;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -81,7 +83,7 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 				session.getTransaction().commit();
 				return true;
 			} else {
-				
+
 				return false;
 			}
 		} catch (Exception e) {
@@ -101,5 +103,43 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 			e.printStackTrace();
 		}
 		return listaJuego;
+	}
+
+	public ArrayList<Juego> filtrarNombre(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
+			Date fechaFin, String nombreConsola, int pagina) {
+
+		pagina = (pagina - 1) * 10;
+		ArrayList<Juego> lista = null;
+		String query = "SELECT * FROM Juego";
+		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null
+				|| nombreConsola != null) {
+			query = query + " WHERE ";
+			if (nombreJuego != null) {
+				query = query + "nombre like nombreJuego ";
+			}
+			if (precioIni != 0 && precioFin != 0) {
+				query = query + "precio > precioIni AND precio < PrecioFin ";
+			}
+			if (fechaIni != null && fechaFin != null) {
+				query = query + "annoSalida > fechaIni AND annoSalida < fechaFin ";
+			}
+			// no tenemos a que consola pertenece en la base de datos, tratamiento despues
+			// de la consulta de las demas o consulta se complica
+			if (nombreConsola != null) {
+				query = query + "nombre like nombreJuego ";
+			}
+			query = query + "LIMIT 10 OFFSET pagina";
+		}
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			lista = (ArrayList<Juego>) session
+					.createNativeQuery(query, Juego.class)
+					.setParameter("nombreJuego", nombreJuego).setParameter("precioIni", precioIni)
+					.setParameter("precioFin", precioFin).setParameter("fechaIni", fechaIni)
+					.setParameter("fechaFin", fechaFin).setParameter("pagina", pagina).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
 }

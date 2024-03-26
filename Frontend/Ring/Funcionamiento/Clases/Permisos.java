@@ -1,5 +1,5 @@
 package Clases;
-// Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final
+// Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ public class Permisos implements java.io.Serializable {
 	@Column(name="id_permisos")
 	private Integer idpermisos;
 	@Column(name="permiso_publicacion")
-	private Boolean permisoPublicacion;
+	private Boolean permisoPublicacion;//lo he cambiado a booleano antes estaba en byte
 	@Column(name="permiso_eliminacion")
 	private Boolean permisoEliminacion;
 	@Column(name="permiso_stock")
@@ -36,7 +36,6 @@ public class Permisos implements java.io.Serializable {
 	private Boolean permisoDescuento;
 	@OneToMany(mappedBy="permisos", targetEntity=Rol.class)
 	private Set rols = new HashSet(0);
-
 	public Permisos() {
 	}
 

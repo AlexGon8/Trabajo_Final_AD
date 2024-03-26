@@ -1,5 +1,5 @@
 package Clases;
-// Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final
+// Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -34,16 +34,17 @@ public class Consola implements java.io.Serializable {
 	public Consola() {
 	}
 
-	public Consola(String nombre, Date annoSalida) {
+	public Consola(String nombre, Date annoSalida, Set juegos) {
 		this.nombre = nombre;
 		this.annoSalida = annoSalida;
+		this.juegos = juegos;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

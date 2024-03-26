@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Usuario" optimistic-lock="none" table="usuario">
         <id name="id" type="java.lang.Integer">
@@ -9,8 +9,8 @@
         <property name="nombreUsuario" type="string">
             <column length="100" name="nombre_usuario"/>
         </property>
-        <property name="contraseÃ±a" type="string">
-            <column length="45" name="contraseÃ±a"/>
+        <property name="contraseña" type="string">
+            <column length="45" name="contraseña"/>
         </property>
         <property name="nombre" type="string">
             <column length="45" name="nombre"/>

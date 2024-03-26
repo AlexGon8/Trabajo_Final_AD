@@ -1,5 +1,5 @@
 package Clases;
-// Generated 25 mar 2024 23:14:46 by Hibernate Tools 6.3.1.Final
+// Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -39,6 +39,8 @@ public class Juego implements java.io.Serializable {
 	private Double descuento;
 	@Column(name="imagen")
 	private byte[] imagen;
+	@Column(name="genero")
+	private String genero;
 	@OneToMany(mappedBy="juego", targetEntity=Usuario.class)
 	private Set usuarios = new HashSet(0);
 	@OneToMany(mappedBy="juego", targetEntity=Consola.class)
@@ -48,7 +50,7 @@ public class Juego implements java.io.Serializable {
 	}
 
 	public Juego(Compannia compannia, String nombre, BigDecimal precio, Date annoDeSalida, Integer stock,
-			Double descuento, byte[] imagen) {
+			Double descuento, byte[] imagen, String genero, Set usuarios, Set consolas) {
 		this.compannia = compannia;
 		this.nombre = nombre;
 		this.precio = precio;
@@ -56,13 +58,16 @@ public class Juego implements java.io.Serializable {
 		this.stock = stock;
 		this.descuento = descuento;
 		this.imagen = imagen;
+		this.genero = genero;
+		this.usuarios = usuarios;
+		this.consolas = consolas;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -120,6 +125,14 @@ public class Juego implements java.io.Serializable {
 
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
+	}
+
+	public String getGenero() {
+		return this.genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public Set getUsuarios() {
