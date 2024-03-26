@@ -17,7 +17,7 @@ public class ShoppingCartDialog extends JDialog {
         
                 JLabel lblImagenPasoDeCCompra = new JLabel("");
                 // Aquí se asume que ya tienes una imagen en el path correcto
-                lblImagenPasoDeCCompra.setIcon(new ImageIcon("E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\carritoDeCompra\\paso1Carrito.png"));
+                lblImagenPasoDeCCompra.setIcon(new ImageIcon("/imagenes/carritoDeCompra/paso1Carrito.png"));
                 lblImagenPasoDeCCompra.setBounds(309, 640, 635, 79);
                 getContentPane().add(lblImagenPasoDeCCompra);
 
