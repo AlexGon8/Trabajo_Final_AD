@@ -52,7 +52,7 @@ public class ShoppingCartDialog extends JDialog {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(new ImageIcon(getClass().getResource("/imagenes/juegos/horizon-forbidden-west-complete-edition-complete-edition-pc-juego-steam-europe-cover.jpg")).getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+                g.drawImage(new ImageIcon(getClass().getResource("/imagenes/carritoDeCompra/fondo_carrito.jpg")).getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
             }
         };
         backgroundPanel.setBounds(0, 0, 1211, 751);
