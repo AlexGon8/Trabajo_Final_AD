@@ -14,7 +14,7 @@
         </property>
         <set fetch="select" inverse="true" lazy="true" name="juegos" table="juego">
             <key>
-                <column name="compañia_id"/>
+                <column name="compaÃ±ia_id"/>
             </key>
             <one-to-many class="Clases.Juego"/>
         </set>

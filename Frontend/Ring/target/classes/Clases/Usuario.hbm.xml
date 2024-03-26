@@ -9,8 +9,8 @@
         <property name="nombreUsuario" type="string">
             <column length="100" name="nombre_usuario"/>
         </property>
-        <property name="contraseña" type="string">
-            <column length="45" name="contraseña"/>
+        <property name="contraseÃ±a" type="string">
+            <column length="45" name="contraseÃ±a"/>
         </property>
         <property name="nombre" type="string">
             <column length="45" name="nombre"/>
