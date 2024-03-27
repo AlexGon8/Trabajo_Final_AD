@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import com.toedter.calendar.JDateChooser;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
@@ -18,6 +21,7 @@ public class Registro extends JDialog {
 	private JTextField textFieldApodo;
 	private JTextField textFieldCorreoElectronico;
 	private JButton closeButton;
+    private JDateChooser dateChooser;
 
 	public Registro(Frame owner) {
         super(owner);
@@ -122,17 +126,27 @@ public class Registro extends JDialog {
         lblCorreoElectronico.setBounds(65, 282, 300, 25);
         contenedorRegistro.add(lblCorreoElectronico);
         
-        JComboBox comboBoxEdad = new JComboBox();
-        comboBoxEdad.setModel(new DefaultComboBoxModel(new String[] {"17", "18", "19"}));
-        comboBoxEdad.setBounds(65, 213, 300, 30);
-        contenedorRegistro.add(comboBoxEdad);
+
         
-        JLabel lblNewLabelEdad = new JLabel("Edad");
-        lblNewLabelEdad.setForeground(new Color(201, 157, 24));
-        lblNewLabelEdad.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblNewLabelEdad.setBounds(65, 189, 300, 25);
-        contenedorRegistro.add(lblNewLabelEdad);
+        // Inicializa JDateChooser
+        dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("dd/MM/yyyy"); // Formato de fecha
         
+        // Establecer la fecha máxima permitida (hoy menos 14 años)
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.add(Calendar.YEAR, -14);
+        dateChooser.setMaxSelectableDate(maxDate.getTime());
+        
+        dateChooser.setBounds(65, 213, 300, 30); // Coloca el dateChooser en la misma posición que el comboBoxEdad
+        contenedorRegistro.add(dateChooser);
+        
+        JLabel lblNewLabelFechaNacimiento = new JLabel("Fecha de Nacimiento");
+        lblNewLabelFechaNacimiento.setForeground(new Color(201, 157, 24));
+        lblNewLabelFechaNacimiento.setFont(new Font("Sylfaen", Font.BOLD, 18));
+        lblNewLabelFechaNacimiento.setBounds(65, 189, 300, 25);
+        contenedorRegistro.add(lblNewLabelFechaNacimiento);
+        
+
         JPanel panel = new JPanel();
         panel.setBounds(29, 31, 375, 733);
         contenedorRegistro.add(panel);
@@ -156,4 +170,9 @@ public class Registro extends JDialog {
 		Registro dialogoRegistro = new Registro(owner);
 		dialogoRegistro.setVisible(true);
 	}
+	
+    // Método para obtener la fecha de nacimiento del JDateChooser
+    public Date getFechaNacimiento() {
+        return dateChooser.getDate();
+    }
 }

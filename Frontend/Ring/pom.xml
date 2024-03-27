@@ -46,5 +46,6 @@
 		    <artifactId>google-http-client-jackson2</artifactId>
 		    <version>1.44.1</version> <!-- Asegúrate de utilizar la última versión compatible -->
 		</dependency>
+
 	</dependencies>
 </project>

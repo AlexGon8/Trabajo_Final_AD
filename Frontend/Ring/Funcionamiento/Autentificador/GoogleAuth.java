@@ -26,7 +26,7 @@ public class GoogleAuth {
     
     private static final String CLIENT_SECRET = "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";
 
-    private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+    private static final String REDIRECT_URI = "https://www.marca.com/";
 
     public void authenticate(String authorizationCode) {
         try {

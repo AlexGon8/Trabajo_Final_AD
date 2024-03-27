@@ -132,6 +132,29 @@ public class PantallaPrincipal extends JFrame {
 				}
 			}
 		});
+		
+        // Crear el JLabel para el inicio de sesión de Google
+      //  JLabel googleSignInLabel = new JLabel(new ImageIcon("/imagenes/googleLogo.png"));
+      //  googleSignInLabel.setBounds(138, 236, 82, 53);
+       // panel.add(googleSignInLabel);
+        
+        JLabel lblAccederConGoogle = new JLabel("");
+        lblAccederConGoogle.setIcon(new ImageIcon("/imagenes/googleLogo.png"));
+        lblAccederConGoogle.setBounds(220, 261, 66, 70);
+        panel.add(lblAccederConGoogle);
+        lblAccederConGoogle.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Aquí manejas la autenticación con Google ************************************************--
+                try {
+                    GoogleAuth googleAuth = new GoogleAuth();
+                    googleAuth.authenticate(""); // este el metodo para iniciar la authetificacion
+                    // Manejar la respuesta y guardar los tokens según sea necesario
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 		panel.add(textFieldContraseña);
 
 		JTextField textFieldUsuario = new JTextField("Usuario");
@@ -207,29 +230,6 @@ public class PantallaPrincipal extends JFrame {
 		JLabelEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		JLabelEntrar.setBounds(54, 261, 46, 14);
 		panel.add(JLabelEntrar);
-		
-        // Crear el JLabel para el inicio de sesión de Google
-      //  JLabel googleSignInLabel = new JLabel(new ImageIcon("/imagenes/googleLogo.png"));
-      //  googleSignInLabel.setBounds(138, 236, 82, 53);
-       // panel.add(googleSignInLabel);
-        
-        JLabel lblAccederConGoogle = new JLabel("");
-        lblAccederConGoogle.setIcon(new ImageIcon("E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\googleLogo.png"));
-        lblAccederConGoogle.setBounds(220, 236, 52, 70);
-        panel.add(lblAccederConGoogle);
-        lblAccederConGoogle.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Aquí manejas la autenticación con Google ************************************************--
-                try {
-                    GoogleAuth googleAuth = new GoogleAuth();
-                    googleAuth.authenticate("holaEstoEsunapruebaFelix"); // este el metodo para iniciar la authetificacion
-                    // Manejar la respuesta y guardar los tokens según sea necesario
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
 
 		lblNewLabelIconoLogin.addMouseListener(new MouseAdapter() {
 		    @Override
