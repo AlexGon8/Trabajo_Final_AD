@@ -11,6 +11,11 @@
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		
 		<mapping class="Clases.Usuario" package="Clases" resource="Clases.Usuario.hbm.xml" />
+		<mapping class="Clases.Usuario" package="Clases" resource="Clases.Usuario.hbm.xml" />
+		<mapping class="Clases.Rol" package="Clases" resource="Clases.Rol.hbm.xml" />
+		<mapping class="Clases.Consola" package="Clases" resource="Clases.Consola.hbm.xml" />
+		<mapping class="Clases.Compannia" package="Clases" resource="Clases.Compannia.hbm.xml" />
+		<mapping class="Clases.Juego" package="Clases" resource="Clases.Juego.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>
