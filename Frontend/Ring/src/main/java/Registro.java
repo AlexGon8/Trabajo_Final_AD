@@ -2,6 +2,8 @@ import javax.swing.*;
 
 import com.toedter.calendar.JDateChooser;
 
+import Clases.Usuario;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
@@ -209,7 +211,7 @@ public class Registro extends JDialog {
         usuario.setDomicilio(domicilio);
         usuario.setTelefono(telefono);
         usuario.setCorreo(correoElectronico);
-        usuario.setFechaNac(fechaNac);
+        usuario.setFechaNac((java.sql.Date) fechaNac);
         
         // Aquí deberías llamar al método que maneja la lógica para insertar el nuevo usuario en la base de datos.
         // Por ejemplo: UsuarioDAO.insertarUsuario(usuario);
