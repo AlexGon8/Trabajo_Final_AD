@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27 mar 2024 16:53:23 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Juego" optimistic-lock="none" table="juego">
         <id name="id" type="java.lang.Integer">
@@ -7,16 +7,16 @@
             <generator class="identity"/>
         </id>
         <many-to-one class="Clases.Compannia" fetch="select" name="compannia">
-            <column name="compañia_id"/>
+            <column name="compannia_id"/>
         </many-to-one>
         <property name="nombre" type="string">
-            <column length="100" name="nombre"/>
+            <column length="45" name="nombre"/>
         </property>
-        <property name="precio" type="big_decimal">
-            <column name="precio" precision="10" scale="2"/>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="22" scale="0"/>
         </property>
         <property name="annoDeSalida" type="date">
-            <column length="4" name="anno_de_salida"/>
+            <column length="10" name="anno_de_salida"/>
         </property>
         <property name="stock" type="java.lang.Integer">
             <column name="stock"/>

@@ -2,6 +2,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import Clases.Juego;
+import Clases.Permisos;
+import Clases.Rol;
 import Dao.CompaniaDAO;
 import Dao.ConsolaDAO;
 import Dao.JuegoDAO;
@@ -11,12 +13,12 @@ import Dao.UsuarioDAO;
 
 public class Funcionamiento {
 
-	private JuegoDAO juegoDAO;
-	private ConsolaDAO consolaDAO;
-	private CompaniaDAO companiaDAO;
-	private PermisosDAO permisosDAO;
-	private UsuarioDAO usuarioDAO;
-	private RolDAO rolDAO;
+	private JuegoDAO juegoDAO = new JuegoDAO();
+	private ConsolaDAO consolaDAO = new ConsolaDAO();
+	private CompaniaDAO companiaDAO = new CompaniaDAO();
+	private PermisosDAO permisosDAO = new PermisosDAO();
+	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	private RolDAO rolDAO = new RolDAO();
 
 	public Funcionamiento() {
 
@@ -80,4 +82,31 @@ public class Funcionamiento {
 		this.rolDAO = rolDAO;
 	}
 
+	public void generarRbac() {
+
+		Rol admin = new Rol("admin");
+		Rol distribuidor = new Rol("distribuidor");
+		Rol cliente = new Rol("cliente");
+		Rol almacen = new Rol("almacen");
+		Rol soporte_tecnico = new Rol("soporte_tecnico");
+		Rol editor = new Rol("editor");
+		permisosDAO.crear(publicacion_si);
+		permisosDAO.crear(publicacion_no);
+		permisosDAO.crear(eliminar_si);
+		permisosDAO.crear(eliminar_no);
+		permisosDAO.crear(stock_si);
+		permisosDAO.crear(stock_no);
+		permisosDAO.crear(bans_si);
+		permisosDAO.crear(bans_no);
+		permisosDAO.crear(precio_si);
+		permisosDAO.crear(precio_no);
+		permisosDAO.crear(compra_si);
+		permisosDAO.crear(compra_no);
+		permisosDAO.crear(bloqueo_si);
+		permisosDAO.crear(bloqueo_no);
+	}
+
+	public void generarRoles() {
+
+	}
 }

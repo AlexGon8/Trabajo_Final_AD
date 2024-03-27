@@ -1,5 +1,5 @@
 package Clases;
-// Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final
+// Generated 27 mar 2024 16:53:23 by Hibernate Tools 6.3.1.Final
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class Usuario implements java.io.Serializable {
 	private Integer id;
 	@Column(name="nombre_usuario")
 	private String nombreUsuario;
-	@Column(name="contraseña")
+	@Column(name="contrasenna")
 	private String contrasenna;
 	@Column(name="nombre")
 	private String nombre;
@@ -46,17 +46,18 @@ public class Usuario implements java.io.Serializable {
 	public Usuario() {
 	}
 
-	public Usuario(String nombreUsuario, String contrasenna, String nombre, String apellidos, String domicilio, String telefono, String correo, Date fechaNac, Set juegos) {
-       this.nombreUsuario = nombreUsuario;
-       this.contrasenna = contrasenna;
-       this.nombre = nombre;
-       this.apellidos = apellidos;
-       this.domicilio = domicilio;
-       this.telefono = telefono;
-       this.correo = correo;
-       this.fechaNac = fechaNac;
-       this.juegos = juegos;
-    }
+	public Usuario(String nombreUsuario, String contrasenna, String nombre, String apellidos, String domicilio,
+			String telefono, String correo, Date fechaNac, Set juegos) {
+		this.nombreUsuario = nombreUsuario;
+		this.contrasenna = contrasenna;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.domicilio = domicilio;
+		this.telefono = telefono;
+		this.correo = correo;
+		this.fechaNac = fechaNac;
+		this.juegos = juegos;
+	}
 
 	public Integer getId() {
 		return this.id;
@@ -75,12 +76,12 @@ public class Usuario implements java.io.Serializable {
 	}
 
 	public String getContrasenna() {
-        return this.contrasenna;
-    }
+		return this.contrasenna;
+	}
 
 	public void setContrasenna(String contrasenna) {
-        this.contrasenna = contrasenna;
-    }
+		this.contrasenna = contrasenna;
+	}
 
 	public String getNombre() {
 		return this.nombre;

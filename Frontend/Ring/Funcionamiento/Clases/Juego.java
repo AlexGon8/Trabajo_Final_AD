@@ -1,7 +1,6 @@
 package Clases;
-// Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final
+// Generated 27 mar 2024 16:53:23 by Hibernate Tools 6.3.1.Final
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +29,7 @@ public class Juego implements java.io.Serializable {
 	@Column(name="nombre")
 	private String nombre;
 	@Column(name="precio")
-	private BigDecimal precio;
+	private double precio;
 	@Column(name="anno_de_salida")
 	private Date annoDeSalida;
 	@Column(name="stock")
@@ -49,8 +48,8 @@ public class Juego implements java.io.Serializable {
 	public Juego() {
 	}
 
-	public Juego(Compannia compannia, String nombre, BigDecimal precio, Date annoDeSalida, Integer stock,
-			Double descuento, byte[] imagen, String genero, Set usuarios, Set consolas) {
+	public Juego(Compannia compannia, String nombre, Double precio, Date annoDeSalida, Integer stock, Double descuento,
+			byte[] imagen, String genero, Set usuarios, Set consolas) {
 		this.compannia = compannia;
 		this.nombre = nombre;
 		this.precio = precio;
@@ -87,11 +86,11 @@ public class Juego implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	public BigDecimal getPrecio() {
+	public Double getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(BigDecimal precio) {
+	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
 

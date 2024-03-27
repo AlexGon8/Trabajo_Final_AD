@@ -105,37 +105,61 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		return listaJuego;
 	}
 
+	public double precioMayor() {
+		double precioMayor = 0;
+		double aux=0;
+		List<Juego> listaJuego = null;
+		
+		listaJuego=listar();
+		for(Juego juego:listaJuego) {
+			aux=juego.getPrecio();
+			if(aux>precioMayor) {
+				precioMayor=aux;
+			}
+		}
+		/**try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			listaJuego = session.createNativeQuery("select max(precio) from Juego", Juego.class).getResultList();
+			precioMayor=listaJuego.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}**/
+		return precioMayor;
+	}
+
 	public ArrayList<Juego> filtrarNombre(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
-			Date fechaFin, String nombreConsola, int pagina) {
+			Date fechaFin, int id_plataforma, int pagina) {
 
 		pagina = (pagina - 1) * 10;
 		ArrayList<Juego> lista = null;
-		String query = "SELECT * FROM Juego";
+		String query = "SELECT * FROM juego as j inner join juego_consola as jc on j.id=jd.juego_id";
 		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null
-				|| nombreConsola != null) {
+				|| id_plataforma != 0) {
 			query = query + " WHERE ";
 			if (nombreJuego != null) {
-				query = query + "nombre like nombreJuego ";
+				query = query + "j.nombre like nombreJuego ";
+				query = query + "AND ";
 			}
-			if (precioIni != 0 && precioFin != 0) {
-				query = query + "precio > precioIni AND precio < PrecioFin ";
+			if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
+				query = query + "j.precio > precioIni AND j.precio <= PrecioFin ";
+				query = query + "AND ";
 			}
 			if (fechaIni != null && fechaFin != null) {
-				query = query + "annoSalida > fechaIni AND annoSalida < fechaFin ";
+				query = query + "j.annoSalida > fechaIni AND j.annoSalida <= fechaFin ";
+				query = query + "AND ";
 			}
 			// no tenemos a que consola pertenece en la base de datos, tratamiento despues
 			// de la consulta de las demas o consulta se complica
-			if (nombreConsola != null) {
-				query = query + "nombre like nombreJuego ";
+			if (id_plataforma != 0) {
+				query = query + "jd.id_consola = id_plataforma ";
 			}
 			query = query + "LIMIT 10 OFFSET pagina";
 		}
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			lista = (ArrayList<Juego>) session
-					.createNativeQuery(query, Juego.class)
+			lista = (ArrayList<Juego>) session.createNativeQuery(query, Juego.class)
 					.setParameter("nombreJuego", nombreJuego).setParameter("precioIni", precioIni)
 					.setParameter("precioFin", precioFin).setParameter("fechaIni", fechaIni)
-					.setParameter("fechaFin", fechaFin).setParameter("pagina", pagina).list();
+					.setParameter("fechaFin", fechaFin).setParameter("id_plataforma", id_plataforma)
+					.setParameter("pagina", pagina).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
