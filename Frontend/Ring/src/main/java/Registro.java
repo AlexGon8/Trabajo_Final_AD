@@ -73,7 +73,7 @@ public class Registro extends JDialog {
         btnRegistrar.setBounds(65, 686, 300, 30);
         btnRegistrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Lógica de registro
+            	 registrarUsuario();
             }
         });
         contenedorRegistro.add(btnRegistrar);
@@ -171,4 +171,54 @@ public class Registro extends JDialog {
     public Date getFechaNacimiento() {
         return dateChooser.getDate();
     }
+    
+   
+    private void registrarUsuario() {
+        String nombreUsuario = textFieldUsuario.getText();
+        String contrasenna = new String(passwordField.getPassword());
+        String confirmacionContrasenna = new String(passwordFieldConfirmacion.getPassword());
+        String apellidos = textFieldApellidos.getText();
+        String apodo = textFieldApodo.getText();
+        String correoElectronico = textFieldCorreoElectronico.getText();
+        Date fechaNacDate = dateChooser.getDate();
+
+        if (!contrasenna.equals(confirmacionContrasenna)) {
+            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (fechaNacDate == null) {
+            JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha de nacimiento válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Convertir la fecha a formato SQL
+        //SqlDate fechaNac = new SqlDate(fechaNacDate.getTime());
+        Date fechaNac = dateChooser.getDate();
+        // Aquí asumiremos que el resto de los campos como domicilio y teléfono se recogen de forma similar.
+        String nombre = textFieldApellidos.getText(); // Deberías tener otro textField para el nombre
+        String domicilio = ""; // Deberías tener otro textField para el domicilio
+        String telefono = ""; // Deberías tener otro textField para el teléfono
+
+        // Crear instancia de Usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombreUsuario(nombreUsuario);
+        usuario.setContrasenna(contrasenna);
+        usuario.setNombre(nombre);
+        usuario.setApellidos(apellidos);
+        usuario.setDomicilio(domicilio);
+        usuario.setTelefono(telefono);
+        usuario.setCorreo(correoElectronico);
+        usuario.setFechaNac(fechaNac);
+        
+        // Aquí deberías llamar al método que maneja la lógica para insertar el nuevo usuario en la base de datos.
+        // Por ejemplo: UsuarioDAO.insertarUsuario(usuario);
+    }
+
+
+    
+    // Otros métodos...
 }
+}
+
+
