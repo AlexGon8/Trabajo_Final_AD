@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 26 mar 2024 17:20:38 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 27 mar 2024 16:53:23 by Hibernate Tools 6.3.1.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class catalog="eltix" name="Clases.Rol" optimistic-lock="none" table="rol">
         <id name="idRol" type="int">
@@ -9,13 +9,5 @@
         <property name="nombre" type="string">
             <column length="45" name="nombre"/>
         </property>
-        <set fetch="select" inverse="false" lazy="true" name="permisoses" table="permisos_rol">
-            <key>
-                <column name="id_rol" not-null="true"/>
-            </key>
-            <many-to-many entity-name="Clases.Permisos">
-                <column name="id_permisos" not-null="true"/>
-            </many-to-many>
-        </set>
     </class>
 </hibernate-mapping>

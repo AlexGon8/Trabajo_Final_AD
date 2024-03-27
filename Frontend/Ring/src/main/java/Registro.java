@@ -3,11 +3,13 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 import Clases.Usuario;
+import Dao.UsuarioDAO;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Calendar;
+
 
 public class Registro extends JDialog {
 
@@ -171,7 +173,7 @@ public class Registro extends JDialog {
 	
     // Método para obtener la fecha de nacimiento del JDateChooser
     public Date getFechaNacimiento() {
-        return dateChooser.getDate();
+        return (Date) dateChooser.getDate();
     }
     
    
@@ -182,7 +184,7 @@ public class Registro extends JDialog {
         String apellidos = textFieldApellidos.getText();
         String apodo = textFieldApodo.getText();
         String correoElectronico = textFieldCorreoElectronico.getText();
-        Date fechaNacDate = dateChooser.getDate();
+        Date fechaNacDate = new Date(2000, 1, 1);
 
         if (!contrasenna.equals(confirmacionContrasenna)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -195,8 +197,8 @@ public class Registro extends JDialog {
         }
 
         // Convertir la fecha a formato SQL
-        //SqlDate fechaNac = new SqlDate(fechaNacDate.getTime());
-        Date fechaNac = dateChooser.getDate();
+        Date fechaNac = null;
+        //Date fechaNac = dateChooser.getDate();
         // Aquí asumiremos que el resto de los campos como domicilio y teléfono se recogen de forma similar.
         String nombre = textFieldApellidos.getText(); // Deberías tener otro textField para el nombre
         String domicilio = ""; // Deberías tener otro textField para el domicilio
@@ -211,16 +213,16 @@ public class Registro extends JDialog {
         usuario.setDomicilio(domicilio);
         usuario.setTelefono(telefono);
         usuario.setCorreo(correoElectronico);
-        usuario.setFechaNac((java.sql.Date) fechaNac);
+        usuario.setFechaNac(fechaNac);
         
-        // Aquí deberías llamar al método que maneja la lógica para insertar el nuevo usuario en la base de datos.
-        // Por ejemplo: UsuarioDAO.insertarUsuario(usuario);
+        UsuarioDAO nuevoUsuario = new UsuarioDAO();
+        nuevoUsuario.crear(usuario);
     }
 
 
     
     // Otros métodos...
 }
-}
+
 
 
