@@ -134,7 +134,7 @@ public class Registro extends JDialog {
         
         // Establecer la fecha máxima permitida (hoy menos 14 años)
         Calendar maxDate = Calendar.getInstance();
-        maxDate.add(Calendar.YEAR, -14);
+        maxDate.add(Calendar.YEAR, -14);//--> esto es lo que evita que sea menor a 14 años
         dateChooser.setMaxSelectableDate(maxDate.getTime());
         
         dateChooser.setBounds(65, 213, 300, 30); // Coloca el dateChooser en la misma posición que el comboBoxEdad
@@ -157,10 +157,6 @@ public class Registro extends JDialog {
         contenedorRegistro.add(BackgroundRegistro);
 
         // Repite la lógica de los botones de minimizar y cerrar como en tu JFrame principal si es necesario
-
-
-        
-			
 		
 		
     }
