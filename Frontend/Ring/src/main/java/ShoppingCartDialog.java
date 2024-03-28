@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,13 +115,18 @@ public class ShoppingCartDialog extends JDialog {
 
     public void addItemToCart(String productName, String productPrice, ImageIcon productImage) {
         CartItemPanel itemPanel = new CartItemPanel(productName, productPrice, productImage);
+        itemPanel.addPropertyChangeListener("cantidadCambiada", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                updateCartSummary(); // Actualizar el resumen del carrito cuando cambia la cantidad
+            }
+        });
         cartPanel.add(itemPanel);
         cartItemPanels.add(itemPanel);
         cartPanel.revalidate();
         cartPanel.repaint();
-        updateCartSummary(); // Actualizar el resumen cada vez que se añade un ítem
+        updateCartSummary(); // Actualizar el resumen del carrito inmediatamente después de agregar el artículo
     }
-    
     private void updateCartSummary() {
         double precioTotal = 0.0;
         double descuento = 0.0; // Asumiendo que tienes una manera de calcular el descuento

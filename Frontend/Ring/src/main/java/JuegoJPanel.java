@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class JuegoJPanel extends JPanel {
 
@@ -7,7 +9,9 @@ public class JuegoJPanel extends JPanel {
     private JLabel imagenLabel;
     private JLabel nombreLabel;
     private JLabel precioLabel;
-
+    private JButton btnComprar;
+    private Component horizontalStrut;
+    
     public JuegoJPanel(String nombreJuego, String precio, ImageIcon icono) {
         setLayout(new BorderLayout());
         setBackground(Color.DARK_GRAY);
@@ -32,5 +36,19 @@ public class JuegoJPanel extends JPanel {
         bottomBox.add(Box.createHorizontalStrut(25)); // Margen derecho
 
         add(bottomBox, BorderLayout.SOUTH);
+        // Botón Comprar
+        btnComprar = new JButton("Comprar");
+        btnComprar.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnComprar.setBackground(new Color(255, 128, 0));
+        btnComprar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                firePropertyChange("juegoComprado", false, true);
+            }
+        });
+        bottomBox.add(btnComprar);
+        
+        horizontalStrut = Box.createHorizontalStrut(25);
+        bottomBox.add(horizontalStrut);
     }
 }
