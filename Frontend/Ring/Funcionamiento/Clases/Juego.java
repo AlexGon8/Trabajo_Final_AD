@@ -10,6 +10,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -40,10 +44,15 @@ public class Juego implements java.io.Serializable {
 	private byte[] imagen;
 	@Column(name="genero")
 	private String genero;
-	@OneToMany(mappedBy="juego", targetEntity=Usuario.class)
-	private Set usuarios = new HashSet(0);
-	@OneToMany(mappedBy="juego", targetEntity=Consola.class)
-	private Set consolas = new HashSet(0);
+	@ManyToMany(mappedBy = "juegos")
+	private Set<Usuario> usuarios = new HashSet<>(0);
+	@ManyToMany
+	@JoinTable(
+	    name = "juego_consola",
+	    joinColumns = @JoinColumn(name = "juego_id"),
+	    inverseJoinColumns = @JoinColumn(name = "consola_id")
+	)
+	private Set<Consola> consolas = new HashSet<>();
 
 	public Juego() {
 	}

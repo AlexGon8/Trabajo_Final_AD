@@ -1,23 +1,39 @@
 import javax.swing.*;
+
+import Dao.ConsolaDAO;
+import Dao.JuegoDAO;
+
 import java.awt.*;
+import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FilterPanel extends JPanel {
 	private Image backgroundImage;
+	private JuegoDAO juegoDAO=new JuegoDAO();
+	private ConsolaDAO consolaDAO=new ConsolaDAO();
 
 	public FilterPanel(String imagePath) {
-
+		
 		backgroundImage = new ImageIcon(getClass().getResource(imagePath)).getImage();
 
 		setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Alinear elementos a la izquierda
 
-		// Filtro para plataformas
-		JComboBox<String> platformsComboBox = new JComboBox<>(
-				new String[] { "Plataformas", "Steam", "Epic Games", "Origin" });
+		// Filtro para consolas
+		ArrayList<String> consolas=(ArrayList<String>) consolaDAO.listarNombres();
+		JComboBox<String> platformsComboBox = new JComboBox<>();
+		for (String consola : consolas) {
+		    platformsComboBox.addItem(consola);
+		}
 		configureComboBox(platformsComboBox);
 		add(platformsComboBox);
 
 		// Filtro para géneros
-		JComboBox<String> genresComboBox = new JComboBox<>(new String[] { "Géneros...", "Acción", "Aventura", "RPG" });
+		ArrayList<String> generos = (ArrayList<String>) juegoDAO.listaGeneros();
+		JComboBox<String> genresComboBox = new JComboBox<String>();
+		for (String genero : generos) {
+		    genresComboBox.addItem(genero);
+		}
 		configureComboBox(genresComboBox);
 		add(genresComboBox);
 
@@ -33,14 +49,9 @@ public class FilterPanel extends JPanel {
 		configureTextField(toPriceField);
 		add(toPriceField);
 
-		// Filtro para juegos y DLC
-		JComboBox<String> gamesDlcComboBox = new JComboBox<>(new String[] { "Juegos y DLC", "Juegos", "DLC" });
-		configureComboBox(gamesDlcComboBox);
-		add(gamesDlcComboBox);
-
 		// Filtro para ordenar los resultados
 		JComboBox<String> orderByComboBox = new JComboBox<>(
-				new String[] { "Ordenar por:", "Precio", "Nombre", "Popularidad" });
+				new String[] {"Nombre A-Z","Nombre Z-A","Precio Ascendente", "Precio Descendente",  "Fecha Ascendente", "Fecha Descendente" });
 		configureComboBox(orderByComboBox);
 		add(orderByComboBox);
 	}

@@ -117,9 +117,21 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 
 	    return precioMayor;
 	}
+	
+	public List<String> listaGeneros(){
+	    List<String> listaGeneros = null;
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        String hql = "SELECT DISTINCT j.genero FROM Juego j";
+	        Query<String> query = session.createQuery(hql, String.class);
+	        listaGeneros = query.getResultList();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return listaGeneros;
+	}
 
 	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
-			Date fechaFin, int id_plataforma, int pagina) {
+			Date fechaFin, int id_plataforma, int pagina,String ordenacion) {
 
 		int pageSize = 10; // Tamaño de la página
 		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
@@ -138,6 +150,19 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		    }
 		    if (id_plataforma != 0) {
 		        query += "AND c.id = :id_plataforma ";
+		    }
+		    if (ordenacion.equalsIgnoreCase("Nombre A-Z")) {
+		        query += " ORDER BY j.nombre ASC";
+		    } else if (ordenacion.equalsIgnoreCase("Nombre Z-A")) {
+		        query += " ORDER BY j.nombre DESC";
+		    }else if (ordenacion.equalsIgnoreCase("Precio Ascendente")) {
+		        query += " ORDER BY j.precio ASC";
+		    }else if (ordenacion.equalsIgnoreCase("Precio Descendente")) {
+		        query += " ORDER BY j.precio DESC";
+		    }else if (ordenacion.equalsIgnoreCase("Fecha Ascendente")) {
+		        query += " ORDER BY j.anno_de_salida ASC";
+		    }else if (ordenacion.equalsIgnoreCase("Fecha Descendente")) {
+		        query += " ORDER BY j.anno_de_salida DESC";
 		    }
 		}
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {

@@ -102,7 +102,7 @@ public class ConsolaDAO implements IDao<Consola, Integer> {
 		
 		List<String> listaNombreConsola = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			String hql = "SELECT c.nombre FROM Consola c";
+			String hql = "SELECT DISTINCT c.nombre FROM Consola c";
 			Query<String> query = session.createQuery(hql, String.class);
 			listaNombreConsola = query.getResultList();
 		} catch (Exception e) {

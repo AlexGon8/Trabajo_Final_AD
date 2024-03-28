@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -28,8 +29,8 @@ public class Consola implements java.io.Serializable {
 	private String nombre;
 	@Column(name="anno_salida")
 	private Date annoSalida;
-	@OneToMany(mappedBy="consola", targetEntity=Juego.class)
-	private Set juegos = new HashSet(0);
+	@ManyToMany(mappedBy = "consolas")
+	private Set<Juego> juegos = new HashSet<>();
 
 	public Consola() {
 	}
