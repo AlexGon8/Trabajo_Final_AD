@@ -47,7 +47,7 @@ public class Home extends JFrame {
 	public Home(Usuario usuario) {
 		this.usuario = usuario;
 		
-		cargarJuegos();
+		
 		// para que la ventana se oscuresca
 		// Configuración inicial para el panel de oscurecimiento
 		glassPane = new JPanel();
@@ -176,7 +176,7 @@ public class Home extends JFrame {
 			}
 		});
 		ContenedorGeneral.add(cartIcon); // Añadir directamente al ContenedorGeneral
-
+		cargarJuegos();
 	}
 
 	// La función para mostrar/ocultar el menú y aplicar el efecto de oscurecimiento

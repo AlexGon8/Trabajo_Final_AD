@@ -28,7 +28,7 @@ public class Juego implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@Column(name="compañia_id")
+	@Column(name="compannia_id")
 	private Compannia compannia;
 	@Column(name="nombre")
 	private String nombre;

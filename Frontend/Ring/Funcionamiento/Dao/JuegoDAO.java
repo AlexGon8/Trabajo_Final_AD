@@ -17,7 +17,7 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 	public boolean crear(Juego ju) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			Transaction tx = session.beginTransaction();
-
+			
 			session.persist(ju);
 			tx.commit();
 			return true;
@@ -106,92 +106,92 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 	}
 
 	public double precioMayor() {
-	    double precioMayor = 0;
+		double precioMayor = 0;
 
-	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        Query<Double> query = session.createQuery("select max(j.precio) from Juego j", Double.class);
-	        precioMayor = query.uniqueResult();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Query<Double> query = session.createQuery("select max(j.precio) from Juego j", Double.class);
+			precioMayor = query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	    return precioMayor;
+		return precioMayor;
 	}
-	
-	public List<String> listaGeneros(){
-	    List<String> listaGeneros = null;
-	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-	        String hql = "SELECT DISTINCT j.genero FROM Juego j";
-	        Query<String> query = session.createQuery(hql, String.class);
-	        listaGeneros = query.getResultList();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return listaGeneros;
+
+	public List<String> listaGeneros() {
+		List<String> listaGeneros = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT DISTINCT j.genero FROM Juego j";
+			Query<String> query = session.createQuery(hql, String.class);
+			listaGeneros = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaGeneros;
 	}
 
 	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
-			Date fechaFin, int id_plataforma, int pagina,String ordenacion) {
+			Date fechaFin, int id_plataforma, int pagina, String ordenacion) {
 
 		int pageSize = 10; // Tamaño de la página
 		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
 
 		ArrayList<Juego> lista = null;
 		String query = "FROM Juego j JOIN j.consolas c WHERE 1=1 ";
-		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null || id_plataforma != 0) {
-		    if (nombreJuego != null) {
-		        query += "AND j.nombre LIKE :nombreJuego ";
-		    }
-		    if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
-		        query += "AND j.precio > :precioIni AND j.precio <= :precioFin ";
-		    }
-		    if (fechaIni != null && fechaFin != null) {
-		        query += "AND j.annoSalida > :fechaIni AND j.annoSalida <= :fechaFin ";
-		    }
-		    if (id_plataforma != 0) {
-		        query += "AND c.id = :id_plataforma ";
-		    }
-		    if (ordenacion.equalsIgnoreCase("Nombre A-Z")) {
-		        query += " ORDER BY j.nombre ASC";
-		    } else if (ordenacion.equalsIgnoreCase("Nombre Z-A")) {
-		        query += " ORDER BY j.nombre DESC";
-		    }else if (ordenacion.equalsIgnoreCase("Precio Ascendente")) {
-		        query += " ORDER BY j.precio ASC";
-		    }else if (ordenacion.equalsIgnoreCase("Precio Descendente")) {
-		        query += " ORDER BY j.precio DESC";
-		    }else if (ordenacion.equalsIgnoreCase("Fecha Ascendente")) {
-		        query += " ORDER BY j.anno_de_salida ASC";
-		    }else if (ordenacion.equalsIgnoreCase("Fecha Descendente")) {
-		        query += " ORDER BY j.anno_de_salida DESC";
-		    }
+		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null
+				|| id_plataforma != 0) {
+			if (nombreJuego != null) {
+				query += "AND j.nombre LIKE :nombreJuego ";
+			}
+			if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
+				query += "AND j.precio > :precioIni AND j.precio <= :precioFin ";
+			}
+			if (fechaIni != null && fechaFin != null) {
+				query += "AND j.annoSalida > :fechaIni AND j.annoSalida <= :fechaFin ";
+			}
+			if (id_plataforma != 0) {
+				query += "AND c.id = :id_plataforma ";
+			}
+			if (ordenacion.equalsIgnoreCase("Nombre A-Z")) {
+				query += " ORDER BY j.nombre ASC";
+			} else if (ordenacion.equalsIgnoreCase("Nombre Z-A")) {
+				query += " ORDER BY j.nombre DESC";
+			} else if (ordenacion.equalsIgnoreCase("Precio Ascendente")) {
+				query += " ORDER BY j.precio ASC";
+			} else if (ordenacion.equalsIgnoreCase("Precio Descendente")) {
+				query += " ORDER BY j.precio DESC";
+			} else if (ordenacion.equalsIgnoreCase("Fecha Ascendente")) {
+				query += " ORDER BY j.anno_de_salida ASC";
+			} else if (ordenacion.equalsIgnoreCase("Fecha Descendente")) {
+				query += " ORDER BY j.anno_de_salida DESC";
+			}
 		}
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-		    Query<Juego> hqlQuery = session.createQuery(query, Juego.class);
-		    if (nombreJuego != null) {
-		        hqlQuery.setParameter("nombreJuego", nombreJuego);
-		    }
-		    if (precioIni != 0) {
-		        hqlQuery.setParameter("precioIni", precioIni);
-		    }
-		    if (precioFin != 0) {
-		        hqlQuery.setParameter("precioFin", precioFin);
-		    }
-		    if (fechaIni != null) {
-		        hqlQuery.setParameter("fechaIni", fechaIni);
-		    }
-		    if (fechaFin != null) {
-		        hqlQuery.setParameter("fechaFin", fechaFin);
-		    }
-		    if (id_plataforma != 0) {
-		        hqlQuery.setParameter("id_plataforma", id_plataforma);
-		    }
-		    hqlQuery.setFirstResult(firstResult); // Índice del primer resultado de la página
-		    hqlQuery.setMaxResults(pageSize); // Tamaño de la página
-		    lista = (ArrayList<Juego>) hqlQuery.list();
+			Query<Juego> hqlQuery = session.createQuery(query, Juego.class);
+			if (nombreJuego != null) {
+				hqlQuery.setParameter("nombreJuego", nombreJuego);
+			}
+			if (precioIni != 0) {
+				hqlQuery.setParameter("precioIni", precioIni);
+			}
+			if (precioFin != 0) {
+				hqlQuery.setParameter("precioFin", precioFin);
+			}
+			if (fechaIni != null) {
+				hqlQuery.setParameter("fechaIni", fechaIni);
+			}
+			if (fechaFin != null) {
+				hqlQuery.setParameter("fechaFin", fechaFin);
+			}
+			if (id_plataforma != 0) {
+				hqlQuery.setParameter("id_plataforma", id_plataforma);
+			}
+			hqlQuery.setFirstResult(firstResult); // Índice del primer resultado de la página
+			hqlQuery.setMaxResults(pageSize); // Tamaño de la página
+			lista = (ArrayList<Juego>) hqlQuery.list();
 		} catch (Exception e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-
 
 		return lista;
 	}
