@@ -9,30 +9,70 @@ public class ShoppingCartDialog extends JDialog {
 
     private List<CartItemPanel> cartItemPanels = new ArrayList<>();
     private JPanel cartPanel;
+    private JLabel lblPrecioOficial;
+    private JLabel lblDescuento;
+    private JLabel lblSubtotal;
+    private JButton btnPagar;
+    private JButton btnContinuarComprando;
+    private JLabel lblPrecioTotal;
+
 
     public ShoppingCartDialog(Frame owner) {
         super(owner, "Carrito de Compra", true);
         getContentPane().setBackground(new Color(51, 51, 51));
         getContentPane().setLayout(null);
-        
-                JLabel lblImagenPasoDeCCompra = new JLabel("");
-                // Aquí se asume que ya tienes una imagen en el path correcto
-                lblImagenPasoDeCCompra.setIcon(new ImageIcon("/imagenes/carritoDeCompra/paso1Carrito.png"));
-                lblImagenPasoDeCCompra.setBounds(309, 640, 635, 79);
-                getContentPane().add(lblImagenPasoDeCCompra);
 
         cartPanel = new JPanel();
         cartPanel.setBackground(new Color(31, 31, 31)); // Color oscuro para el fondo del carrito
         cartPanel.setLayout(new BoxLayout(cartPanel, BoxLayout.Y_AXIS));
         JScrollPane cartScrollPane = new JScrollPane(cartPanel);
-        cartScrollPane.setBounds(10, 10, 882, 564);
+        cartScrollPane.setBounds(10, 10, 934, 565);
         getContentPane().add(cartScrollPane);
 
+        lblPrecioTotal = new JLabel("Precio oficial: 0€");
+        lblPrecioTotal.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblPrecioTotal.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDescuento = new JLabel("Descuento: 0€");
+        lblDescuento.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblDescuento.setHorizontalAlignment(SwingConstants.CENTER);
+        lblSubtotal = new JLabel("Subtotal: 0€");
+        lblSubtotal.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblSubtotal.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Configuración de lblPrecioTotal, lblDescuento, lblSubtotal...
+        // Por ejemplo, configurar el color y fuente:
+        lblPrecioTotal.setForeground(Color.WHITE);
+        lblDescuento.setForeground(Color.WHITE);
+        lblSubtotal.setForeground(Color.WHITE);
+
         JPanel summaryPanel = new JPanel();
+        summaryPanel.setLayout(new GridLayout(0, 1)); // GridLayout para organizar los componentes verticalmente
         summaryPanel.setBackground(new Color(31, 31, 31));
-        summaryPanel.setBounds(939, 59, 243, 435);
+        summaryPanel.setBounds(962, 59, 239, 438);
         getContentPane().add(summaryPanel);
 
+        // Agregar las etiquetas al panel de resumen
+        summaryPanel.add(lblPrecioTotal);
+        summaryPanel.add(lblDescuento);
+        summaryPanel.add(lblSubtotal);
+
+        // Botón para proceder con el pago
+        btnPagar = new JButton("Proceder con el pago");
+        btnPagar.setFont(new Font("Tahoma", Font.BOLD, 18));
+        btnPagar.setBounds(51, 77, 133, 22);
+        btnPagar.setBackground(new Color(255, 128, 0)); // Color naranja como en la imagen
+        btnPagar.setForeground(Color.WHITE);
+        btnPagar.setFocusPainted(false);
+        summaryPanel.add(btnPagar);
+
+        // Botón para continuar comprando
+        btnContinuarComprando = new JButton("Continuar comprando");
+        btnContinuarComprando.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnContinuarComprando.setBounds(51, 128, 135, 22);
+        btnContinuarComprando.setBackground(new Color(31, 31, 31)); // Fondo oscuro
+        btnContinuarComprando.setForeground(new Color(255, 128, 64));
+        btnContinuarComprando.setFocusPainted(false);
+        summaryPanel.add(btnContinuarComprando);
         // Aquí agregarías el resto de los componentes a summaryPanel...
 
         setSize(1211, 751); // Dimensiones del diálogo de carrito
@@ -48,6 +88,12 @@ public class ShoppingCartDialog extends JDialog {
         closeButton.setFocusPainted(false);
         closeButton.addActionListener(e -> setVisible(false));
         
+        JLabel lblImagenPasoDeCCompra = new JLabel("");
+        // Aquí se asume que ya tienes una imagen en el path correcto
+        lblImagenPasoDeCCompra.setIcon(new ImageIcon("/imagenes/minimize-maximize-and-close-button-icon-elements-of-web-or-mobile-app-vector.jpg"));
+        lblImagenPasoDeCCompra.setBounds(277, 640, 667, 79);
+        getContentPane().add(lblImagenPasoDeCCompra);
+        
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -56,7 +102,7 @@ public class ShoppingCartDialog extends JDialog {
             }
         };
         backgroundPanel.setBounds(0, 0, 1211, 751);
-        backgroundPanel.setLayout(new FlowLayout(FlowLayout.RIGHT)); 
+        backgroundPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         backgroundPanel.add(closeButton);
         getContentPane().add(backgroundPanel, BorderLayout.NORTH);
 
@@ -71,6 +117,24 @@ public class ShoppingCartDialog extends JDialog {
         cartItemPanels.add(itemPanel);
         cartPanel.revalidate();
         cartPanel.repaint();
+        updateCartSummary(); // Actualizar el resumen cada vez que se añade un ítem
+    }
+    
+    private void updateCartSummary() {
+        double precioTotal = 0.0;
+        double descuento = 0.0; // Asumiendo que tienes una manera de calcular el descuento
+        
+        for (CartItemPanel item : cartItemPanels) {
+            double precioItem = item.getPrecio() * item.getCantidadSeleccionada();
+            precioTotal += precioItem;
+            // Aquí deberías agregar tu lógica para calcular el descuento
+        }
+
+        double subtotal = precioTotal - descuento;
+        
+        lblPrecioTotal.setText("Precio oficial: " + String.format("%.2f€", precioTotal));
+        lblDescuento.setText("Descuento: -" + String.format("%.2f€", descuento));
+        lblSubtotal.setText("Subtotal: " + String.format("%.2f€", subtotal));
     }
 
     // Método main para probar el diálogo (opcional)
