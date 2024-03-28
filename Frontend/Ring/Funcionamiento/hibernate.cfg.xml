@@ -10,7 +10,7 @@
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		
-		<mapping class="Clases.Usuario" package="Clases" resource="Clases.Usuario.hbm.xml" />
+
 		<mapping class="Clases.Usuario" package="Clases" resource="Clases.Usuario.hbm.xml" />
 		<mapping class="Clases.Rol" package="Clases" resource="Clases.Rol.hbm.xml" />
 		<mapping class="Clases.Consola" package="Clases" resource="Clases.Consola.hbm.xml" />

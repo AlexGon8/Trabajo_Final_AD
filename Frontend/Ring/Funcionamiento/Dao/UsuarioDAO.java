@@ -83,7 +83,7 @@ public class UsuarioDAO implements IDao<Usuario, Integer> {
 				session.getTransaction().commit();
 				return true;
 			} else {
-				
+
 				return false;
 			}
 		} catch (Exception e) {
@@ -105,42 +105,68 @@ public class UsuarioDAO implements IDao<Usuario, Integer> {
 		return listaUsuario;
 	}
 
-	
 	/*
-	 * -----------------------------------------------------------------------------------------------------
+	 * -----------------------------------------------------------------------------
+	 * ------------------------
 	 * 
-	 * Añadido por Elton, esta incompleto, se debe añadir la logica segun lo que tengamos en la base de datos *********Por MAIL!!!!!
+	 * Añadido por Elton, esta incompleto, se debe añadir la logica segun lo que
+	 * tengamos en la base de datos *********Por MAIL!!!!!
 	 * 
-	 * --------------------------------------------------------------------------------------------------
+	 * -----------------------------------------------------------------------------
+	 * ---------------------
 	 */
 	public static Usuario buscarPorGoogleId(String googleId) {
-        // Logica para buscar en la base de datos y devolver un usuario basado en el googleId
-        // Esto es solo un esqueleto y necesitarás implementar la lógica real basada en cómo esté configurada tu base de datos y tus entidades de Hibernate.
+		// Logica para buscar en la base de datos y devolver un usuario basado en el
+		// googleId
+		// Esto es solo un esqueleto y necesitarás implementar la lógica real basada en
+		// cómo esté configurada tu base de datos y tus entidades de Hibernate.
 
-        Session session = null;
-        Usuario usuario = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            // Asumiendo que tienes una entidad Usuario y un campo googleId mapeado adecuadamente.
-            String query = "from Usuario where googleId = :googleId";
-            usuario = (Usuario) session.createQuery(query)
-                                       .setParameter("googleId", googleId)
-                                       .uniqueResult();
-        } catch (Exception e) {
-            // Manejar excepción
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return usuario;
-    }
+		Session session = null;
+		Usuario usuario = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			// Asumiendo que tienes una entidad Usuario y un campo googleId mapeado
+			// adecuadamente.
+			String query = "from Usuario where googleId = :googleId";
+			usuario = (Usuario) session.createQuery(query).setParameter("googleId", googleId).uniqueResult();
+		} catch (Exception e) {
+			// Manejar excepción
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return usuario;
+	}
 
 	public static Usuario buscarPorCorreo(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------
+	 * 
+	 * Añadido por Elton, se debe comprobar si funciona insertando mail o nombre de
+	 * usuario *********Por MAIL!!!!!
+	 * 
+	 * -----------------------------------------------------------------------------
+	 * ---------------------
+	 */
+	public Usuario buscarPorNombreUsuarioOCorreo(String identificador) {
+		Usuario usuario = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "from Usuario where nombre_usuario = :identificador or correo = :identificador"; // ---->HQL
+			Query<Usuario> query = session.createQuery(hql, Usuario.class);
+			query.setParameter("identificador", identificador);
+			query.setMaxResults(1);
+			usuario = query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuario;
+	}
+
 }

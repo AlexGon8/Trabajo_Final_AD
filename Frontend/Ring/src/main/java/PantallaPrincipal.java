@@ -1,5 +1,8 @@
 import java.awt.EventQueue;
 import Autentificador.GoogleAuth;
+import Clases.Usuario;
+import Dao.UsuarioDAO;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -12,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -59,14 +63,15 @@ public class PantallaPrincipal extends JFrame {
 	 */
 	public PantallaPrincipal() {
 		setUndecorated(true); // --> para que no aparezca el marco predeterminado
-		
-		setResizable(false);//-->no permitire que sea reajustable la pantalla que lanza para no preocuparme por adaptar imagenes
+
+		setResizable(false);// -->no permitire que sea reajustable la pantalla que lanza para no preocuparme
+							// por adaptar imagenes
 		setForeground(new Color(0, 255, 0));
 		setBackground(new Color(51, 51, 51));
 
-		setSize(1401, 863); //---> ESTO LE DA EL TAMAÑO DE Y RESOLUCION QUE TENDRA EL JFRAME
-        setLocationRelativeTo(null);//---> ESTO HACE QUE LA IMAGEN SIEMPRE APAREZCA EN EL MEDIO DE LA PANTALLA
-        
+		setSize(1401, 863); // ---> ESTO LE DA EL TAMAÑO DE Y RESOLUCION QUE TENDRA EL JFRAME
+		setLocationRelativeTo(null);// ---> ESTO HACE QUE LA IMAGEN SIEMPRE APAREZCA EN EL MEDIO DE LA PANTALLA
+
 		ContenedorGeneral = new JPanel();
 		ContenedorGeneral.setBackground(new Color(82, 82, 82));
 		ContenedorGeneral.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,23 +80,23 @@ public class PantallaPrincipal extends JFrame {
 		ContenedorGeneral.setLayout(null);
 
 		// Botón de cerrar personalizado
-		JButton closeButton = new JButton(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/cerrar (1).png")));
+		JButton closeButton = new JButton(
+				new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/cerrar (1).png")));
 		closeButton.setBounds(1336, 10, 45, 37); // Ajusta la posición y el tamaño según sea necesario
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0); // Esto cerrará la aplicación
 			}
 		});
-		
-		JButton minimizeButton_1 = new JButton(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/minimizar (1).png")));
+
+		JButton minimizeButton_1 = new JButton(
+				new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/minimizar (1).png")));
 		minimizeButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setExtendedState(JFrame.ICONIFIED); // Esto minimizará la ventana
 			}
 		});
-		
-			
-		
+
 		minimizeButton_1.setBounds(1281, 10, 45, 37);
 		ContenedorGeneral.add(minimizeButton_1);
 		ContenedorGeneral.add(closeButton);
@@ -104,7 +109,8 @@ public class PantallaPrincipal extends JFrame {
 
 		ContenedorGeneral.setLayout(null);
 
-		// Campo de texto para la contraseña--> Estos son los parametros para darle un aspecto moderno a las cajas 
+		// Campo de texto para la contraseña--> Estos son los parametros para darle un
+		// aspecto moderno a las cajas
 		JPasswordField textFieldContraseña = new JPasswordField("Contraseña");
 		textFieldContraseña.setBackground(new Color(225, 225, 225));
 		textFieldContraseña.setForeground(Color.GRAY);
@@ -132,29 +138,31 @@ public class PantallaPrincipal extends JFrame {
 				}
 			}
 		});
-		
-        // Crear el JLabel para el inicio de sesión de Google
-      //  JLabel googleSignInLabel = new JLabel(new ImageIcon("/imagenes/googleLogo.png"));
-      //  googleSignInLabel.setBounds(138, 236, 82, 53);
-       // panel.add(googleSignInLabel);
-        
-        JLabel lblAccederConGoogle = new JLabel("");
-        lblAccederConGoogle.setIcon(new ImageIcon("/imagenes/googleLogo.png"));
-        lblAccederConGoogle.setBounds(220, 261, 66, 70);
-        panel.add(lblAccederConGoogle);
-        lblAccederConGoogle.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Aquí manejas la autenticación con Google ************************************************--
-                try {
-                    GoogleAuth googleAuth = new GoogleAuth();
-                    googleAuth.authenticate(""); // este el metodo para iniciar la authetificacion
-                    // Manejar la respuesta y guardar los tokens según sea necesario
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+
+		// Crear el JLabel para el inicio de sesión de Google
+		// JLabel googleSignInLabel = new JLabel(new
+		// ImageIcon("/imagenes/googleLogo.png"));
+		// googleSignInLabel.setBounds(138, 236, 82, 53);
+		// panel.add(googleSignInLabel);
+
+		JLabel lblAccederConGoogle = new JLabel("");
+		lblAccederConGoogle.setIcon(new ImageIcon("/imagenes/googleLogo.png"));
+		lblAccederConGoogle.setBounds(220, 261, 66, 70);
+		panel.add(lblAccederConGoogle);
+		lblAccederConGoogle.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Aquí manejas la autenticación con Google
+				// ************************************************--
+				try {
+					GoogleAuth googleAuth = new GoogleAuth();
+					googleAuth.authenticate(""); // este el metodo para iniciar la authetificacion
+					// Manejar la respuesta y guardar los tokens según sea necesario
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 		panel.add(textFieldContraseña);
 
 		JTextField textFieldUsuario = new JTextField("Usuario");
@@ -192,86 +200,122 @@ public class PantallaPrincipal extends JFrame {
 		lblNewLabelOlvidecontrasena.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 12));
 		lblNewLabelOlvidecontrasena.setBounds(24, 331, 157, 14);
 		panel.add(lblNewLabelOlvidecontrasena);
-		
-		// jlabel que al precionar debe abrir el dilogo de registro de usuarios 
+
+		// jlabel que al precionar debe abrir el dilogo de registro de usuarios
 		JLabel lblNewLabelCrearUsuario = new JLabel("Crear Usuario");
 		lblNewLabelCrearUsuario.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {//--> se creal el evento para que funcione como si fuese un boton
-		        // Aquí invocas al diálogo de registro
-		        EventQueue.invokeLater(new Runnable() {
-		            public void run() {
-		                try {
-		                    // llama al  JDialog q se llama Registro y
-		                    Registro dialogoRegistro = new Registro(PantallaPrincipal.this);
-		                    dialogoRegistro.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		                    dialogoRegistro.setVisible(true);//--> lo muestra
-		                } catch (Exception ex) {
-		                    ex.printStackTrace();
-		                }
-		            }
-		        });
-		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {// --> se creal el evento para que funcione como si fuese un boton
+				// Aquí invocas al diálogo de registro
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							// llama al JDialog q se llama Registro y
+							Registro dialogoRegistro = new Registro(PantallaPrincipal.this);
+							dialogoRegistro.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+							dialogoRegistro.setVisible(true);// --> lo muestra
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				});
+			}
 		});
-		
-		
+
 		lblNewLabelCrearUsuario.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 12));
 		lblNewLabelCrearUsuario.setBounds(24, 356, 111, 14);
 		panel.add(lblNewLabelCrearUsuario);
-		
-		//El icono para acceder a la app
+
+		// El icono para acceder a la app
 		JLabel lblNewLabelIconoLogin = new JLabel("");
 		lblNewLabelIconoLogin.setBackground(new Color(255, 255, 255));
-		lblNewLabelIconoLogin.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/iconEntrarsinfondo.jpg")));
+		lblNewLabelIconoLogin
+				.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/iconEntrarsinfondo.jpg")));
 		lblNewLabelIconoLogin.setBounds(90, 214, 120, 106);
 		panel.add(lblNewLabelIconoLogin);
-		
+
 		JLabel JLabelEntrar = new JLabel("Entrar");
 		JLabelEntrar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		JLabelEntrar.setBounds(54, 261, 46, 14);
 		panel.add(JLabelEntrar);
 
 		lblNewLabelIconoLogin.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseEntered(MouseEvent e) {
-		        // Aumenta el tamaño del ícono al pasar el ratón por encima
-		        Icon icon = lblNewLabelIconoLogin.getIcon();
-		        if (icon instanceof ImageIcon) {
-		            ImageIcon imgIcon = (ImageIcon) icon;
-		            Image img = imgIcon.getImage();
-		            Image newimg = img.getScaledInstance(
-		                (int)(imgIcon.getIconWidth() * 1.05), // Aumenta el ancho en un 5%
-		                (int)(imgIcon.getIconHeight() * 1.05), // Aumenta el alto en un 5%
-		                java.awt.Image.SCALE_SMOOTH);
-		            lblNewLabelIconoLogin.setIcon(new ImageIcon(newimg));
-		            // Centra el ícono en su posición original
-		            lblNewLabelIconoLogin.setBounds(
-		                lblNewLabelIconoLogin.getX() - (int)(imgIcon.getIconWidth() * 0.025),
-		                lblNewLabelIconoLogin.getY() - (int)(imgIcon.getIconHeight() * 0.025),
-		                (int)(imgIcon.getIconWidth() * 1.05),
-		                (int)(imgIcon.getIconHeight() * 1.05)
-		            );
-		        }
-		    }
+			@Override
+			public void mouseEntered(MouseEvent e) {
 
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		        // Restaura el tamaño original del ícono cuando el ratón sale
-		        lblNewLabelIconoLogin.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/iconEntrarsinfondo.jpg")));
-		        lblNewLabelIconoLogin.setBounds(90, 214, 120, 106);
-		    }
+				// Aumenta el tamaño del ícono al pasar el ratón por encima
+				Icon icon = lblNewLabelIconoLogin.getIcon();
+				if (icon instanceof ImageIcon) {
+					ImageIcon imgIcon = (ImageIcon) icon;
+					Image img = imgIcon.getImage();
+					Image newimg = img.getScaledInstance((int) (imgIcon.getIconWidth() * 1.05), // Aumenta el ancho en
+																								// un 5%
+							(int) (imgIcon.getIconHeight() * 1.05), // Aumenta el alto en un 5%
+							java.awt.Image.SCALE_SMOOTH);
+					lblNewLabelIconoLogin.setIcon(new ImageIcon(newimg));
+					// Centra el ícono en su posición original
+					lblNewLabelIconoLogin.setBounds(
+							lblNewLabelIconoLogin.getX() - (int) (imgIcon.getIconWidth() * 0.025),
+							lblNewLabelIconoLogin.getY() - (int) (imgIcon.getIconHeight() * 0.025),
+							(int) (imgIcon.getIconWidth() * 1.05), (int) (imgIcon.getIconHeight() * 1.05));
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// Restaura el tamaño original del ícono cuando el ratón sale
+				lblNewLabelIconoLogin.setIcon(
+						new ImageIcon(PantallaPrincipal.class.getResource("/imagenes/iconEntrarsinfondo.jpg")));
+				lblNewLabelIconoLogin.setBounds(90, 214, 120, 106);
+			}
+		});
+		/*
+		 * Metodo del boton enter para lanzar la solicitud de comprobar usuario y
+		 * contraseña
+		 */
+		lblNewLabelIconoLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String identificador = textFieldUsuario.getText();
+				String contrasena = new String(textFieldContraseña.getPassword());
+
+				Usuario usuarioEncontrado = verificarUsuario(identificador, contrasena);
+				if (usuarioEncontrado != null) {
+					// Usuario y contraseña correctos
+					Home homeFrame = new Home(usuarioEncontrado);
+					homeFrame.setVisible(true);
+					PantallaPrincipal.this.setVisible(false); // Opcional: oculta la pantalla de inicio
+				} else {
+					// Usuario o contraseña incorrectos
+					JOptionPane.showMessageDialog(PantallaPrincipal.this, "Usuario inexistente o contraseña errónea",
+							"Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		});
 
-		//este jlabel fue creado solo para funcion de meter la imagen de fondo
+		// este jlabel fue creado solo para funcion de meter la imagen de fondo
 		JLabel ImagenLogin1 = new JLabel("");
-		ImagenLogin1.setIcon(new ImageIcon(PantallaPrincipal.class.getResource("imagenes\\elden_ring_shadow_erdtree_details.jpg")));
+		ImagenLogin1.setIcon(
+				new ImageIcon(PantallaPrincipal.class.getResource("imagenes\\elden_ring_shadow_erdtree_details.jpg")));
 		ImagenLogin1.setBounds(0, 0, getWidth(), getHeight());
 		ContenedorGeneral.add(ImagenLogin1);
 
 		RoundedTextField userField = new RoundedTextField(20, "NOMBRE DE USUARIO");
-		RoundedTextField passwordField = new RoundedTextField(20, "CONTRASEÑA");//--->esto aplica el placeholder 
-		
-		
+		RoundedTextField passwordField = new RoundedTextField(20, "CONTRASEÑA");// --->esto aplica el placeholder
 
+	}
+
+	/*
+	 * metodo login
+	 */
+	private Usuario verificarUsuario(String identificador, String contrasena) {
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+		Usuario usuarioEncontrado = usuarioDao.buscarPorNombreUsuarioOCorreo(identificador);
+		if (usuarioEncontrado != null && usuarioEncontrado.getContrasenna().equals(contrasena)) {
+			// Usuario encontrado y la contraseña coincide
+			return usuarioEncontrado;
+		}
+		// Usuario no encontrado o la contraseña no coincide
+		return null;
 	}
 }

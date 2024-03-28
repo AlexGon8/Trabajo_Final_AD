@@ -10,7 +10,6 @@ import java.awt.event.*;
 import java.sql.Date;
 import java.util.Calendar;
 
-
 public class Registro extends JDialog {
 
 	private JPanel contenedorRegistro;
@@ -25,204 +24,203 @@ public class Registro extends JDialog {
 	private JTextField textFieldApodo;
 	private JTextField textFieldCorreoElectronico;
 	private JButton closeButton;
-    private JDateChooser dateChooser;
+	private JDateChooser dateChooser;
 
 	public Registro(Frame owner) {
-        super(owner);
-        setTitle("Registro de Usuario");
-        setModal(true); // El diálogo bloqueará la entrada a otras ventanas hasta que se cierre
-        setUndecorated(true); // Quitar decoración para emular el JFrame principal
-        setSize(1401, 863); // Mismo tamaño que el JFrame principal
-        setLocationRelativeTo(owner); // Centrar respecto al JFrame propietario
+		super(owner);
+		setTitle("Registro de Usuario");
+		setModal(true); // El diálogo bloqueará la entrada a otras ventanas hasta que se cierre
+		setUndecorated(true); // Quitar decoración para emular el JFrame principal
+		setSize(1401, 863); // Mismo tamaño que el JFrame principal
+		setLocationRelativeTo(owner); // Centrar respecto al JFrame propietario
 
-        contenedorRegistro = new JPanel();
-        contenedorRegistro.setLayout(null);
-        contenedorRegistro.setBackground(new Color(82, 82, 82));
-        setContentPane(contenedorRegistro);
-        //boton para cerrar
-        closeButton = new JButton((Icon) null);
-        closeButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		setVisible(false);; // Esto cerrará la aplicación
-        	}
-        });
-        closeButton.setBounds(1331, 11, 45, 37);
-        contenedorRegistro.add(closeButton);
-        
-        JCheckBox newCheckBoxSolicitarPermisos = new JCheckBox("Solicitar permisos para subir juegos");
-        newCheckBoxSolicitarPermisos.setFont(new Font("Tahoma", Font.BOLD, 14));
-        newCheckBoxSolicitarPermisos.setForeground(new Color(201, 157, 24));
-        newCheckBoxSolicitarPermisos.setBackground(new Color(255, 255, 255));
-        newCheckBoxSolicitarPermisos.setBounds(65, 626, 300, 23);
-        newCheckBoxSolicitarPermisos.setContentAreaFilled(false);
-        contenedorRegistro.add(newCheckBoxSolicitarPermisos);
+		contenedorRegistro = new JPanel();
+		contenedorRegistro.setLayout(null);
+		contenedorRegistro.setBackground(new Color(82, 82, 82));
+		setContentPane(contenedorRegistro);
+		// boton para cerrar
+		closeButton = new JButton(new ImageIcon(
+				"E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\cerrar (1).png"));
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				; // Esto cerrará la aplicación
+			}
+		});
+		closeButton.setBounds(1331, 11, 45, 37);
+		contenedorRegistro.add(closeButton);
 
-        // Agrega aquí los componentes para el registro, por ejemplo:
-        textFieldUsuario = new JTextField();
-        textFieldUsuario.setBounds(65, 78, 300, 30);
-        contenedorRegistro.add(textFieldUsuario);
+		JCheckBox newCheckBoxSolicitarPermisos = new JCheckBox("Solicitar permisos para subir juegos");
+		newCheckBoxSolicitarPermisos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		newCheckBoxSolicitarPermisos.setForeground(new Color(201, 157, 24));
+		newCheckBoxSolicitarPermisos.setBackground(new Color(255, 255, 255));
+		newCheckBoxSolicitarPermisos.setBounds(65, 626, 300, 23);
+		newCheckBoxSolicitarPermisos.setContentAreaFilled(false);
+		contenedorRegistro.add(newCheckBoxSolicitarPermisos);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(65, 472, 300, 30);
-        contenedorRegistro.add(passwordField);
+		// Agrega aquí los componentes para el registro, por ejemplo:
+		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBounds(65, 78, 300, 30);
+		contenedorRegistro.add(textFieldUsuario);
 
-        passwordFieldConfirmacion = new JPasswordField();
-        passwordFieldConfirmacion.setBounds(65, 565, 300, 30);
-        contenedorRegistro.add(passwordFieldConfirmacion);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(65, 472, 300, 30);
+		contenedorRegistro.add(passwordField);
 
-        // Botón para registrar al usuario
-        JButton btnRegistrar = new JButton("Registrar");
-        btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 17));
-        btnRegistrar.setForeground(new Color(201, 157, 24));
-        btnRegistrar.setBounds(65, 686, 300, 30);
-        btnRegistrar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	 registrarUsuario();
-            }
-        });
-        contenedorRegistro.add(btnRegistrar);
-        
-        lblNewLabelNombre = new JLabel("Nombre");
-        lblNewLabelNombre.setForeground(new Color(201, 157, 24));
-        lblNewLabelNombre.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblNewLabelNombre.setBounds(65, 49, 300, 25);
-        contenedorRegistro.add(lblNewLabelNombre);
-        
-        lblNewLabelApellido = new JLabel("Apellidos");
-        lblNewLabelApellido.setForeground(new Color(201, 157, 24));
-        lblNewLabelApellido.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblNewLabelApellido.setBounds(65, 124, 300, 25);
-        contenedorRegistro.add(lblNewLabelApellido);
-        
-        lblContrasea = new JLabel("Contraseña");
-        lblContrasea.setForeground(new Color(201, 157, 24));
-        lblContrasea.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblContrasea.setBounds(65, 448, 300, 25);
-        contenedorRegistro.add(lblContrasea);
-        
-        lblConfirmacionDeContrasea = new JLabel("Confirmacion de contraseña");
-        lblConfirmacionDeContrasea.setForeground(new Color(201, 157, 24));
-        lblConfirmacionDeContrasea.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblConfirmacionDeContrasea.setBounds(65, 534, 300, 25);
-        contenedorRegistro.add(lblConfirmacionDeContrasea);
-        
-        textFieldApellidos = new JTextField();
-        textFieldApellidos.setBounds(65, 148, 300, 30);
-        contenedorRegistro.add(textFieldApellidos);
-        
-        JLabel lblNewLabelApodo = new JLabel("Apodo");
-        lblNewLabelApodo.setForeground(new Color(201, 157, 24));
-        lblNewLabelApodo.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblNewLabelApodo.setBounds(65, 368, 300, 25);
-        contenedorRegistro.add(lblNewLabelApodo);
-        
-        textFieldApodo = new JTextField();
-        textFieldApodo.setBounds(65, 388, 300, 30);
-        contenedorRegistro.add(textFieldApodo);
-        
-        textFieldCorreoElectronico = new JTextField();
-        textFieldCorreoElectronico.setBounds(65, 308, 300, 30);
-        contenedorRegistro.add(textFieldCorreoElectronico);
-        
-        JLabel lblCorreoElectronico = new JLabel("Correo Electronico");
-        lblCorreoElectronico.setForeground(new Color(201, 157, 24));
-        lblCorreoElectronico.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblCorreoElectronico.setBounds(65, 282, 300, 25);
-        contenedorRegistro.add(lblCorreoElectronico);
-        
+		passwordFieldConfirmacion = new JPasswordField();
+		passwordFieldConfirmacion.setBounds(65, 565, 300, 30);
+		contenedorRegistro.add(passwordFieldConfirmacion);
 
-        
-        // Inicializa JDateChooser
-        dateChooser = new JDateChooser();
-        dateChooser.setDateFormatString("dd/MM/yyyy"); // Formato de fecha
-        
-        // Establecer la fecha máxima permitida (hoy menos 14 años)
-        Calendar maxDate = Calendar.getInstance();
-        maxDate.add(Calendar.YEAR, -14);//--> esto es lo que evita que sea menor a 14 años
-        dateChooser.setMaxSelectableDate(maxDate.getTime());
-        
-        dateChooser.setBounds(65, 213, 300, 30); // Coloca el dateChooser en la misma posición que el comboBoxEdad
-        contenedorRegistro.add(dateChooser);
-        
-        JLabel lblNewLabelFechaNacimiento = new JLabel("Fecha de Nacimiento");
-        lblNewLabelFechaNacimiento.setForeground(new Color(201, 157, 24));
-        lblNewLabelFechaNacimiento.setFont(new Font("Sylfaen", Font.BOLD, 18));
-        lblNewLabelFechaNacimiento.setBounds(65, 189, 300, 25);
-        contenedorRegistro.add(lblNewLabelFechaNacimiento);
-        
+		// Botón para registrar al usuario
+		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnRegistrar.setForeground(new Color(201, 157, 24));
+		btnRegistrar.setBounds(65, 686, 300, 30);
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registrarUsuario();
+			}
+		});
+		contenedorRegistro.add(btnRegistrar);
 
-        JPanel panel = new JPanel();
-        panel.setBounds(29, 31, 375, 733);
-        contenedorRegistro.add(panel);
-        
-        JLabel BackgroundRegistro = new JLabel("New label");
-        BackgroundRegistro.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/ImagenRegistro.jpg")));
-        BackgroundRegistro.setBounds(0, 0, 1401, 863);
-        contenedorRegistro.add(BackgroundRegistro);
+		lblNewLabelNombre = new JLabel("Nombre");
+		lblNewLabelNombre.setForeground(new Color(201, 157, 24));
+		lblNewLabelNombre.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblNewLabelNombre.setBounds(65, 49, 300, 25);
+		contenedorRegistro.add(lblNewLabelNombre);
 
-        // Repite la lógica de los botones de minimizar y cerrar como en tu JFrame principal si es necesario
-		
-		
-    }
+		lblNewLabelApellido = new JLabel("Apellidos");
+		lblNewLabelApellido.setForeground(new Color(201, 157, 24));
+		lblNewLabelApellido.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblNewLabelApellido.setBounds(65, 124, 300, 25);
+		contenedorRegistro.add(lblNewLabelApellido);
+
+		lblContrasea = new JLabel("Contraseña");
+		lblContrasea.setForeground(new Color(201, 157, 24));
+		lblContrasea.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblContrasea.setBounds(65, 448, 300, 25);
+		contenedorRegistro.add(lblContrasea);
+
+		lblConfirmacionDeContrasea = new JLabel("Confirmacion de contraseña");
+		lblConfirmacionDeContrasea.setForeground(new Color(201, 157, 24));
+		lblConfirmacionDeContrasea.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblConfirmacionDeContrasea.setBounds(65, 534, 300, 25);
+		contenedorRegistro.add(lblConfirmacionDeContrasea);
+
+		textFieldApellidos = new JTextField();
+		textFieldApellidos.setBounds(65, 148, 300, 30);
+		contenedorRegistro.add(textFieldApellidos);
+
+		JLabel lblNewLabelApodo = new JLabel("Apodo");
+		lblNewLabelApodo.setForeground(new Color(201, 157, 24));
+		lblNewLabelApodo.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblNewLabelApodo.setBounds(65, 368, 300, 25);
+		contenedorRegistro.add(lblNewLabelApodo);
+
+		textFieldApodo = new JTextField();
+		textFieldApodo.setBounds(65, 388, 300, 30);
+		contenedorRegistro.add(textFieldApodo);
+
+		textFieldCorreoElectronico = new JTextField();
+		textFieldCorreoElectronico.setBounds(65, 308, 300, 30);
+		contenedorRegistro.add(textFieldCorreoElectronico);
+
+		JLabel lblCorreoElectronico = new JLabel("Correo Electronico");
+		lblCorreoElectronico.setForeground(new Color(201, 157, 24));
+		lblCorreoElectronico.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblCorreoElectronico.setBounds(65, 282, 300, 25);
+		contenedorRegistro.add(lblCorreoElectronico);
+
+		// Inicializa JDateChooser
+		dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("dd/MM/yyyy"); // Formato de fecha
+
+		// Establecer la fecha máxima permitida (hoy menos 14 años)
+		Calendar maxDate = Calendar.getInstance();
+		maxDate.add(Calendar.YEAR, -14);// --> esto es lo que evita que sea menor a 14 años
+		dateChooser.setMaxSelectableDate(maxDate.getTime());
+
+		dateChooser.setBounds(65, 213, 300, 30); // Coloca el dateChooser en la misma posición que el comboBoxEdad
+		contenedorRegistro.add(dateChooser);
+
+		JLabel lblNewLabelFechaNacimiento = new JLabel("Fecha de Nacimiento");
+		lblNewLabelFechaNacimiento.setForeground(new Color(201, 157, 24));
+		lblNewLabelFechaNacimiento.setFont(new Font("Sylfaen", Font.BOLD, 18));
+		lblNewLabelFechaNacimiento.setBounds(65, 189, 300, 25);
+		contenedorRegistro.add(lblNewLabelFechaNacimiento);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(29, 31, 375, 733);
+		contenedorRegistro.add(panel);
+
+		JLabel BackgroundRegistro = new JLabel("New label");
+		BackgroundRegistro.setIcon(new ImageIcon(Registro.class.getResource("/imagenes/ImagenRegistro.jpg")));
+		BackgroundRegistro.setBounds(0, 0, 1401, 863);
+		contenedorRegistro.add(BackgroundRegistro);
+
+		// Repite la lógica de los botones de minimizar y cerrar como en tu JFrame
+		// principal si es necesario
+
+	}
 
 	// Método para mostrar el diálogo de registro
 	public static void mostrarDialogoRegistro(JFrame owner) {
 		Registro dialogoRegistro = new Registro(owner);
 		dialogoRegistro.setVisible(true);
 	}
-	
-    // Método para obtener la fecha de nacimiento del JDateChooser
-    public Date getFechaNacimiento() {
-        return (Date) dateChooser.getDate();
-    }
-    
-   
-    private void registrarUsuario() {
-        String nombreUsuario = textFieldUsuario.getText();
-        String contrasenna = new String(passwordField.getPassword());
-        String confirmacionContrasenna = new String(passwordFieldConfirmacion.getPassword());
-        String apellidos = textFieldApellidos.getText();
-        String apodo = textFieldApodo.getText();
-        String correoElectronico = textFieldCorreoElectronico.getText();
-        Date fechaNacDate = new Date(2000, 1, 1);
 
-        if (!contrasenna.equals(confirmacionContrasenna)) {
-            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+	// Método para obtener la fecha de nacimiento del JDateChooser
+	public Date getFechaNacimiento() {
+		return (Date) dateChooser.getDate();
+	}
 
-        if (fechaNacDate == null) {
-            JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha de nacimiento válida.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+	private void registrarUsuario() {
+		String nombreUsuario = textFieldUsuario.getText();
+		String contrasenna = new String(passwordField.getPassword());
+		String confirmacionContrasenna = new String(passwordFieldConfirmacion.getPassword());
+		String apellidos = textFieldApellidos.getText();
+		String apodo = textFieldApodo.getText();
+		String correoElectronico = textFieldCorreoElectronico.getText();
+		Date fechaNacDate = new Date(2000, 1, 1);
 
-        // Convertir la fecha a formato SQL
-        Date fechaNac = null;
-        //Date fechaNac = dateChooser.getDate();
-        // Aquí asumiremos que el resto de los campos como domicilio y teléfono se recogen de forma similar.
-        String nombre = textFieldApellidos.getText(); // Deberías tener otro textField para el nombre
-        String domicilio = ""; // Deberías tener otro textField para el domicilio
-        String telefono = ""; // Deberías tener otro textField para el teléfono
+		if (!contrasenna.equals(confirmacionContrasenna)) {
+			JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
-        // Crear instancia de Usuario
-        Usuario usuario = new Usuario();
-        usuario.setNombreUsuario(nombreUsuario);
-        usuario.setContrasenna(contrasenna);
-        usuario.setNombre(nombre);
-        usuario.setApellidos(apellidos);
-        usuario.setDomicilio(domicilio);
-        usuario.setTelefono(telefono);
-        usuario.setCorreo(correoElectronico);
-        usuario.setFechaNac(fechaNac);
-        
-        UsuarioDAO nuevoUsuario = new UsuarioDAO();
-        nuevoUsuario.crear(usuario);
-    }
+		if (fechaNacDate == null) {
+			JOptionPane.showMessageDialog(this, "Por favor seleccione una fecha de nacimiento válida.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
+		// Convertir la fecha a formato SQL
+		Date fechaNac = null;
+		// Date fechaNac = dateChooser.getDate();
+		// Aquí asumiremos que el resto de los campos como domicilio y teléfono se
+		// recogen de forma similar.
+		String nombre = textFieldApellidos.getText(); // Deberías tener otro textField para el nombre
+		String domicilio = ""; // Deberías tener otro textField para el domicilio
+		String telefono = ""; // Deberías tener otro textField para el teléfono
 
-    
-    // Otros métodos...
+		// Crear instancia de Usuario
+		Usuario usuario = new Usuario();
+		usuario.setNombreUsuario(nombreUsuario);
+		usuario.setContrasenna(contrasenna);
+		usuario.setNombre(nombre);
+		usuario.setApellidos(apellidos);
+		usuario.setDomicilio(domicilio);
+		usuario.setTelefono(telefono);
+		usuario.setCorreo(correoElectronico);
+		usuario.setFechaNac(fechaNac);
+
+		UsuarioDAO nuevoUsuario = new UsuarioDAO();
+		nuevoUsuario.crear(usuario);
+
+		setVisible(false);
+		; // Esto cerrará la aplicación
+
+	}
+
+	// Otros métodos...
 }
-
-
-
