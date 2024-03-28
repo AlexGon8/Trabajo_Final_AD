@@ -2,21 +2,26 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import Clases.Juego;
 import Clases.Usuario;
 import componentes.RoundedTextField;
 
@@ -110,6 +115,13 @@ public class Home extends JFrame {
 			ImageIcon icono = new ImageIcon(getClass()
 					.getResource("/imagenes/juegos/age-of-empires-iv-the-sultans-ascend-pc-juego-steam-cover.jpg"));
 			JuegoJPanel juegoPanel = new JuegoJPanel("Nombre del Juego", "Precio €", icono);
+			
+            juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent evt) {
+                    comprarJuego(juegoPanel);
+                }
+            });
 			panelJuegos.add(juegoPanel);
 		}
 
@@ -208,5 +220,26 @@ public class Home extends JFrame {
 			}
 		});
 	}
+	
+	
+	private void comprarJuego(JuegoJPanel juegoPanel) {
+	    // Suponiendo que Juego tiene un constructor adecuado
+	    // O puedes pasar los parámetros individuales como nombre, precio, etc.
+	    Juego juego = new Juego(/* parámetros del juego */);
 
+	    ImageIcon iconoJuego;
+	    if (juego.getImagen() != null && juego.getImagen().length > 0) {
+	        iconoJuego = new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
+	    } else {
+	        // Carga una imagen predeterminada o muestra un mensaje de error
+	        iconoJuego = new ImageIcon(getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
+	    }
+
+	    // Ahora usamos 'iconoJuego' para añadir el artículo al carrito
+	    shoppingCartDialog.addItemToCart(juego.getNombre(), String.valueOf(juego.getPrecio()), iconoJuego);
+	    shoppingCartDialog.setVisible(true);
+
+	    // Mostrar JDialog de confirmación
+	    JOptionPane.showMessageDialog(this, "¡Juego añadido al carrito!");
+	}
 }

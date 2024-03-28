@@ -1,6 +1,8 @@
 import javax.swing.JLabel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -52,6 +54,18 @@ public class CartItemPanel extends JPanel {
         bottomPanel.add(removeButton);
 
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 100)); // Altura máxima para el panel
+        
+        // Añade un ActionListener al JComboBox para manejar los cambios de cantidad
+        quantityComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Esta es la lógica que se ejecutará cada vez que el usuario cambie la cantidad de un artículo.
+                // Debe comunicar al diálogo de carrito que actualice el resumen total.
+                firePropertyChange("cantidadCambiada", 0, 1); // Notificar que la cantidad ha cambiado
+            }
+        });
+        
+        
     }
 
     public double getPrecio() {
