@@ -22,13 +22,14 @@ public class SetupDatabase {
 
     public static void main(String[] args) {
         insertarJuegosPredeterminados();
-        insertarUsuariosFicticios();
-        insertarCompaniasFicticias();
+        //insertarUsuariosFicticios();
+        //insertarCompaniasFicticias();
     }
 
     private static void insertarJuegosPredeterminados() {
         Faker faker = new Faker(new Locale("es"));
-        String basePath = "/imagenes/juegos/";
+        String basePath = "E:/Documentos/GitHub/Trabajo_Final_AD/Frontend/Ring/src/main/java/imagenes/juegos/";
+
 
         String[] nombresArchivos = {
         	    "age-of-empires-iv-the-sultans-ascend-pc-juego-steam-cover.jpg",
@@ -53,19 +54,23 @@ public class SetupDatabase {
         	    "warhammer-40-000-rogue-trader-pc-juego-steam-cover.jpg"
         	};
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
+        
 
-        try {
-            for (String nombreArchivo : nombresArchivos) {
+        for (String nombreArchivo : nombresArchivos) {
+            Session session = null;
+            Transaction tx = null;
+            try {
+                session = HibernateUtil.getSessionFactory().openSession();
+                tx = session.beginTransaction();
+                
                 Juego juego = new Juego();
                 juego.setNombre(faker.gameOfThrones().character());
-                juego.setPrecio(faker.number().randomDouble(2, 10, 60)); // Genera un precio entre 10 y 60
+                juego.setPrecio(faker.number().randomDouble(2, 10, 60));
                 java.util.Date fecha = faker.date().birthday();
-                juego.setAnnoDeSalida(new java.sql.Date(fecha.getTime()));   // Genera una fecha aleatoria
-                juego.setGenero(faker.book().genre()); // Genera un género aleatorio
-                juego.setStock(faker.number().numberBetween(1, 100)); // Genera un stock aleatorio
-                juego.setDescuento(faker.number().randomDouble(2, 0, 25)); // Genera un descuento aleatorio
+                juego.setAnnoDeSalida(new java.sql.Date(fecha.getTime()));
+                juego.setGenero(faker.book().genre());
+                juego.setStock(faker.number().numberBetween(1, 100));
+                juego.setDescuento(faker.number().randomDouble(2, 0, 25));
 
                 String rutaCompleta = basePath + nombreArchivo;
                 File imgFile = new File(rutaCompleta);
@@ -73,13 +78,17 @@ public class SetupDatabase {
                 juego.setImagen(imageData);
 
                 session.persist(juego);
+                tx.commit();
+            } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
+                System.err.println("Error al insertar juego: " + nombreArchivo + " - " + e.getMessage());
+            } finally {
+                if (session != null) {
+                    session.close();
+                }
             }
-            tx.commit();
-        } catch (IOException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
         }
     }
     
