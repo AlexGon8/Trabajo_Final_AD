@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import Clases.Juego;
 import Clases.Usuario;
+import Dao.JuegoDAO;
 import componentes.RoundedTextField;
 
 public class Home extends JFrame {
@@ -44,6 +46,8 @@ public class Home extends JFrame {
 
 	public Home(Usuario usuario) {
 		this.usuario = usuario;
+		
+		cargarJuegos();
 		// para que la ventana se oscuresca
 		// Configuración inicial para el panel de oscurecimiento
 		glassPane = new JPanel();
@@ -242,4 +246,36 @@ public class Home extends JFrame {
 	    // Mostrar JDialog de confirmación
 	    JOptionPane.showMessageDialog(this, "¡Juego añadido al carrito!");
 	}
+	
+    private void cargarJuegos() {
+        JuegoDAO juegoDAO = new JuegoDAO();
+        List<Juego> juegos = juegoDAO.listar();
+        
+        // Asumiendo que tienes un panel para los juegos llamado panelJuegos
+        JPanel panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // O la disposición que ya tengas definida
+
+        for (Juego juego : juegos) {
+            ImageIcon iconoJuego = obtenerImagenJuego(juego);
+            JuegoJPanel juegoPanel = new JuegoJPanel(juego.getNombre(), String.format("%.2f€", juego.getPrecio()), iconoJuego);
+            // Aquí deberías añadir el listener para el botón Comprar como en el código anterior
+            panelJuegos.add(juegoPanel);
+        }
+
+        // Asegúrate de que el JScrollPane que contiene panelJuegos esté actualizado
+        JScrollPane scrollPane = new JScrollPane(panelJuegos);
+        // Configura scrollPane como ya tienes en tu clase Home
+        ContenedorGeneral.add(scrollPane);
+    }
+    
+    private ImageIcon obtenerImagenJuego(Juego juego) {
+        if (juego.getImagen() != null && juego.getImagen().length > 0) {
+            return new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
+        } else {
+            // Retorna una imagen por defecto si no hay imagen
+            return new ImageIcon(getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
+        }
+    }
+    
+	
+	
 }
