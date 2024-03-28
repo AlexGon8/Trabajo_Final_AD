@@ -76,7 +76,7 @@ public class ConsolaDAO implements IDao<Consola, Integer> {
 				session.getTransaction().commit();
 				return true;
 			} else {
-				
+
 				return false;
 			}
 		} catch (Exception e) {
@@ -98,4 +98,16 @@ public class ConsolaDAO implements IDao<Consola, Integer> {
 		return listaConsola;
 	}
 
+	public List<String> listarNombres() {
+		
+		List<String> listaNombreConsola = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT c.nombre FROM Consola c";
+			Query<String> query = session.createQuery(hql, String.class);
+			listaNombreConsola = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaNombreConsola;
+	}
 }

@@ -106,63 +106,67 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 	}
 
 	public double precioMayor() {
-		double precioMayor = 0;
-		double aux=0;
-		List<Juego> listaJuego = null;
-		
-		listaJuego=listar();
-		for(Juego juego:listaJuego) {
-			aux=juego.getPrecio();
-			if(aux>precioMayor) {
-				precioMayor=aux;
-			}
-		}
-		/**try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			listaJuego = session.createNativeQuery("select max(precio) from Juego", Juego.class).getResultList();
-			precioMayor=listaJuego.get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}**/
-		return precioMayor;
+	    double precioMayor = 0;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        Query<Double> query = session.createQuery("select max(j.precio) from Juego j", Double.class);
+	        precioMayor = query.uniqueResult();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return precioMayor;
 	}
 
-	public ArrayList<Juego> filtrarNombre(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
+	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
 			Date fechaFin, int id_plataforma, int pagina) {
 
-		pagina = (pagina - 1) * 10;
+		int pageSize = 10; // Tamaño de la página
+		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
+
 		ArrayList<Juego> lista = null;
-		String query = "SELECT * FROM juego as j inner join juego_consola as jc on j.id=jd.juego_id";
-		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null
-				|| id_plataforma != 0) {
-			query = query + " WHERE ";
-			if (nombreJuego != null) {
-				query = query + "j.nombre like nombreJuego ";
-				query = query + "AND ";
-			}
-			if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
-				query = query + "j.precio > precioIni AND j.precio <= PrecioFin ";
-				query = query + "AND ";
-			}
-			if (fechaIni != null && fechaFin != null) {
-				query = query + "j.annoSalida > fechaIni AND j.annoSalida <= fechaFin ";
-				query = query + "AND ";
-			}
-			// no tenemos a que consola pertenece en la base de datos, tratamiento despues
-			// de la consulta de las demas o consulta se complica
-			if (id_plataforma != 0) {
-				query = query + "jd.id_consola = id_plataforma ";
-			}
-			query = query + "LIMIT 10 OFFSET pagina";
+		String query = "FROM Juego j JOIN j.consolas c WHERE 1=1 ";
+		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null || id_plataforma != 0) {
+		    if (nombreJuego != null) {
+		        query += "AND j.nombre LIKE :nombreJuego ";
+		    }
+		    if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
+		        query += "AND j.precio > :precioIni AND j.precio <= :precioFin ";
+		    }
+		    if (fechaIni != null && fechaFin != null) {
+		        query += "AND j.annoSalida > :fechaIni AND j.annoSalida <= :fechaFin ";
+		    }
+		    if (id_plataforma != 0) {
+		        query += "AND c.id = :id_plataforma ";
+		    }
 		}
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			lista = (ArrayList<Juego>) session.createNativeQuery(query, Juego.class)
-					.setParameter("nombreJuego", nombreJuego).setParameter("precioIni", precioIni)
-					.setParameter("precioFin", precioFin).setParameter("fechaIni", fechaIni)
-					.setParameter("fechaFin", fechaFin).setParameter("id_plataforma", id_plataforma)
-					.setParameter("pagina", pagina).list();
+		    Query<Juego> hqlQuery = session.createQuery(query, Juego.class);
+		    if (nombreJuego != null) {
+		        hqlQuery.setParameter("nombreJuego", nombreJuego);
+		    }
+		    if (precioIni != 0) {
+		        hqlQuery.setParameter("precioIni", precioIni);
+		    }
+		    if (precioFin != 0) {
+		        hqlQuery.setParameter("precioFin", precioFin);
+		    }
+		    if (fechaIni != null) {
+		        hqlQuery.setParameter("fechaIni", fechaIni);
+		    }
+		    if (fechaFin != null) {
+		        hqlQuery.setParameter("fechaFin", fechaFin);
+		    }
+		    if (id_plataforma != 0) {
+		        hqlQuery.setParameter("id_plataforma", id_plataforma);
+		    }
+		    hqlQuery.setFirstResult(firstResult); // Índice del primer resultado de la página
+		    hqlQuery.setMaxResults(pageSize); // Tamaño de la página
+		    lista = (ArrayList<Juego>) hqlQuery.list();
 		} catch (Exception e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
+
 
 		return lista;
 	}
