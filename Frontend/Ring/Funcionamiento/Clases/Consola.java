@@ -71,5 +71,5 @@ public class Consola implements java.io.Serializable {
 	public void setJuegos(Set juegos) {
 		this.juegos = juegos;
 	}
-
+	
 }
