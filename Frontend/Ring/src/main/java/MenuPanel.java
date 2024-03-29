@@ -91,4 +91,9 @@ public class MenuPanel extends JPanel {
     public JToggleButton getSearchToggle() {
         return searchToggle;
     }
+
+	public void setSearchField(RoundedTextField searchField) {
+		this.searchField = searchField;
+	}
+    
 }

@@ -12,6 +12,11 @@ public class FilterPanel extends JPanel {
 	private Image backgroundImage;
 	private JuegoDAO juegoDAO=new JuegoDAO();
 	private ConsolaDAO consolaDAO=new ConsolaDAO();
+	JComboBox<String> platformsComboBox;
+	JComboBox<String> genresComboBox;
+	JComboBox<String> orderByComboBox;
+	private JSpinner spinnerPrecioIni;
+	private JSpinner spinnerPrecioFin;
 
 	public FilterPanel(String imagePath) {
 		
@@ -21,7 +26,7 @@ public class FilterPanel extends JPanel {
 
 		// Filtro para consolas
 		ArrayList<String> consolas=(ArrayList<String>) consolaDAO.listarNombres();
-		JComboBox<String> platformsComboBox = new JComboBox<>();
+		platformsComboBox = new JComboBox<>();
 		for (String consola : consolas) {
 		    platformsComboBox.addItem(consola);
 		}
@@ -30,7 +35,7 @@ public class FilterPanel extends JPanel {
 
 		// Filtro para géneros
 		ArrayList<String> generos = (ArrayList<String>) juegoDAO.listaGeneros();
-		JComboBox<String> genresComboBox = new JComboBox<String>();
+		genresComboBox = new JComboBox<String>();
 		for (String genero : generos) {
 		    genresComboBox.addItem(genero);
 		}
@@ -39,18 +44,20 @@ public class FilterPanel extends JPanel {
 
 		// Etiqueta y campo de texto para el precio mínimo
 		add(createLabel("Entre"));
-		JTextField fromPriceField = new JTextField(5);
-		configureTextField(fromPriceField);
-		add(fromPriceField);
-
+		
+		spinnerPrecioIni = new JSpinner();
+		configureSpinner(spinnerPrecioIni);
+		add(spinnerPrecioIni);
+		
 		// Etiqueta y campo de texto para el precio máximo
 		add(createLabel("y"));
-		JTextField toPriceField = new JTextField(5);
-		configureTextField(toPriceField);
-		add(toPriceField);
+		
+		spinnerPrecioFin = new JSpinner();
+		configureSpinner(spinnerPrecioFin);
+		add(spinnerPrecioFin);
 
 		// Filtro para ordenar los resultados
-		JComboBox<String> orderByComboBox = new JComboBox<>(
+		orderByComboBox = new JComboBox<>(
 				new String[] {"Nombre A-Z","Nombre Z-A","Precio Ascendente", "Precio Descendente",  "Fecha Ascendente", "Fecha Descendente" });
 		configureComboBox(orderByComboBox);
 		add(orderByComboBox);
@@ -79,13 +86,47 @@ public class FilterPanel extends JPanel {
 
 	// Método para configurar los JTextField con un estilo común
 	private void configureTextField(JTextField textField) {
-		textField.setPreferredSize(new Dimension(60, 25));
-		textField.setBackground(Color.DARK_GRAY);
-		textField.setForeground(Color.WHITE);
-		textField.setCaretColor(Color.WHITE); // Color del cursor de texto
-		textField.setBorder(BorderFactory.createLineBorder(Color.WHITE)); // Borde del campo de texto
 	}
+
+	private void configureSpinner(JSpinner spinner) {
+		spinner.setPreferredSize(new Dimension(60, 25));
+		spinner.setBackground(Color.DARK_GRAY);
+		spinner.setForeground(new Color(128, 128, 128));
+		spinner.setBorder(BorderFactory.createLineBorder(Color.WHITE)); // Borde del campo de texto
+	}
+	public JComboBox<String> getPlatformsComboBox() {
+		return platformsComboBox;
+	}
+	public void setPlatformsComboBox(JComboBox<String> platformsComboBox) {
+		this.platformsComboBox = platformsComboBox;
+	}
+	public JComboBox<String> getGenresComboBox() {
+		return genresComboBox;
+	}
+	public void setGenresComboBox(JComboBox<String> genresComboBox) {
+		this.genresComboBox = genresComboBox;
+	}
+	public JComboBox<String> getOrderByComboBox() {
+		return orderByComboBox;
+	}
+	public void setOrderByComboBox(JComboBox<String> orderByComboBox) {
+		this.orderByComboBox = orderByComboBox;
+	}
+	public JSpinner getSpinnerPrecioIni() {
+		return spinnerPrecioIni;
+	}
+	public void setSpinnerPrecioIni(JSpinner spinnerPrecioIni) {
+		this.spinnerPrecioIni = spinnerPrecioIni;
+	}
+	public JSpinner getSpinnerPrecioFin() {
+		return spinnerPrecioFin;
+	}
+	public void setSpinnerPrecioFin(JSpinner spinnerPrecioFin) {
+		this.spinnerPrecioFin = spinnerPrecioFin;
+	}
+	
 
 	// ... Puedes agregar métodos adicionales si son necesarios, como getters para
 	// los filtros ...
+	
 }

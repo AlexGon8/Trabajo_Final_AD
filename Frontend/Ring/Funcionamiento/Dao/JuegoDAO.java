@@ -17,7 +17,7 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 	public boolean crear(Juego ju) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			Transaction tx = session.beginTransaction();
-			
+
 			session.persist(ju);
 			tx.commit();
 			return true;
@@ -104,6 +104,22 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		}
 		return listaJuego;
 	}
+	
+	public List<Juego> listarPaginacion(int pagina) {
+		int pageSize = 10; // Tamaño de la página
+		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
+		List<Juego> listaJuego = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "FROM Juego";
+			Query<Juego> query = session.createQuery(hql, Juego.class);
+			query.setFirstResult(firstResult); // Índice del primer resultado de la página
+			query.setMaxResults(pageSize); // Tamaño de la página
+			listaJuego = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaJuego;
+	}
 
 	public double precioMayor() {
 		double precioMayor = 0;
@@ -130,24 +146,20 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		return listaGeneros;
 	}
 
-	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, Date fechaIni,
-			Date fechaFin, int id_plataforma, int pagina, String ordenacion) {
+	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, int id_plataforma,
+			int pagina, String ordenacion) {
 
 		int pageSize = 10; // Tamaño de la página
 		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
 
 		ArrayList<Juego> lista = null;
 		String query = "FROM Juego j JOIN j.consolas c WHERE 1=1 ";
-		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || fechaIni != null || fechaFin != null
-				|| id_plataforma != 0) {
+		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || id_plataforma != 0) {
 			if (nombreJuego != null) {
 				query += "AND j.nombre LIKE :nombreJuego ";
 			}
 			if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
 				query += "AND j.precio > :precioIni AND j.precio <= :precioFin ";
-			}
-			if (fechaIni != null && fechaFin != null) {
-				query += "AND j.annoSalida > :fechaIni AND j.annoSalida <= :fechaFin ";
 			}
 			if (id_plataforma != 0) {
 				query += "AND c.id = :id_plataforma ";
@@ -176,12 +188,6 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 			}
 			if (precioFin != 0) {
 				hqlQuery.setParameter("precioFin", precioFin);
-			}
-			if (fechaIni != null) {
-				hqlQuery.setParameter("fechaIni", fechaIni);
-			}
-			if (fechaFin != null) {
-				hqlQuery.setParameter("fechaFin", fechaFin);
 			}
 			if (id_plataforma != 0) {
 				hqlQuery.setParameter("id_plataforma", id_plataforma);
