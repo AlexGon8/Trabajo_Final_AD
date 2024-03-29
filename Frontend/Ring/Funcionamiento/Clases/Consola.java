@@ -65,11 +65,11 @@ public class Consola implements java.io.Serializable {
 		this.annoSalida = annoSalida;
 	}
 
-	public Set getJuegos() {
+	public Set<Juego> getJuegos() {
 		return this.juegos;
 	}
 
-	public void setJuegos(Set juegos) {
+	public void setJuegos(Set<Juego> juegos) {
 		this.juegos = juegos;
 	}
 	

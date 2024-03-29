@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import Clases.Consola;
 import Clases.Juego;
 import util.HibernateUtil;
 
@@ -104,7 +105,7 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		}
 		return listaJuego;
 	}
-	
+
 	public List<Juego> listarPaginacion(int pagina) {
 		int pageSize = 10; // Tamaño de la página
 		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
@@ -146,24 +147,36 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 		return listaGeneros;
 	}
 
-	public ArrayList<Juego> filtrarDatos(String nombreJuego, double precioIni, double precioFin, int id_plataforma,
-			int pagina, String ordenacion) {
-
+	public ArrayList<Juego> filtrarDatos(String nombreJuego, String genero, double precioIni, double precioFin,
+			Consola plataforma, int pagina, String ordenacion) {
+		int id_plataforma = -1;
 		int pageSize = 10; // Tamaño de la página
 		int firstResult = (pagina - 1) * pageSize; // Índice del primer resultado para la página dada
 
 		ArrayList<Juego> lista = null;
-		String query = "FROM Juego j JOIN j.consolas c WHERE 1=1 ";
-		if (nombreJuego != null || precioIni != 0 || precioFin != 0 || id_plataforma != 0) {
-			if (nombreJuego != null) {
-				query += "AND j.nombre LIKE :nombreJuego ";
-			}
-			if (precioIni >= 0 && precioFin != 0 && precioFin > precioIni) {
-				query += "AND j.precio > :precioIni AND j.precio <= :precioFin ";
-			}
-			if (id_plataforma != 0) {
-				query += "AND c.id = :id_plataforma ";
-			}
+		String query = "FROM Juego j";
+		if (plataforma != null) {
+			query += " JOIN j.consolas c WHERE 1=1";
+		} else {
+			query += " WHERE 1=1";
+		}
+
+		if (!nombreJuego.equals("")) {
+			query += " AND j.nombre LIKE :nombreJuego";
+		}
+		if (genero != null) {
+			query += " AND j.genero LIKE :generoJuego";
+		}
+		if (precioIni >= 0 && precioFin >= 0 && precioFin > precioIni) {
+			query += " AND j.precio >= :precioIni AND j.precio <= :precioFin";
+		}
+		if (plataforma != null) {
+			id_plataforma = plataforma.getId();
+			query += " AND c.id = :id_plataforma";
+		}
+		if (ordenacion == null) {
+
+		} else {
 			if (ordenacion.equalsIgnoreCase("Nombre A-Z")) {
 				query += " ORDER BY j.nombre ASC";
 			} else if (ordenacion.equalsIgnoreCase("Nombre Z-A")) {
@@ -178,27 +191,36 @@ public class JuegoDAO implements IDao<Juego, Integer> {
 				query += " ORDER BY j.anno_de_salida DESC";
 			}
 		}
+
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			Query<Juego> hqlQuery = session.createQuery(query, Juego.class);
-			if (nombreJuego != null) {
-				hqlQuery.setParameter("nombreJuego", nombreJuego);
+			if (!nombreJuego.equals("")) {
+				hqlQuery.setParameter("nombreJuego", "%" + nombreJuego + "%");
 			}
-			if (precioIni != 0) {
+			if (genero != null) {
+				hqlQuery.setParameter("generoJuego", genero);
+			}
+			if (precioIni >= 0 && precioIni < precioFin) {
 				hqlQuery.setParameter("precioIni", precioIni);
 			}
-			if (precioFin != 0) {
+			if (precioFin >= 0 && precioIni < precioFin) {
 				hqlQuery.setParameter("precioFin", precioFin);
 			}
-			if (id_plataforma != 0) {
+			if (id_plataforma != -1) {
 				hqlQuery.setParameter("id_plataforma", id_plataforma);
 			}
 			hqlQuery.setFirstResult(firstResult); // Índice del primer resultado de la página
 			hqlQuery.setMaxResults(pageSize); // Tamaño de la página
+
 			lista = (ArrayList<Juego>) hqlQuery.list();
+			for (Juego juego : lista) {
+				System.out.println(juego.getNombre());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return lista;
 	}
+
 }

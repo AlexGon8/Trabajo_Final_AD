@@ -35,6 +35,7 @@ public class MenuPanel extends JPanel {
         buttonPanel.add(searchToggle, BorderLayout.CENTER);
 
         searchField = new RoundedTextField(20,"");
+        searchField.setText("");
         searchField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         searchPanel.add(buttonPanel, "Button");

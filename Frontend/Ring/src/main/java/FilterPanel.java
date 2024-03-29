@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+import Clases.Consola;
 import Dao.ConsolaDAO;
 import Dao.JuegoDAO;
 
@@ -17,6 +18,7 @@ public class FilterPanel extends JPanel {
 	JComboBox<String> orderByComboBox;
 	private JSpinner spinnerPrecioIni;
 	private JSpinner spinnerPrecioFin;
+	private ArrayList<Consola> listaConsola=(ArrayList<Consola>) consolaDAO.listar();
 
 	public FilterPanel(String imagePath) {
 		
@@ -31,6 +33,7 @@ public class FilterPanel extends JPanel {
 		    platformsComboBox.addItem(consola);
 		}
 		configureComboBox(platformsComboBox);
+		platformsComboBox.addItem(null);
 		platformsComboBox.setSelectedItem(null);
 		add(platformsComboBox);
 
@@ -63,6 +66,8 @@ public class FilterPanel extends JPanel {
 		orderByComboBox = new JComboBox<>(
 				new String[] {"Nombre A-Z","Nombre Z-A","Precio Ascendente", "Precio Descendente",  "Fecha Ascendente", "Fecha Descendente" });
 		configureComboBox(orderByComboBox);
+		orderByComboBox.addItem(null);
+		orderByComboBox.setSelectedItem(null);
 		add(orderByComboBox);
 	}
     // Sobrescribe el método paintComponent para dibujar la imagen de fondo
@@ -126,6 +131,12 @@ public class FilterPanel extends JPanel {
 	}
 	public void setSpinnerPrecioFin(JSpinner spinnerPrecioFin) {
 		this.spinnerPrecioFin = spinnerPrecioFin;
+	}
+	public ArrayList<Consola> getListaConsola() {
+		return listaConsola;
+	}
+	public void setListaConsola(ArrayList<Consola> listaConsola) {
+		this.listaConsola = listaConsola;
 	}
 	
 

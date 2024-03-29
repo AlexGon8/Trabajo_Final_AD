@@ -160,11 +160,11 @@ public class Juego implements java.io.Serializable {
 		this.usuarios = usuarios;
 	}
 
-	public Set getConsolas() {
+	public Set<Consola> getConsolas() {
 		return this.consolas;
 	}
 
-	public void setConsolas(Set consolas) {
+	public void setConsolas(Set<Consola> consolas) {
 		this.consolas = consolas;
 	}
 

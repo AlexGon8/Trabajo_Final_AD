@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import Clases.Consola;
 import Clases.Juego;
 import Clases.Usuario;
 import Dao.JuegoDAO;
@@ -48,13 +49,12 @@ public class Home extends JFrame {
 	private JButton btnQuitarFiltros;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private int pagina=1;
-	JuegoDAO juegoDAO=new JuegoDAO();
+	private int pagina = 1;
+	JuegoDAO juegoDAO = new JuegoDAO();
 
 	public Home(Usuario usuario) {
 		this.usuario = usuario;
-		
-		
+
 		// para que la ventana se oscuresca
 		// Configuración inicial para el panel de oscurecimiento
 		glassPane = new JPanel();
@@ -98,18 +98,17 @@ public class Home extends JFrame {
 		ContenedorGeneral.add(minimizeButton);
 		ContenedorGeneral.add(closeButton);
 
-		 // Inicialización del panel para los juegos
-	    panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
-	    panelJuegos.setBackground(Color.DARK_GRAY);
+		// Inicialización del panel para los juegos
+		panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
+		panelJuegos.setBackground(Color.DARK_GRAY);
 
-	    // Inicialización del JScrollPane con panelJuegos
-	    scrollPane = new JScrollPane(panelJuegos);
-	    scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
-	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-	    ContenedorGeneral.add(scrollPane);
+		// Inicialización del JScrollPane con panelJuegos
+		scrollPane = new JScrollPane(panelJuegos);
+		scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		ContenedorGeneral.add(scrollPane);
 
-	    
 		/*
 		 * para el menu con filtros
 		 */
@@ -139,13 +138,13 @@ public class Home extends JFrame {
 					.getResource("/imagenes/juegos/age-of-empires-iv-the-sultans-ascend-pc-juego-steam-cover.jpg"));
 			Juego juego = new Juego();
 			JuegoJPanel juegoPanel = new JuegoJPanel(juego, icono);
-			
-            juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    comprarJuego(juegoPanel);
-                }
-            });
+
+			juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					comprarJuego(juegoPanel);
+				}
+			});
 			panelJuegos.add(juegoPanel);
 		}
 
@@ -159,79 +158,117 @@ public class Home extends JFrame {
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(0, 0, getWidth(), getHeight());
 		ContenedorGeneral.add(layeredPane);
-		
+
 		btnFiltrar = new JButton("Filtrar");
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				juegoDAO=new JuegoDAO();
-				int precioIni=(int) filterPanel.getSpinnerPrecioIni().getValue();
-				int precioFin=(int) filterPanel.getSpinnerPrecioFin().getValue();
-				String genero=(String) filterPanel.getGenresComboBox().getSelectedItem();
-				String nombre=menuPanel.getSearchField().getText();
-				String ordenacion=(String) filterPanel.getOrderByComboBox().getSelectedItem();
-				pagina=1;
-				
-				filtrarJuegos(juegoDAO.filtrarDatos(nombre, precioIni, precioFin,precioIni, pagina, ordenacion));
+				juegoDAO = new JuegoDAO();
+				int precioIni = (int) filterPanel.getSpinnerPrecioIni().getValue();
+				int precioFin = (int) filterPanel.getSpinnerPrecioFin().getValue();
+				Consola plataforma = null;
+				int plataforma1 = filterPanel.getPlatformsComboBox().getSelectedIndex();
+				if (plataforma1 != -1) {
+					plataforma = filterPanel.getListaConsola().get(plataforma1);
+				}
+
+				String genero = (String) filterPanel.getGenresComboBox().getSelectedItem();
+				String nombre = menuPanel.getSearchField().getText();
+				String ordenacion = (String) filterPanel.getOrderByComboBox().getSelectedItem();
+				pagina = 1;
+				System.out.println(
+						precioIni + " " + precioFin + " " + genero + " " + nombre + " " + ordenacion + " " + pagina);
+
+				filtrarJuegos(
+						juegoDAO.filtrarDatos(nombre, genero, precioIni, precioFin, plataforma, pagina, ordenacion));
+
 			}
 		});
 		btnFiltrar.setBackground(new Color(0, 0, 0));
 		btnFiltrar.setForeground(new Color(0, 0, 0));
 		btnFiltrar.setBounds(1065, 11, 89, 70);
-		btnFiltrar.setBackground(new Color(255,128,64));
+		btnFiltrar.setBackground(new Color(255, 128, 64));
 		layeredPane.add(btnFiltrar);
-		
+
 		btnQuitarFiltros = new JButton("Quitar filtros");
 		btnQuitarFiltros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cargarJuegos();
+				cargarJuegos();
+				filterPanel.getGenresComboBox().setSelectedItem(null);
+				filterPanel.getPlatformsComboBox().setSelectedItem(null);
+				filterPanel.getSpinnerPrecioIni().setValue(0);
+				filterPanel.getSpinnerPrecioFin().setValue(0);
+				filterPanel.getOrderByComboBox().setSelectedItem(null);
+				menuPanel.getSearchField().setText("");
 			}
 		});
 		btnQuitarFiltros.setForeground(new Color(255, 128, 64));
 		btnQuitarFiltros.setBackground(Color.DARK_GRAY);
 		btnQuitarFiltros.setBounds(1164, 35, 100, 23);
 		layeredPane.add(btnQuitarFiltros);
-		
-		
+
 		btnNewButton = new JButton("<-- Pagina anterior");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pagina=pagina-1;
+				if (pagina > 1) {
+					pagina = pagina - 1;
+				}
 				System.out.print(pagina);
-				
-				int precioIni=(int) filterPanel.getSpinnerPrecioIni().getValue();
-				int precioFin=(int) filterPanel.getSpinnerPrecioFin().getValue();
-				String genero=(String) filterPanel.getGenresComboBox().getSelectedItem();
-				String nombre=menuPanel.getSearchField().getText();
-				String ordenacion=(String) filterPanel.getOrderByComboBox().getSelectedItem();
-				
-				filtrarJuegos(juegoDAO.filtrarDatos(nombre, precioIni, precioFin,precioIni, pagina, ordenacion));
+
+				int precioIni = (int) filterPanel.getSpinnerPrecioIni().getValue();
+				int precioFin = (int) filterPanel.getSpinnerPrecioFin().getValue();
+				Consola plataforma = null;
+				int plataforma1 = filterPanel.getPlatformsComboBox().getSelectedIndex();
+				if (plataforma1 != -1) {
+					plataforma = filterPanel.getListaConsola().get(plataforma1);
+				}
+				String genero = (String) filterPanel.getGenresComboBox().getSelectedItem();
+				String nombre = menuPanel.getSearchField().getText();
+				String ordenacion = (String) filterPanel.getOrderByComboBox().getSelectedItem();
+
+				filtrarJuegos(
+						juegoDAO.filtrarDatos(nombre, genero, precioIni, precioFin, plataforma, pagina, ordenacion));
 			}
 		});
-		btnNewButton.setBounds(46, 136, 125, 23);
+		btnNewButton.setBounds(46, 136, 167, 23);
+		btnNewButton.setForeground(new Color(255, 128, 64));
+		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setEnabled(true);
 		layeredPane.add(btnNewButton);
-		if(pagina<=1) {
+		if (pagina <= 1) {
 			btnNewButton.setEnabled(false);
 		}
-		
+
 		btnNewButton_1 = new JButton("Página siguiente -->");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pagina=pagina+1;
-				System.out.print(pagina);
-				int precioIni=(int) filterPanel.getSpinnerPrecioIni().getValue();
-				int precioFin=(int) filterPanel.getSpinnerPrecioFin().getValue();
-				String genero=(String) filterPanel.getGenresComboBox().getSelectedItem();
-				String nombre=menuPanel.getSearchField().getText();
-				String ordenacion=(String) filterPanel.getOrderByComboBox().getSelectedItem();
-				
-				filtrarJuegos(juegoDAO.filtrarDatos(nombre, precioIni, precioFin,precioIni, pagina, ordenacion));
+				System.out.println(pagina);
+				if (pagina < (juegoDAO.listar().size() / 10) + 1) {
+					pagina = pagina + 1;
+				}
+
+				int precioIni = (int) filterPanel.getSpinnerPrecioIni().getValue();
+				int precioFin = (int) filterPanel.getSpinnerPrecioFin().getValue();
+				Consola plataforma = null;
+				int plataforma1 = filterPanel.getPlatformsComboBox().getSelectedIndex();
+				if (plataforma1 != -1) {
+					plataforma = filterPanel.getListaConsola().get(plataforma1);
+				}
+				String genero = (String) filterPanel.getGenresComboBox().getSelectedItem();
+				String nombre = menuPanel.getSearchField().getText();
+				String ordenacion = (String) filterPanel.getOrderByComboBox().getSelectedItem();
+
+				filtrarJuegos(
+						juegoDAO.filtrarDatos(nombre, genero, precioIni, precioFin, plataforma, pagina, ordenacion));
+
 			}
 		});
-		btnNewButton_1.setBounds(196, 136, 129, 23);
+		btnNewButton_1.setBounds(241, 136, 167, 23);
+		btnNewButton_1.setForeground(new Color(255, 128, 64));
+		btnNewButton_1.setBackground(Color.DARK_GRAY);
 		btnNewButton.setEnabled(true);
 		layeredPane.add(btnNewButton_1);
-		if(pagina==juegoDAO.listar().size()) {
+		if (pagina == juegoDAO.listar().size()) {
 			btnNewButton_1.setEnabled(false);
 		}
 
@@ -258,14 +295,14 @@ public class Home extends JFrame {
 		soporteIcon = new JLabel(new ImageIcon(getClass().getResource("/imagenes/soporte.png")));
 		soporteIcon.setBounds(76, 10, 56, 50); // Ajustar posición y tamaño
 		ContenedorGeneral.add(soporteIcon); // Añadir directamente al ContenedorGeneral
-		
+
 		soporteIcon.addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		        // Abre el JDialog de contacto
-		        ContactDialog contactDialog = new ContactDialog(Home.this);
-		        contactDialog.setVisible(true);
-		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Abre el JDialog de contacto
+				ContactDialog contactDialog = new ContactDialog(Home.this);
+				contactDialog.setVisible(true);
+			}
 		});
 
 		// Instanciación del JDialog del carrito de compra
@@ -328,105 +365,110 @@ public class Home extends JFrame {
 			}
 		});
 	}
-	
-	
+
 	private void comprarJuego(JuegoJPanel juegoPanel) {
-	    // Suponiendo que Juego tiene un constructor adecuado
-	    // O puedes pasar los parámetros individuales como nombre, precio, etc.
+		// Suponiendo que Juego tiene un constructor adecuado
+		// O puedes pasar los parámetros individuales como nombre, precio, etc.
 		Juego juego = juegoPanel.getJuego();
 
-	    ImageIcon iconoJuego;
-	    if (juego.getImagen() != null && juego.getImagen().length > 0) {
-	        iconoJuego = new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
-	    } else {
-	        // Carga una imagen predeterminada o muestra un mensaje de error
-	        iconoJuego = new ImageIcon(getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
-	    }
+		ImageIcon iconoJuego;
+		if (juego.getImagen() != null && juego.getImagen().length > 0) {
+			iconoJuego = new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
+		} else {
+			// Carga una imagen predeterminada o muestra un mensaje de error
+			iconoJuego = new ImageIcon(
+					getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
+		}
 
-	    // Ahora usamos 'iconoJuego' para añadir el artículo al carrito
-	    shoppingCartDialog.addItemToCart(juego.getNombre(), String.valueOf(juego.getPrecio()), iconoJuego);
-	    shoppingCartDialog.setVisible(true);
+		// Ahora usamos 'iconoJuego' para añadir el artículo al carrito
+		shoppingCartDialog.addItemToCart(juego.getNombre(), String.valueOf(juego.getPrecio()), iconoJuego);
+		shoppingCartDialog.setVisible(true);
 
-	    // Mostrar JDialog de confirmación
-	    JOptionPane.showMessageDialog(this, "¡Juego añadido al carrito!");
+		// Mostrar JDialog de confirmación
+		JOptionPane.showMessageDialog(this, "¡Juego añadido al carrito!");
 	}
-	
+
 	private void cargarJuegos() {
-	    JuegoDAO juegoDAO = new JuegoDAO();
-	    List<Juego> juegos = juegoDAO.listarPaginacion(this.pagina);
+		JuegoDAO juegoDAO = new JuegoDAO();
+		List<Juego> juegos = juegoDAO.listarPaginacion(this.pagina);
 
-	    // Si panelJuegos no se ha inicializado, inicialízalo aquí.
-	    if (panelJuegos == null) {
-	        panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
-	        panelJuegos.setBackground(Color.DARK_GRAY);
-	        // Si scrollPane no se ha inicializado, inicialízalo aquí también.
-	        scrollPane = new JScrollPane(panelJuegos);
-	        scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
-	        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-	        ContenedorGeneral.add(scrollPane);
-	    } else {
-	        panelJuegos.removeAll(); // Elimina todos los componentes actuales si ya existen
-	    }
+		// Si panelJuegos no se ha inicializado, inicialízalo aquí.
+		if (panelJuegos == null) {
+			panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
+			panelJuegos.setBackground(Color.DARK_GRAY);
+			// Si scrollPane no se ha inicializado, inicialízalo aquí también.
+			scrollPane = new JScrollPane(panelJuegos);
+			scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			ContenedorGeneral.add(scrollPane);
+		} else {
+			panelJuegos.removeAll(); // Elimina todos los componentes actuales si ya existen
+		}
 
-	    for (Juego juego : juegos) {
-	        ImageIcon iconoJuego = obtenerImagenJuego(juego);
-	        JuegoJPanel juegoPanel = new JuegoJPanel(juego, iconoJuego);
-	        juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
-	            @Override
-	            public void propertyChange(PropertyChangeEvent evt) {
-	                comprarJuego(juegoPanel);
-	            }
-	        });
-	        panelJuegos.add(juegoPanel);
-	    }
+		for (Juego juego : juegos) {
+			ImageIcon iconoJuego = obtenerImagenJuego(juego);
+			JuegoJPanel juegoPanel = new JuegoJPanel(juego, iconoJuego);
+			juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					comprarJuego(juegoPanel);
+				}
+			});
+			panelJuegos.add(juegoPanel);
+		}
 
-	    // Refresca el panel para mostrar los juegos recién añadidos
-	    panelJuegos.revalidate();
-	    panelJuegos.repaint();
+		// Refresca el panel para mostrar los juegos recién añadidos
+		panelJuegos.revalidate();
+		panelJuegos.repaint();
 	}
-	
+
 	private void filtrarJuegos(List<Juego> juegos) {
+		if (!(juegos == null)) {
 
-	    // Si panelJuegos no se ha inicializado, inicialízalo aquí.
-	    if (panelJuegos == null) {
-	        panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
-	        panelJuegos.setBackground(Color.DARK_GRAY);
-	        // Si scrollPane no se ha inicializado, inicialízalo aquí también.
-	        scrollPane = new JScrollPane(panelJuegos);
-	        scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
-	        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-	        ContenedorGeneral.add(scrollPane);
-	    } else {
-	        panelJuegos.removeAll(); // Elimina todos los componentes actuales si ya existen
-	    }
+		} else {
+			juegos = juegoDAO.listar();
+		}
+		// Si panelJuegos no se ha inicializado, inicialízalo aquí.
+		if (panelJuegos == null) {
+			panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
+			panelJuegos.setBackground(Color.DARK_GRAY);
+			// Si scrollPane no se ha inicializado, inicialízalo aquí también.
+			scrollPane = new JScrollPane(panelJuegos);
+			scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+			ContenedorGeneral.add(scrollPane);
+		} else {
+			panelJuegos.removeAll(); // Elimina todos los componentes actuales si ya existen
+		}
 
-	    for (Juego juego : juegos) {
-	        ImageIcon iconoJuego = obtenerImagenJuego(juego);
-	        JuegoJPanel juegoPanel = new JuegoJPanel(juego, iconoJuego);
-	        juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
-	            @Override
-	            public void propertyChange(PropertyChangeEvent evt) {
-	                comprarJuego(juegoPanel);
-	            }
-	        });
-	        panelJuegos.add(juegoPanel);
-	    }
+		for (Juego juego : juegos) {
+			ImageIcon iconoJuego = obtenerImagenJuego(juego);
+			JuegoJPanel juegoPanel = new JuegoJPanel(juego, iconoJuego);
+			juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					comprarJuego(juegoPanel);
+				}
+			});
+			panelJuegos.add(juegoPanel);
+		}
 
-	    // Refresca el panel para mostrar los juegos recién añadidos
-	    panelJuegos.revalidate();
-	    panelJuegos.repaint();
+		// Refresca el panel para mostrar los juegos recién añadidos
+		panelJuegos.revalidate();
+		panelJuegos.repaint();
+
 	}
-    
-    private ImageIcon obtenerImagenJuego(Juego juego) {
-        if (juego.getImagen() != null && juego.getImagen().length > 0) {
-            return new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
-        } else {
-            // Retorna una imagen por defecto si no hay imagen
-            return new ImageIcon(getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
-        }
-    }
-    
-    
+
+	private ImageIcon obtenerImagenJuego(Juego juego) {
+		if (juego.getImagen() != null && juego.getImagen().length > 0) {
+			return new ImageIcon(Toolkit.getDefaultToolkit().createImage(juego.getImagen()));
+		} else {
+			// Retorna una imagen por defecto si no hay imagen
+			return new ImageIcon(
+					getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
+		}
+	}
+
 }

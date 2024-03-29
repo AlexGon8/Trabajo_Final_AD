@@ -9,21 +9,26 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 
 import Clases.Compannia;
+import Clases.Consola;
 import Clases.Juego;
 import Clases.Usuario;
 import Dao.CompaniaDAO;
+import Dao.ConsolaDAO;
+import Dao.JuegoDAO;
 import Dao.UsuarioDAO;
 
 public class SetupDatabase {
 
     public static void main(String[] args) {
-        insertarJuegosPredeterminados();
+        //insertarJuegosPredeterminados();
         //insertarUsuariosFicticios();
         //insertarCompaniasFicticias();
+    	insertarConsolas();
     }
 
     private static void insertarJuegosPredeterminados() {
@@ -137,4 +142,67 @@ public class SetupDatabase {
             }
         }
     }
+    private static void insertarConsolas() {
+		Faker faker = new Faker(new Locale("es"));
+		ConsolaDAO consolaDAO = new ConsolaDAO();
+		JuegoDAO juegoDAO = new JuegoDAO();
+		ArrayList<Juego> listaJuegos = (ArrayList<Juego>) juegoDAO.listar();
+
+		Consola consola1 = new Consola();
+		consola1.setNombre("Nintendo switch");
+		consola1.setAnnoSalida(new Date(faker.date().birthday().getTime()));
+		HashSet<Juego> juegosN = new HashSet<Juego>();
+		juegosN.add(listaJuegos.get(0));
+		juegosN.add(listaJuegos.get(4));
+		juegosN.add(listaJuegos.get(11));
+		juegosN.add(listaJuegos.get(9));
+		consola1.setJuegos(juegosN);
+
+		Consola consola2 = new Consola();
+		consola2.setNombre("PlayStation 5");
+		consola2.setAnnoSalida(new Date(faker.date().birthday().getTime()));
+		HashSet<Juego> juegosPS5 = new HashSet<Juego>();
+		juegosPS5.add(listaJuegos.get(0));
+		juegosPS5.add(listaJuegos.get(1));
+		juegosPS5.add(listaJuegos.get(2));
+		juegosPS5.add(listaJuegos.get(3));
+		juegosPS5.add(listaJuegos.get(5));
+		juegosPS5.add(listaJuegos.get(4));
+		juegosPS5.add(listaJuegos.get(7));
+		juegosPS5.add(listaJuegos.get(11));
+		consola2.setJuegos(juegosPS5);
+
+		Consola consola3 = new Consola();
+		consola3.setNombre("PC");
+		consola3.setAnnoSalida(new Date(faker.date().birthday().getTime()));
+		HashSet<Juego> juegosPC = new HashSet<Juego>();
+		juegosPC.add(listaJuegos.get(0));
+		juegosPC.add(listaJuegos.get(12));
+		juegosPC.add(listaJuegos.get(2));
+		juegosPC.add(listaJuegos.get(10));
+		juegosPC.add(listaJuegos.get(5));
+		juegosPC.add(listaJuegos.get(4));
+		juegosPC.add(listaJuegos.get(8));
+		juegosPC.add(listaJuegos.get(6));
+		juegosPC.add(listaJuegos.get(11));
+		juegosPC.add(listaJuegos.get(13));
+		consola3.setJuegos(juegosPC);
+
+		boolean exito = consolaDAO.crear(consola1);
+		boolean exito1 = consolaDAO.crear(consola2);
+		boolean exito2 = consolaDAO.crear(consola3);
+
+		if (exito1) {
+			System.out.println("Consola creada: " + consola2.getNombre());
+		}
+		if (exito2) {
+			System.out.println("Consola creada: " + consola3.getNombre());
+		}
+		if (exito) {
+			System.out.println("Consola creada: " + consola1.getNombre());
+		} else {
+			System.out.println("No se pudo crear el usuario ficticio.");
+		}
+
+	}
 }

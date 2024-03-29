@@ -39,6 +39,20 @@ public class ConsolaDAO implements IDao<Consola, Integer> {
 		}
 		return co;
 	}
+	
+	public Consola leer(String co_nombre) {
+		Consola co = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "from Consola where nombre like :co_nombre";
+			Query<Consola> query = session.createQuery(hql, Consola.class);
+			query.setParameter("co_nombre", co_nombre);
+			query.setMaxResults(1);
+			co = (Consola) query.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return co;
+	}
 
 	@Override
 	public boolean actualizar(Consola modelo, Integer id) {
