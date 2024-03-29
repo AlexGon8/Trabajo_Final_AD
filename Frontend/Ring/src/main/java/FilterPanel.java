@@ -31,6 +31,7 @@ public class FilterPanel extends JPanel {
 		    platformsComboBox.addItem(consola);
 		}
 		configureComboBox(platformsComboBox);
+		platformsComboBox.setSelectedItem(null);
 		add(platformsComboBox);
 
 		// Filtro para géneros
@@ -40,6 +41,8 @@ public class FilterPanel extends JPanel {
 		    genresComboBox.addItem(genero);
 		}
 		configureComboBox(genresComboBox);
+		genresComboBox.addItem(null);
+		genresComboBox.setSelectedItem(null);
 		add(genresComboBox);
 
 		// Etiqueta y campo de texto para el precio mínimo
