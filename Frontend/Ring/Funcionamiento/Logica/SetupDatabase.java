@@ -28,7 +28,7 @@ public class SetupDatabase {
 
     private static void insertarJuegosPredeterminados() {
         Faker faker = new Faker(new Locale("es"));
-        String basePath = "/Ring/src/main/java/imagenes/juegos/";
+        String basePath = "/C:/Users/Usuario/Documents/GitHub/Trabajo_Final_AD/Frontend/Ring/src/main/java/imagenes/juegos/";
 
 
         String[] nombresArchivos = {
