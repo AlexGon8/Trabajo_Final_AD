@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.Optional;
 
@@ -17,49 +18,76 @@ public class UserSettingsDialog extends JDialog {
 
     public UserSettingsDialog(Frame owner, Usuario usuario) {
         super(owner, "Configuración de Usuario", true);
+        getContentPane().setBackground(new Color(0, 0, 0));
+        this.usuario = usuario;
+        this.usuarioDAO = new UsuarioDAO();
+
+        setSize(1174, 765);
+        getContentPane().setLayout(new GridLayout(0, 1));
+        setLocationRelativeTo(owner);
         setUndecorated(true);
         setResizable(false);
-        setSize(1174, 765);
-        setLocationRelativeTo(owner);
-        
-        this.usuario = usuario;
-        this.usuarioDAO = new UsuarioDAO(); // Inicializa tu DAO        
-
-        getContentPane().setLayout(new GridLayout(5, 2, 5, 5)); // Layout en grid con espaciado
-        
-        // Inicializar campos
-        nombreField = new JTextField(usuario.getNombre());
-        domicilioField = new JTextField(usuario.getDomicilio());
-        telefonoField = new JTextField(usuario.getTelefono());
-        fechaNacField = new JTextField(Optional.ofNullable(usuario.getFechaNac())
-                                            .map(Date::toString).orElse(""));
-
-        // Agregar campos al layout
-        getContentPane().add(createLabel("Nombre:"));
-        getContentPane().add(nombreField);
-        getContentPane().add(createLabel("Domicilio:"));
-        getContentPane().add(domicilioField);
-        getContentPane().add(createLabel("Teléfono:"));
-        getContentPane().add(telefonoField);
-        getContentPane().add(createLabel("Fecha de Nac (AAAA-MM-DD):"));
-        getContentPane().add(fechaNacField);
-        
-        // Botón para guardar los cambios
-        JButton saveButton = new JButton("Guardar Cambios");
-        saveButton.addActionListener(e -> guardarCambios());
-        getContentPane().add(saveButton);
-
-        pack();
-        setLocationRelativeTo(owner);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel(new GridLayout(7, 2, 10, 10));
+        panel.setBackground(new Color(0, 0, 0, 0)); // Transparente
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        nombreField = createTextField(Optional.ofNullable(usuario.getNombre()).orElse(""));
+        domicilioField = createTextField(Optional.ofNullable(usuario.getDomicilio()).orElse(""));
+        telefonoField = createTextField(Optional.ofNullable(usuario.getTelefono()).orElse(""));
+        fechaNacField = createTextField(Optional.ofNullable(usuario.getFechaNac()).map(Date::toString).orElse(""));
+
+        panel.add(createLabel("Nombre:"));
+        panel.add(nombreField);
+        panel.add(createLabel("Domicilio:"));
+        panel.add(domicilioField);
+        panel.add(createLabel("Teléfono:"));
+        panel.add(telefonoField);
+        panel.add(createLabel("Fecha de Nac (AAAA-MM-DD):"));
+        panel.add(fechaNacField);
+        panel.add(createLabel("Correo electrónico (no modificable):"));
+        panel.add(createLabel(usuario.getCorreo()));
+
+        JButton cancelButton = createButton("Cancelar", e -> dispose());
+        panel.add(cancelButton);
+
+        JButton saveButton = createButton("Guardar Cambios", e -> guardarCambios());
+        panel.add(saveButton);
+
+        getContentPane().add(panel);
+
+        JLabel backgroundLabel = new JLabel(new ImageIcon(ContactDialog.class.getResource("/imagenes/gifRegistrogif.gif")));
+        backgroundLabel.setSize(getSize());
+        getContentPane().add(backgroundLabel);
+
+        // Move the background to the back
+        getContentPane().setComponentZOrder(backgroundLabel, getContentPane().getComponentCount() - 1);
     }
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(JLabel.RIGHT);
+        label.setFont(new Font("Tahoma", Font.BOLD, 12));
+        label.setForeground(new Color(255, 128, 0));
         return label;
     }
-    
+
+    private JTextField createTextField(String text) {
+        JTextField textField = new JTextField(text);
+        textField.setForeground(Color.WHITE);
+        textField.setBackground(Color.DARK_GRAY);
+        return textField;
+    }
+
+    private JButton createButton(String text, ActionListener action) {
+        JButton button = new JButton(text);
+        button.setForeground(Color.ORANGE);
+        button.setBackground(Color.BLACK);
+        button.setFocusPainted(false);
+        button.addActionListener(action);
+        return button;
+    }
+
     private void guardarCambios() {
         // Actualizar los datos del usuario con los valores de los campos
         usuario.setNombre(nombreField.getText());
@@ -67,7 +95,6 @@ public class UserSettingsDialog extends JDialog {
         usuario.setTelefono(telefonoField.getText());
 
         try {
-            // Formato de fecha (Asegúrate de que cumple con el formato esperado por tu base de datos)
             Date fechaNac = Date.valueOf(fechaNacField.getText());
             usuario.setFechaNac(fechaNac);
         } catch (IllegalArgumentException e) {
@@ -75,18 +102,12 @@ public class UserSettingsDialog extends JDialog {
             return;
         }
 
-        // Llamar al DAO para actualizar
         if (usuarioDAO.actualizar(usuario, usuario.getId())) {
             JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
-
-            // Cerrar el JDialog de configuración y la ventana principal actual
-            dispose(); // Cerrar el diálogo de configuración
-
-            // Cerrar la ventana principal y abrir una nueva con la información actualizada
+            dispose();
             Home home = (Home)getOwner();
-            home.dispose();
-            
-            Home newHomeFrame = new Home(usuario);
+            home.dispose(); // Cierra la ventana principal
+            Home newHomeFrame = new Home(usuario); // Crea y muestra una nueva ventana con la info actualizada
             newHomeFrame.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Error al actualizar la información.", "Error", JOptionPane.ERROR_MESSAGE);

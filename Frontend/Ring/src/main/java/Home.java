@@ -258,6 +258,15 @@ public class Home extends JFrame {
 		soporteIcon = new JLabel(new ImageIcon(getClass().getResource("/imagenes/soporte.png")));
 		soporteIcon.setBounds(76, 10, 56, 50); // Ajustar posición y tamaño
 		ContenedorGeneral.add(soporteIcon); // Añadir directamente al ContenedorGeneral
+		
+		soporteIcon.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        // Abre el JDialog de contacto
+		        ContactDialog contactDialog = new ContactDialog(Home.this);
+		        contactDialog.setVisible(true);
+		    }
+		});
 
 		// Instanciación del JDialog del carrito de compra
 		shoppingCartDialog = new ShoppingCartDialog(this);
