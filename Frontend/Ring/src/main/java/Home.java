@@ -42,7 +42,8 @@ public class Home extends JFrame {
 	private UserMenuDialog userMenuDialog;
 	private ShoppingCartDialog shoppingCartDialog;
 	private static Usuario usuario; // -----------> Importante tener el ususario y sus datos importados para poder
-									// iobtener informacion en las diferentes pantallas
+	private JPanel panelJuegos; // A nivel de clase
+	private JScrollPane scrollPane; // A nivel de clase// iobtener informacion en las diferentes pantallas
 
 	public Home(Usuario usuario) {
 		this.usuario = usuario;
@@ -91,6 +92,18 @@ public class Home extends JFrame {
 		ContenedorGeneral.add(minimizeButton);
 		ContenedorGeneral.add(closeButton);
 
+		 // Inicialización del panel para los juegos
+	    panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
+	    panelJuegos.setBackground(Color.DARK_GRAY);
+
+	    // Inicialización del JScrollPane con panelJuegos
+	    scrollPane = new JScrollPane(panelJuegos);
+	    scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+	    ContenedorGeneral.add(scrollPane);
+
+	    
 		/*
 		 * para el menu con filtros
 		 */
@@ -247,25 +260,31 @@ public class Home extends JFrame {
 	    JOptionPane.showMessageDialog(this, "¡Juego añadido al carrito!");
 	}
 	
-    private void cargarJuegos() {
-        JuegoDAO juegoDAO = new JuegoDAO();
-        List<Juego> juegos = juegoDAO.listar();
-        
-        // Asumiendo que tienes un panel para los juegos llamado panelJuegos
-        JPanel panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // O la disposición que ya tengas definida
-
-        for (Juego juego : juegos) {
-            ImageIcon iconoJuego = obtenerImagenJuego(juego);
-            JuegoJPanel juegoPanel = new JuegoJPanel(juego.getNombre(), String.format("%.2f€", juego.getPrecio()), iconoJuego);
-            // Aquí deberías añadir el listener para el botón Comprar como en el código anterior
-            panelJuegos.add(juegoPanel);
-        }
-
-        // Asegúrate de que el JScrollPane que contiene panelJuegos esté actualizado
-        JScrollPane scrollPane = new JScrollPane(panelJuegos);
-        // Configura scrollPane como ya tienes en tu clase Home
-        ContenedorGeneral.add(scrollPane);
-    }
+	private void cargarJuegos() {
+	    JuegoDAO juegoDAO = new JuegoDAO();
+	    List<Juego> juegos = juegoDAO.listar();
+	    
+	    panelJuegos.removeAll(); // Elimina todos los componentes actuales
+	    
+	    for (Juego juego : juegos) {
+	        ImageIcon iconoJuego = obtenerImagenJuego(juego);
+	        JuegoJPanel juegoPanel = new JuegoJPanel(juego.getNombre(), String.format("%.2f€", juego.getPrecio()), iconoJuego);
+	        juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
+	            @Override
+	            public void propertyChange(PropertyChangeEvent evt) {
+	                comprarJuego(juegoPanel);
+	            }
+	        });
+	        panelJuegos.add(juegoPanel);
+	    }
+	    
+	    // Refresca el panel para mostrar los juegos recién añadidos
+	    panelJuegos.revalidate();
+	    panelJuegos.repaint();
+	    
+	    // Asegura que scrollPane muestre el panelJuegos actualizado
+	    scrollPane.setViewportView(panelJuegos);
+	}
     
     private ImageIcon obtenerImagenJuego(Juego juego) {
         if (juego.getImagen() != null && juego.getImagen().length > 0) {
