@@ -1,13 +1,19 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Clases.Usuario;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class UserMenuDialog extends JDialog {
+    private Usuario usuarioActual; // Almacena la referencia al usuario actual
 
-    public UserMenuDialog(Frame owner) {
+
+    public UserMenuDialog(Frame owner, Usuario usuario) {
         super(owner);
+        this.usuarioActual = usuario; // Guarda el usuario actual pasado como parámetro
+
         setUndecorated(true);
         setSize(200, 300);
         getContentPane().setBackground(new Color(0, 0, 0, 160)); // Fondo semi-transparente
@@ -70,5 +76,31 @@ public class UserMenuDialog extends JDialog {
                 }
             }
         }
+        
+        // Añadir el action listener al botón de Configuración
+        for (Component comp : contentPanel.getComponents()) {
+            if (comp instanceof JButton) {
+                JButton button = (JButton) comp;
+                if ("Configuración".equals(button.getText())) {
+                    button.addActionListener(e -> abrirDialogoConfiguracion());
+                } else if ("Soporte".equals(button.getText())) {
+                    button.addActionListener(e -> {
+                        // Aquí creas y muestras el JDialog de contacto
+                        ContactDialog contactDialog = new ContactDialog(owner);
+                        contactDialog.setVisible(true);
+                    });
+                }
+                // Añade listeners para otros botones si es necesario
+            }
+        }
+        
+    }
+    
+    private void abrirDialogoConfiguracion() {
+        // Abre el UserSettingsDialog para editar los datos del usuario
+        UserSettingsDialog settingsDialog = new UserSettingsDialog((Frame) getOwner(), usuarioActual);
+        settingsDialog.setVisible(true);
+        // Si necesitas actualizar la información del usuario en el JDialog principal
+        // después de cerrar el diálogo de configuración, hazlo aquí.
     }
 }

@@ -277,7 +277,7 @@ public class Home extends JFrame {
 	// La función para mostrar/ocultar el menú y aplicar el efecto de oscurecimiento
 	private void toggleUserMenu() {
 		if (userMenuDialog == null || !userMenuDialog.isVisible()) {
-			userMenuDialog = new UserMenuDialog(this);
+			userMenuDialog = new UserMenuDialog(this, usuario);
 
 			// Obtiene la ubicación en pantalla de la ventana principal (Home)
 			Point locationOnScreen = this.getLocationOnScreen();
@@ -418,4 +418,6 @@ public class Home extends JFrame {
             return new ImageIcon(getClass().getResource("/imagenes/juegos/banishers-ghosts-of-new-eden-pc-juego-steam-cover.jpg"));
         }
     }
+    
+    
 }
