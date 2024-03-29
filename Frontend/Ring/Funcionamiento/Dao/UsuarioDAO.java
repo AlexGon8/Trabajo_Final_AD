@@ -158,7 +158,7 @@ public class UsuarioDAO implements IDao<Usuario, Integer> {
 	public Usuario buscarPorNombreUsuarioOCorreo(String identificador) {
 		Usuario usuario = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			String hql = "from Usuario where nombre_usuario = :identificador or correo = :identificador"; // ---->HQL
+			String hql = "FROM Usuario u WHERE u.nombreUsuario = :identificador OR u.correo = :identificador";
 			Query<Usuario> query = session.createQuery(hql, Usuario.class);
 			query.setParameter("identificador", identificador);
 			query.setMaxResults(1);

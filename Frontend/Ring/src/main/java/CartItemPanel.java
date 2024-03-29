@@ -18,7 +18,8 @@ public class CartItemPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY)); // Borde del panel
 
-        imageLabel = new JLabel(new ImageIcon("E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\juegos\\ready-or-not-pc-juego-steam-cover.jpg"));
+        //imageLabel = new JLabel(new ImageIcon("E:\\Documentos\\GitHub\\Trabajo_Final_AD\\Frontend\\Ring\\src\\main\\java\\imagenes\\juegos\\ready-or-not-pc-juego-steam-cover.jpg"));
+        imageLabel = new JLabel(image);
         imageLabel.setBackground(new Color(128, 128, 128));
         add(imageLabel, BorderLayout.WEST); // Imagen a la izquierda
 

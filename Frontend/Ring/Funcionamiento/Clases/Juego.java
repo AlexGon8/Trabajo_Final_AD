@@ -71,6 +71,15 @@ public class Juego implements java.io.Serializable {
 		this.consolas = consolas;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+
 	public Integer getId() {
 		return this.id;
 	}

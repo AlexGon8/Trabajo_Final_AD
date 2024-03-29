@@ -131,7 +131,8 @@ public class Home extends JFrame {
 		for (int i = 0; i < 9; i++) {
 			ImageIcon icono = new ImageIcon(getClass()
 					.getResource("/imagenes/juegos/age-of-empires-iv-the-sultans-ascend-pc-juego-steam-cover.jpg"));
-			JuegoJPanel juegoPanel = new JuegoJPanel("Nombre del Juego", "Precio €", icono);
+			Juego juego = new Juego();
+			JuegoJPanel juegoPanel = new JuegoJPanel(juego, icono);
 			
             juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
                 @Override
@@ -242,7 +243,7 @@ public class Home extends JFrame {
 	private void comprarJuego(JuegoJPanel juegoPanel) {
 	    // Suponiendo que Juego tiene un constructor adecuado
 	    // O puedes pasar los parámetros individuales como nombre, precio, etc.
-	    Juego juego = new Juego(/* parámetros del juego */);
+		Juego juego = juegoPanel.getJuego();
 
 	    ImageIcon iconoJuego;
 	    if (juego.getImagen() != null && juego.getImagen().length > 0) {
@@ -263,12 +264,24 @@ public class Home extends JFrame {
 	private void cargarJuegos() {
 	    JuegoDAO juegoDAO = new JuegoDAO();
 	    List<Juego> juegos = juegoDAO.listar();
-	    
-	    panelJuegos.removeAll(); // Elimina todos los componentes actuales
-	    
+
+	    // Si panelJuegos no se ha inicializado, inicialízalo aquí.
+	    if (panelJuegos == null) {
+	        panelJuegos = new JPanel(new GridLayout(0, 2, 10, 10)); // Configura el GridLayout
+	        panelJuegos.setBackground(Color.DARK_GRAY);
+	        // Si scrollPane no se ha inicializado, inicialízalo aquí también.
+	        scrollPane = new JScrollPane(panelJuegos);
+	        scrollPane.setBounds(42, 159, 1359, 704); // Ajusta las dimensiones como sea necesario
+	        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+	        ContenedorGeneral.add(scrollPane);
+	    } else {
+	        panelJuegos.removeAll(); // Elimina todos los componentes actuales si ya existen
+	    }
+
 	    for (Juego juego : juegos) {
 	        ImageIcon iconoJuego = obtenerImagenJuego(juego);
-	        JuegoJPanel juegoPanel = new JuegoJPanel(juego.getNombre(), String.format("%.2f€", juego.getPrecio()), iconoJuego);
+	        JuegoJPanel juegoPanel = new JuegoJPanel(juego, iconoJuego);
 	        juegoPanel.addPropertyChangeListener("juegoComprado", new PropertyChangeListener() {
 	            @Override
 	            public void propertyChange(PropertyChangeEvent evt) {
@@ -277,13 +290,10 @@ public class Home extends JFrame {
 	        });
 	        panelJuegos.add(juegoPanel);
 	    }
-	    
+
 	    // Refresca el panel para mostrar los juegos recién añadidos
 	    panelJuegos.revalidate();
 	    panelJuegos.repaint();
-	    
-	    // Asegura que scrollPane muestre el panelJuegos actualizado
-	    scrollPane.setViewportView(panelJuegos);
 	}
     
     private ImageIcon obtenerImagenJuego(Juego juego) {

@@ -111,6 +111,27 @@ public class ShoppingCartDialog extends JDialog {
         setUndecorated(true);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        
+        
+        // Botón para proceder con el pago
+        btnPagar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(ShoppingCartDialog.this,
+                                              "Error al conectar con la pasarela de pago. Inténtelo más tarde.",
+                                              "Error de Pago",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Botón para continuar comprando
+        btnContinuarComprando.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShoppingCartDialog.this.setVisible(false); // Cierra el diálogo
+            }
+        });
     }
 
     public void addItemToCart(String productName, String productPrice, ImageIcon productImage) {
