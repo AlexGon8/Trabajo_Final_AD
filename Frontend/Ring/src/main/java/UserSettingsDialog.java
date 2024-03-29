@@ -2,16 +2,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.util.Optional;
+
 import Clases.Usuario;
 import Dao.UsuarioDAO;
 
 public class UserSettingsDialog extends JDialog {
-
+	private final UsuarioDAO usuarioDAO;
     private Usuario usuario;
+    private JTextField nombreField;
+    private JTextField domicilioField;
+    private JTextField telefonoField;
+    private JTextField fechaNacField;
 
     public UserSettingsDialog(Frame owner, Usuario usuario) {
         super(owner, "Configuración de Usuario", true);
         this.usuario = usuario;
+        this.usuarioDAO = new UsuarioDAO(); // Inicializa tu DAO        
+        
+        setSize(400, 300);
+        setLayout(new GridLayout(0, 2)); // Layout en grid
+        
         getContentPane().setBackground(new Color(128, 128, 128));
         getContentPane().setLayout(null);
 
@@ -45,6 +57,18 @@ public class UserSettingsDialog extends JDialog {
         panel.add(createLabel("Domicilio:", 30, 120, 300, 30));
         JTextField addressField = createTextField(usuario.getDomicilio(), 30, 150, 300, 30);
         panel.add(addressField);
+        
+     // Teléfono
+        add(new JLabel("Teléfono:"));
+        telefonoField = new JTextField();
+        telefonoField.setText(Optional.ofNullable(usuario.getTelefono()).orElse(""));
+        add(telefonoField);
+
+        // Fecha de Nacimiento
+        add(new JLabel("Fecha de Nac (AAAA-MM-DD):"));
+        fechaNacField = new JTextField();
+        fechaNacField.setText(Optional.ofNullable(usuario.getFechaNac()).map(Date::toString).orElse(""));
+        add(fechaNacField);
 
         // Otros campos que pueden ser modificables
         // ...
@@ -60,12 +84,13 @@ public class UserSettingsDialog extends JDialog {
                 // Actualizar otros campos del usuario según sea necesario
 
                 // Guardar en base de datos
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
-                if(usuarioDAO.actualizar(usuario, usuario.getId())) {
-                    JOptionPane.showMessageDialog(owner, "Datos actualizados correctamente.");
-                } else {
-                    JOptionPane.showMessageDialog(owner, "Error al actualizar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                // Botón para guardar los cambios
+                JButton saveButton = new JButton("Guardar Cambios");
+                saveButton.addActionListener(e -> guardarCambios());
+                add(saveButton);
+
+                setLocationRelativeTo(owner);
+                setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 
                 dispose(); // Cerrar el diálogo después de guardar
             }
@@ -109,5 +134,29 @@ public class UserSettingsDialog extends JDialog {
         button.setFocusPainted(false);
         button.setBounds(x, y, width, height);
         return button;
+    }
+    
+    private void guardarCambios() {
+        // Actualizar los datos del usuario con los valores de los campos
+        usuario.setNombre(nombreField.getText());
+        usuario.setDomicilio(domicilioField.getText());
+        usuario.setTelefono(telefonoField.getText());
+        
+        try {
+            // Formato de fecha (Asegúrate de que cumple con el formato esperado por tu base de datos)
+            Date fechaNac = Date.valueOf(fechaNacField.getText());
+            usuario.setFechaNac(fechaNac);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Llamar al DAO para actualizar
+        if (usuarioDAO.actualizar(usuario, usuario.getId())) {
+            JOptionPane.showMessageDialog(this, "Información actualizada con éxito.");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar la información.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
